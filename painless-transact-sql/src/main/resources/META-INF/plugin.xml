@@ -1,0 +1,18 @@
+<idea-plugin>
+    <id>ru.coding4fun.painless-transact-sql</id>
+    <name>Painless Transact SQL</name>
+    <vendor email="coding4fun@list.ry" url="https://github.com/scrappyCoco/Painless-Transact-SQL">Coding4fun</vendor>
+    <description>A little bit inspections for MS SQL developers.</description>
+
+    <depends>com.intellij.modules.database</depends>
+    <depends>com.intellij.modules.sql</depends>
+    <depends>com.intellij.modules.ultimate</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+    </extensions>
+
+    <actions>
+        <!-- Add your actions here -->
+    </actions>
+</idea-plugin>
