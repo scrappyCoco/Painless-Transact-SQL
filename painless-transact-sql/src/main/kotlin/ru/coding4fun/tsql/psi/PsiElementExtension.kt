@@ -17,10 +17,13 @@
 package ru.coding4fun.tsql.psi
 
 import com.intellij.psi.PsiElement
+import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.sql.dialects.mssql.MssqlDialect
+import com.intellij.sql.dialects.mssql.MssqlTypes
 import com.intellij.sql.psi.SqlAsExpression
 import com.intellij.sql.psi.SqlElementTypes
+import com.intellij.sql.psi.SqlParameterDefinition
 import com.intellij.sql.psi.impl.SqlPsiElementFactory
 import com.intellij.sql.type
 
@@ -49,5 +52,9 @@ private fun convertColumn(asExpression: SqlAsExpression, toAs: Boolean) {
     } else {
         asExpression.addRangeBefore(first, last, expressionElement)
     }
+}
 
+fun SqlParameterDefinition.isReadonly(): Boolean {
+    val lastChild = this.lastChild as? LeafPsiElement ?: return false
+    return lastChild.elementType == MssqlTypes.MSSQL_READONLY
 }

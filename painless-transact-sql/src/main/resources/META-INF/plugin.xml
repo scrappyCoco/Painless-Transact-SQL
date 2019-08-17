@@ -14,6 +14,12 @@
                          groupBundle="messages.inspection" groupKey="inspection.code.style.group"
                          enabledByDefault="true" level="WEAK WARNING" language="TSQL" cleanupTool="true"
                          implementationClass="ru.coding4fun.tsql.inspection.MsColumnAliasDefinitionInspection"/>
+        <localInspection groupPath="Painless T-SQL" suppressId="MsReadonlyParameter"
+                         shortName="MsReadonlyParameterInspection"
+                         bundle="messages.inspection" key="inspection.ddl.readonly.missing.name"
+                         groupBundle="messages.inspection" groupKey="inspection.ddl.group"
+                         enabledByDefault="true" level="ERROR" language="TSQL"
+                         implementationClass="ru.coding4fun.tsql.inspection.MsReadonlyParameterInspection"/>
     </extensions>
 
     <actions>
