@@ -1,15 +1,19 @@
 <idea-plugin>
     <id>ru.coding4fun.painless-transact-sql</id>
     <name>Painless Transact SQL</name>
-    <vendor email="coding4fun@list.ry" url="https://github.com/scrappyCoco/Painless-Transact-SQL">Coding4fun</vendor>
+    <vendor email="coding4fun@list.ru" url="https://github.com/scrappyCoco/Painless-Transact-SQL">Coding4fun</vendor>
     <description>A little bit inspections for MS SQL developers.</description>
 
     <depends>com.intellij.modules.database</depends>
     <depends>com.intellij.modules.sql</depends>
-    <depends>com.intellij.modules.ultimate</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <!-- Add your extensions here -->
+        <localInspection groupPath="Painless T-SQL" suppressId="MsColumnAliasDefinition"
+                         shortName="MsColumnAliasDefinitionInspection"
+                         bundle="messages.inspection" key="inspection.code.style.alias.as.equal.name"
+                         groupBundle="messages.inspection" groupKey="inspection.code.style.group"
+                         enabledByDefault="true" level="WEAK WARNING" language="TSQL" cleanupTool="true"
+                         implementationClass="ru.coding4fun.tsql.inspection.MsColumnAliasDefinitionInspection"/>
     </extensions>
 
     <actions>
