@@ -100,3 +100,44 @@ fun PsiElement.getPrevNotEmptySibling(): PsiElement? {
     }
     return currentElement
 }
+
+fun PsiElement.getNextNotEmptyLeafSibling(): PsiElement? {
+    var currentElement: PsiElement? = PsiTreeUtil.nextVisibleLeaf(this)
+    while (currentElement != null && SqlElementTypes.WS_OR_COMMENTS.contains(currentElement.type)) {
+        currentElement = PsiTreeUtil.nextVisibleLeaf(currentElement)
+    }
+    return currentElement
+}
+
+fun PsiElement.getNextNotEmptySibling(): PsiElement? {
+    var currentElement: PsiElement? = this.nextSibling
+    while (currentElement != null && SqlElementTypes.WS_OR_COMMENTS.contains(currentElement.type)) {
+        currentElement = currentElement.nextSibling
+    }
+    return currentElement
+}
+
+/*
+ Is Simple CASE expression or Searched CASE expression?
+ */
+fun SqlCaseExpression.isSimple(): Boolean? {
+    val caseKeyword = this.children.firstOrNull()!!
+    val searchedExpressionCandidate = caseKeyword.getNextNotEmptySibling() ?: return null
+    return searchedExpressionCandidate is SqlWhenThenClause
+}
+
+fun SqlBinaryExpression.split(): Pair<SqlReferenceExpression, Int>? {
+    // ... @a = 1 ... || 1 = @a
+    val variants = arrayOf(this.rOperand to this.lOperand, this.lOperand to this.rOperand)
+    for (variant in variants) {
+        val literalExpression = variant.first as? SqlLiteralExpression
+        val hasLiteralInteger = literalExpression?.sqlType?.category == SqlType.Category.INTEGER
+        val referenceExpression = variant.second as? SqlReferenceExpression
+        val hasReference = referenceExpression != null
+        if (hasLiteralInteger && hasReference) {
+            val intValue = Integer.parseInt(literalExpression!!.text)
+            return Pair(referenceExpression!!, intValue)
+        }
+    }
+    return null
+}
