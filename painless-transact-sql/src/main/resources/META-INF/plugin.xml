@@ -20,6 +20,12 @@
                          groupBundle="messages.inspection" groupKey="inspection.ddl.group"
                          enabledByDefault="true" level="ERROR" language="TSQL"
                          implementationClass="ru.coding4fun.tsql.inspection.MsReadonlyParameterInspection"/>
+        <localInspection groupPath="Painless T-SQL" suppressId="MsReadonlyModification"
+                         shortName="MsReadonlyModificationInspection"
+                         bundle="messages.inspection" key="inspection.dml.readonly.modification.name"
+                         groupBundle="messages.inspection" groupKey="inspection.dml.group"
+                         enabledByDefault="true" level="ERROR" language="TSQL"
+                         implementationClass="ru.coding4fun.tsql.inspection.MsReadonlyModificationInspection"/>
     </extensions>
 
     <actions>

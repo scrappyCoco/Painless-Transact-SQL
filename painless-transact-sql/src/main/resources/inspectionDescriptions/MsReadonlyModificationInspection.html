@@ -1,0 +1,13 @@
+<html>
+<body>
+Check for modification of table-valued READONLY parameter in the routine.
+<br/>
+<br/>
+CREATE TYPE dbo.T AS Table(Id INT NOT NULL PRIMARY KEY);<br/>
+GO<br/>
+CREATE PROCEDURE P @T dbo.T READONLY<br/>
+AS<br/>
+<strong>INSERT INTO @T</strong> (Id)<br/>
+VALUES (1)<br/>
+</body>
+</html>

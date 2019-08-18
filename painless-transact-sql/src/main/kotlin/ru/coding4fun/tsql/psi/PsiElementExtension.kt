@@ -21,9 +21,7 @@ import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.sql.dialects.mssql.MssqlDialect
 import com.intellij.sql.dialects.mssql.MssqlTypes
-import com.intellij.sql.psi.SqlAsExpression
-import com.intellij.sql.psi.SqlElementTypes
-import com.intellij.sql.psi.SqlParameterDefinition
+import com.intellij.sql.psi.*
 import com.intellij.sql.psi.impl.SqlPsiElementFactory
 import com.intellij.sql.type
 
@@ -57,4 +55,48 @@ private fun convertColumn(asExpression: SqlAsExpression, toAs: Boolean) {
 fun SqlParameterDefinition.isReadonly(): Boolean {
     val lastChild = this.lastChild as? LeafPsiElement ?: return false
     return lastChild.elementType == MssqlTypes.MSSQL_READONLY
+}
+
+fun SqlReferenceExpression.getAlias(): SqlIdentifier? {
+    val asExpression = this.parent as? SqlAsExpression ?: return null
+    return asExpression.nameElement
+}
+
+fun Array<PsiElement>.firstNotEmpty(): PsiElement {
+    return this.first { !SqlElementTypes.WS_OR_COMMENTS.contains(it.type) }
+}
+
+fun SqlReferenceExpression.getDmlHighlightRangeElements(): Pair<PsiElement, PsiElement>? {
+
+    val intoElement = this.getPrevNotEmptySibling() as? LeafPsiElement
+    if (intoElement != null && intoElement.elementType == SqlElementTypes.SQL_INTO) {
+        val insertElement = intoElement.getPrevNotEmptySibling() as? LeafPsiElement
+        if (insertElement != null && insertElement.elementType == SqlElementTypes.SQL_INSERT) {
+            // [INSERT INTO @a] ...
+            return Pair(insertElement, this)
+        }
+        // ... OUTPUT ... [INTO @a] ...
+        return Pair(intoElement, this)
+    }
+
+    val dmlStatementElement = PsiTreeUtil.getParentOfType(this, SqlDmlStatement::class.java)
+    if (dmlStatementElement != null) {
+        val dmlOperationElement = dmlStatementElement.children.first { it is LeafPsiElement }
+        val dmlInstruction = PsiTreeUtil.findChildOfType(dmlStatementElement, SqlDmlInstruction::class.java)
+                ?: return null
+        val dmlTargetElement = dmlInstruction.children.firstNotEmpty()
+
+        // [DELETE @a] ... | [DELETE A] ... | [MERGE @a] ... | [UPDATE @a] ...
+        return Pair(dmlOperationElement, dmlTargetElement)
+    }
+
+    return null
+}
+
+fun PsiElement.getPrevNotEmptySibling(): PsiElement? {
+    var currentElement: PsiElement? = PsiTreeUtil.prevVisibleLeaf(this)
+    while (currentElement != null && SqlElementTypes.WS_OR_COMMENTS.contains(currentElement.type)) {
+        currentElement = PsiTreeUtil.prevVisibleLeaf(currentElement)
+    }
+    return currentElement
 }
