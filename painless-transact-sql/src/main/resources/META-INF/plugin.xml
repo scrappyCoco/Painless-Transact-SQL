@@ -26,6 +26,13 @@
                          groupBundle="messages.inspection" groupKey="inspection.dml.group"
                          enabledByDefault="true" level="ERROR" language="TSQL"
                          implementationClass="ru.coding4fun.tsql.inspection.MsReadonlyModificationInspection"/>
+        <localInspection groupPath="Painless T-SQL" suppressId="MsRedundantDistinctInSetOperators"
+                         shortName="MsRedundantDistinctInSetOperatorsInspection"
+                         bundle="messages.inspection"
+                         key="inspection.dml.redundant.distinct.keyword.in.set.operators.name"
+                         groupBundle="messages.inspection" groupKey="inspection.dml.group"
+                         enabledByDefault="true" level="WEAK WARNING" language="TSQL"
+                         implementationClass="ru.coding4fun.tsql.inspection.MsRedundantDistinctInSetOperatorsInspection"/>
     </extensions>
 
     <actions>
