@@ -55,7 +55,7 @@ class MsCaseVsChooseInspection : SqlInspectionBase(), CleanupLocalInspectionTool
             onTheFly: Boolean
     ): SqlAnnotationVisitor? {
         return if (preferCaseOverChoose) {
-            ChooseToCaseVisitor(manager, dialect, problems)
+            ChooseToCaseVisitor(manager, dialect, problems, onTheFly)
         } else {
             CaseToChooseVisitor(manager, dialect, problems, onTheFly)
         }
@@ -103,7 +103,7 @@ class MsCaseVsChooseInspection : SqlInspectionBase(), CleanupLocalInspectionTool
                         ?: return null
                 if (literalExpression.type != SqlElementTypes.SQL_NUMERIC_LITERAL) return null
                 val position = Integer.parseInt(literalExpression.text)
-                val thenText = sqlWhenThenClause.thenClause?.body?.first()!!.text ?: return null
+                val thenText = sqlWhenThenClause.thenClause?.body?.firstOrNull()?.text ?: return null
                 result.add(Triple(reference, position, thenText))
             }
 
@@ -119,7 +119,10 @@ class MsCaseVsChooseInspection : SqlInspectionBase(), CleanupLocalInspectionTool
                         sqlWhenThenClause.whenClause?.expression as? SqlBinaryExpression ?: return null
 
                 val referenceAndIntValue = sqlBinaryExpression.split() ?: return null
-                result.add(Triple(referenceAndIntValue.first, referenceAndIntValue.second, clause.thenClause!!.body.first()!!.text))
+                result.add(Triple(referenceAndIntValue.first,
+                        referenceAndIntValue.second,
+                        clause.thenClause?.body?.firstOrNull()?.text ?: return null
+                ))
             }
 
             return checkSequence(result)
@@ -136,14 +139,33 @@ class MsCaseVsChooseInspection : SqlInspectionBase(), CleanupLocalInspectionTool
                 if (!hasSequence) break
             }
 
-            return if (hasSequence) Pair(reference!!, cases.map { it.third }) else null
+            return if (hasSequence && reference != null) Pair(reference, cases.map { it.third }) else null
         }
     }
 
     private class ChooseToCaseVisitor(manager: InspectionManager,
                                       dialect: SqlLanguageDialectEx,
-                                      problems: MutableList<ProblemDescriptor>
-    ) : SqlAnnotationVisitor(manager, dialect, problems)
+                                      problems: MutableList<ProblemDescriptor>,
+                                      private val onTheFly: Boolean
+    ) : SqlAnnotationVisitor(manager, dialect, problems) {
+        override fun visitSqlFunctionCallExpression(functionCallExpression: SqlFunctionCallExpression?) {
+            if (functionCallExpression == null) return
+            if (!"CHOOSE".equals(functionCallExpression.nameElement?.name, true)) return
+
+            val problemMessage = MsMessages.message("inspection.code.style.case.vs.choose.problem.choose.to.case")
+            val caseKeyword = functionCallExpression.children.firstNotEmpty()
+            val problem = myManager.createProblemDescriptor(
+                    caseKeyword,
+                    problemMessage,
+                    true,
+                    ProblemHighlightType.WEAK_WARNING,
+                    onTheFly
+            )
+            addDescriptor(problem)
+
+            super.visitSqlFunctionCallExpression(functionCallExpression)
+        }
+    }
 
     private class ReplaceCaseToChooseQuickFix(caseKeyword: PsiElement,
                                               private val referenceText: String,
