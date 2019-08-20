@@ -151,6 +151,7 @@ class MsCaseVsChooseInspection : SqlInspectionBase(), CleanupLocalInspectionTool
         override fun visitSqlFunctionCallExpression(functionCallExpression: SqlFunctionCallExpression?) {
             if (functionCallExpression == null) return
             if (!"CHOOSE".equals(functionCallExpression.nameElement?.name, true)) return
+            if (functionCallExpression.parameterList?.expressionList?.size ?: 0 < 2) return
 
             val problemMessage = MsMessages.message("inspection.code.style.case.vs.choose.problem.choose.to.case")
             val caseKeyword = functionCallExpression.children.firstNotEmpty()
@@ -159,7 +160,8 @@ class MsCaseVsChooseInspection : SqlInspectionBase(), CleanupLocalInspectionTool
                     problemMessage,
                     true,
                     ProblemHighlightType.WEAK_WARNING,
-                    onTheFly
+                    onTheFly,
+                    ReplaceChooseToCaseQuickFix(functionCallExpression)
             )
             addDescriptor(problem)
 
@@ -183,6 +185,27 @@ class MsCaseVsChooseInspection : SqlInspectionBase(), CleanupLocalInspectionTool
             scriptBuilder.append(")")
             val chooseExpression = SqlPsiElementFactory.createExpressionFromText(scriptBuilder.toString(), MssqlDialect.INSTANCE, project, null)!!
             sqlCaseExpression.replace(chooseExpression)
+        }
+    }
+
+    private class ReplaceChooseToCaseQuickFix(chooseCallExpression: SqlFunctionCallExpression) : LocalQuickFixOnPsiElement(chooseCallExpression, chooseCallExpression) {
+        override fun getFamilyName(): String = MsMessages.message("inspection.code.style.case.vs.choose.fix.choose.to.case")
+        override fun getText(): String = MsMessages.message("inspection.code.style.case.vs.choose.fix.choose.to.case")
+
+        override fun invoke(project: Project, file: PsiFile, startElement: PsiElement, endElement: PsiElement) {
+            val chooseCallExpression = startElement as SqlFunctionCallExpression
+            val scriptBuilder = StringBuilder()
+            var parameterNumber = 0
+            for (sqlExpression in chooseCallExpression.parameterList!!.expressionList) {
+                if (scriptBuilder.isEmpty()) {
+                    scriptBuilder.append("CASE ", sqlExpression.text, "\n")
+                } else {
+                    scriptBuilder.append("  WHEN ", ++parameterNumber, " THEN ", sqlExpression.text, "\n")
+                }
+            }
+            scriptBuilder.append("END")
+            val caseExpression = SqlPsiElementFactory.createExpressionFromText(scriptBuilder.toString(), MssqlDialect.INSTANCE, project, null)!!
+            chooseCallExpression.replace(caseExpression)
         }
     }
 }
