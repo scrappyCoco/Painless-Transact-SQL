@@ -68,9 +68,9 @@ fun Array<PsiElement>.firstNotEmpty(): PsiElement {
 
 fun SqlReferenceExpression.getDmlHighlightRangeElements(): Pair<PsiElement, PsiElement>? {
 
-    val intoElement = this.getPrevNotEmptySibling() as? LeafPsiElement
+    val intoElement = this.getPrevNotEmptyLeaf() as? LeafPsiElement
     if (intoElement != null && intoElement.elementType == SqlElementTypes.SQL_INTO) {
-        val insertElement = intoElement.getPrevNotEmptySibling() as? LeafPsiElement
+        val insertElement = intoElement.getPrevNotEmptyLeaf() as? LeafPsiElement
         if (insertElement != null && insertElement.elementType == SqlElementTypes.SQL_INSERT) {
             // [INSERT INTO @a] ...
             return Pair(insertElement, this)
@@ -93,7 +93,7 @@ fun SqlReferenceExpression.getDmlHighlightRangeElements(): Pair<PsiElement, PsiE
     return null
 }
 
-fun PsiElement.getPrevNotEmptySibling(): PsiElement? {
+fun PsiElement.getPrevNotEmptyLeaf(): PsiElement? {
     var currentElement: PsiElement? = PsiTreeUtil.prevVisibleLeaf(this)
     while (currentElement != null && SqlElementTypes.WS_OR_COMMENTS.contains(currentElement.type)) {
         currentElement = PsiTreeUtil.prevVisibleLeaf(currentElement)
@@ -101,7 +101,7 @@ fun PsiElement.getPrevNotEmptySibling(): PsiElement? {
     return currentElement
 }
 
-fun PsiElement.getNextNotEmptyLeafSibling(): PsiElement? {
+fun PsiElement.getNextNotEmptyLeaf(): PsiElement? {
     var currentElement: PsiElement? = PsiTreeUtil.nextVisibleLeaf(this)
     while (currentElement != null && SqlElementTypes.WS_OR_COMMENTS.contains(currentElement.type)) {
         currentElement = PsiTreeUtil.nextVisibleLeaf(currentElement)
@@ -113,6 +113,14 @@ fun PsiElement.getNextNotEmptySibling(): PsiElement? {
     var currentElement: PsiElement? = this.nextSibling
     while (currentElement != null && SqlElementTypes.WS_OR_COMMENTS.contains(currentElement.type)) {
         currentElement = currentElement.nextSibling
+    }
+    return currentElement
+}
+
+fun PsiElement.getPrevNotEmptySibling(): PsiElement? {
+    var currentElement: PsiElement? = this.prevSibling
+    while (currentElement != null && SqlElementTypes.WS_OR_COMMENTS.contains(currentElement.type)) {
+        currentElement = currentElement.prevSibling
     }
     return currentElement
 }

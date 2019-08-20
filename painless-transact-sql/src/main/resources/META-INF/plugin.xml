@@ -39,6 +39,12 @@
                          groupBundle="messages.inspection" groupKey="inspection.dml.group"
                          enabledByDefault="true" level="WEAK WARNING" language="TSQL"
                          implementationClass="ru.coding4fun.tsql.inspection.MsRedundantDistinctInSetOperatorsInspection"/>
+        <localInspection groupPath="Painless T-SQL" suppressId="MsSemicolonCte"
+                         shortName="MsSemicolonCteInspection"
+                         bundle="messages.inspection" key="inspection.dml.semicolon.cte.name"
+                         groupBundle="messages.inspection" groupKey="inspection.dml.group"
+                         enabledByDefault="true" level="WARNING" language="TSQL"
+                         implementationClass="ru.coding4fun.tsql.inspection.MsSemicolonCteInspection"/>
     </extensions>
 
     <actions>
