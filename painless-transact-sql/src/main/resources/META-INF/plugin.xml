@@ -45,6 +45,12 @@
                          groupBundle="messages.inspection" groupKey="inspection.dml.group"
                          enabledByDefault="true" level="WARNING" language="TSQL"
                          implementationClass="ru.coding4fun.tsql.inspection.MsSemicolonCteInspection"/>
+        <localInspection groupPath="Painless T-SQL" suppressId="MsVariableNameUnique"
+                         shortName="MsVariableNameUniqueInspection"
+                         bundle="messages.inspection" key="inspection.dml.variable.name.unique.name"
+                         groupBundle="messages.inspection" groupKey="inspection.dml.group"
+                         enabledByDefault="true" level="WARNING" language="TSQL"
+                         implementationClass="ru.coding4fun.tsql.inspection.MsVariableNameUniqueInspection"/>
     </extensions>
 
     <actions>
