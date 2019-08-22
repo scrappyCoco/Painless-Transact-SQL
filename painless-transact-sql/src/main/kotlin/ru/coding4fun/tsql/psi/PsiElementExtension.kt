@@ -17,7 +17,9 @@
 package ru.coding4fun.tsql.psi
 
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiFile
 import com.intellij.psi.impl.source.tree.LeafPsiElement
+import com.intellij.psi.tree.IElementType
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.sql.dialects.mssql.MssqlDialect
 import com.intellij.sql.dialects.mssql.MssqlTypes
@@ -146,6 +148,20 @@ fun SqlBinaryExpression.split(): Pair<SqlReferenceExpression, Int>? {
             val intValue = Integer.parseInt(literalExpression!!.text)
             return Pair(referenceExpression!!, intValue)
         }
+    }
+    return null
+}
+
+fun PsiFile.isSqlConsole(): Boolean {
+    val folderName = this.parent?.name ?: return false
+    return guidRegex.matches(folderName)
+}
+
+val guidRegex = Regex("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
+
+fun PsiElement.getChildOfElementType(type: IElementType): PsiElement? {
+    for (child in this.children) {
+        if (child.type == type) return child
     }
     return null
 }
