@@ -81,7 +81,7 @@ class MsRedundantDistinctInSetOperatorsInspection : SqlInspectionBase(), Cleanup
                             distinctElement,
                             problemMessage,
                             true,
-                            ProblemHighlightType.WEAK_WARNING,
+                            ProblemHighlightType.LIKE_UNUSED_SYMBOL,
                             onTheFly,
                             RemoveRedundantDistinctQuickFix(distinctElement, distinctElement, setOperator)
                     )

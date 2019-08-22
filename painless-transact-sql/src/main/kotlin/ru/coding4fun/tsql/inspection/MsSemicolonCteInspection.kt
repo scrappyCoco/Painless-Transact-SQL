@@ -56,7 +56,8 @@ class MsSemicolonCteInspection : SqlInspectionBase(), CleanupLocalInspectionTool
         private val requiredPrevTypes = arrayListOf(
                 SqlElementTypes.SQL_SEMICOLON, // In the middle of the batch.
                 SqlElementTypes.SQL_BEGIN, // Any begin
-                SqlElementTypes.SQL_AS // Begin of the procedure definition
+                SqlElementTypes.SQL_AS, // Begin of the procedure definition
+                SqlElementTypes.SQL_GO
         )
 
         override fun visitSqlQueryExpression(queryExpression: SqlQueryExpression?) {

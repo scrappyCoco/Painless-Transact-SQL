@@ -65,12 +65,20 @@ class MsColumnAliasDefinitionInspection : SqlInspectionBase(), CleanupLocalInspe
     ) : SqlAnnotationVisitor(manager, dialect, problems) {
         override fun visitSqlAsExpression(asExpression: SqlAsExpression?) {
             if (asExpression == null) return
-            if (SqlElementTypes.SQL_SELECT_CLAUSE != asExpression.context.type) return
+            if (SqlElementTypes.SQL_SELECT_CLAUSE != asExpression.context.type) {
+                super.visitSqlAsExpression(asExpression)
+                return
+            }
 
             val searchForElement = if (preferEqualOverAs) SqlElementTypes.SQL_AS else SqlElementTypes.SQL_OP_EQ
             val aliasLeaf = asExpression.children
                     .firstOrNull { it is LeafPsiElement && it.elementType == searchForElement }
-                    as? LeafPsiElement ?: return
+                    as? LeafPsiElement
+
+            if (aliasLeaf == null) {
+                super.visitSqlAsExpression(asExpression)
+                return
+            }
 
             val problemDescription = if (preferEqualOverAs)
                 MsMessages.message("inspection.code.style.alias.as.equal.problem.as")
