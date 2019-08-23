@@ -40,7 +40,8 @@ private fun convertColumn(asExpression: SqlAsExpression, toAs: Boolean) {
     val nameElement = asExpression.nameElement!!
     val expressionElement = asExpression.expression!!
     asExpression.deleteAllExcept(expressionElement)
-    val sql = if (toAs) "SELECT 1 AS ${nameElement.name}" else "SELECT ${nameElement.name} = 1"
+    val columnName = MssqlDialect.INSTANCE.quoteIdentifier(nameElement.project, nameElement.name)
+    val sql = if (toAs) "SELECT 1 AS $columnName" else "SELECT $columnName = 1"
     val queryExpression = SqlPsiElementFactory.createQueryExpressionFromText(sql, MssqlDialect.INSTANCE, asExpression.project)!!
     val asExpressionTemplate = PsiTreeUtil.findChildOfType(queryExpression, SqlAsExpression::class.java)!!
     val first = if (toAs) asExpressionTemplate.firstChild.nextSibling else asExpressionTemplate.firstChild
