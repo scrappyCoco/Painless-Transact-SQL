@@ -55,5 +55,8 @@
 
     <actions>
         <!-- Add your actions here -->
+        <action id="Test" class="ru.coding4fun.tsql.action.Test" text="Test" description="Test">
+            <add-to-group group-id="HelpMenu" anchor="first"/>
+        </action>
     </actions>
 </idea-plugin>

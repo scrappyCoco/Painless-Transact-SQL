@@ -1,3 +1,19 @@
+/*
+ * Copyright [2019] Coding4fun
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package ru.coding4fun.tsql.inspection
 
 import com.intellij.codeInspection.*
@@ -16,6 +32,7 @@ import com.intellij.sql.psi.SqlElementTypes
 import com.intellij.sql.psi.SqlReferenceExpression
 import com.intellij.sql.type
 import ru.coding4fun.tsql.MsMessages
+import ru.coding4fun.tsql.dataSource.PathPartManager
 import ru.coding4fun.tsql.psi.getChildOfElementType
 import ru.coding4fun.tsql.psi.isSqlConsole
 
@@ -45,23 +62,33 @@ class MsRenamedInspection : SqlInspectionBase(), CleanupLocalInspectionTool {
             if (createStatement == null) return
             if (!targetTypes.contains(createStatement.type)) return
             if (createStatement.containingFile.isSqlConsole()) return
-            val actualName = getActualFileName(createStatement.containingFile)
-            if (createStatement.name == actualName) return
 
-            val problemMessage = MsMessages.message(
-                    "inspection.ddl.renamed.problem",
-                    createStatement.name,
-                    actualName)
+            val realReference = PathPartManager.getObjectIdentity(
+                    createStatement.containingFile.virtualFile,
+                    createStatement.project
+            ) ?: return
 
-            val problem = myManager.createProblemDescriptor(
-                    createStatement.nameElement ?: return,
-                    problemMessage,
-                    true,
-                    ProblemHighlightType.WARNING,
-                    onTheFly,
-                    RenameRoutineQuickFix(SmartPointerManager.createPointer(createStatement), actualName)
-            )
-            addDescriptor(problem)
+
+            if (createStatement.type != SqlElementTypes.SQL_CREATE_TRIGGER_STATEMENT) {
+                if (!PathPartManager.areSame(createStatement, realReference)) {
+                    val problemMessage = MsMessages.message(
+                            "inspection.ddl.renamed.problem",
+                            createStatement.name,
+                            realReference.text)
+
+                    val problem = myManager.createProblemDescriptor(
+                            createStatement.nameElement ?: return,
+                            problemMessage,
+                            true,
+                            ProblemHighlightType.WARNING,
+                            onTheFly,
+                            RenameRoutineQuickFix(SmartPointerManager.createPointer(createStatement), realReference.text)
+                    )
+                    addDescriptor(problem)
+                }
+            }
+            // TODO:...
+            return
 
             val trigger = createStatement as? SqlCreateTriggerStatement ?: return
             val targetElement = trigger.getChildOfElementType(SqlElementTypes.SQL_ON_TARGET_CLAUSE) ?: return

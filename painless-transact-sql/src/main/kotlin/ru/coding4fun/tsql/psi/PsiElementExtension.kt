@@ -16,6 +16,7 @@
 
 package ru.coding4fun.tsql.psi
 
+import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.impl.source.tree.LeafPsiElement
@@ -164,4 +165,10 @@ fun PsiElement.getChildOfElementType(type: IElementType): PsiElement? {
         if (child.type == type) return child
     }
     return null
+}
+
+fun getObjectReference(objectPath: String, project: Project): SqlReferenceExpression {
+    val sql = "EXEC $objectPath"
+    val expression = SqlPsiElementFactory.createStatementFromText(sql, MssqlDialect.INSTANCE, project, null)!!
+    return PsiTreeUtil.findChildOfType(expression, SqlReferenceExpression::class.java)!!
 }
