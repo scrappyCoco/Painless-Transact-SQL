@@ -17,7 +17,8 @@
 package ru.coding4fun.tsql.inspection
 
 import com.intellij.codeInspection.*
-import com.intellij.database.dataSource.srcStorage.DbSrcFileSystem
+import com.intellij.database.model.DasObject
+import com.intellij.database.model.PsiTable
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
@@ -27,9 +28,9 @@ import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.sql.dialects.SqlLanguageDialectEx
 import com.intellij.sql.inspections.SqlInspectionBase
 import com.intellij.sql.psi.SqlCreateStatement
-import com.intellij.sql.psi.SqlCreateTriggerStatement
 import com.intellij.sql.psi.SqlElementTypes
 import com.intellij.sql.psi.SqlReferenceExpression
+import com.intellij.sql.psi.SqlResolveResult
 import com.intellij.sql.type
 import ru.coding4fun.tsql.MsMessages
 import ru.coding4fun.tsql.dataSource.PathPartManager
@@ -62,61 +63,46 @@ class MsRenamedInspection : SqlInspectionBase(), CleanupLocalInspectionTool {
             if (createStatement == null) return
             if (!targetTypes.contains(createStatement.type)) return
             if (createStatement.containingFile.isSqlConsole()) return
+            // Reference to the procedure/function from the file path. If there the context of trigger, then it's the table/view.
+            val referenceFromFilePath = PathPartManager.getReferenceFromFilePath(createStatement) ?: return
 
-            val realReference = PathPartManager.getObjectIdentity(
-                    createStatement.containingFile.virtualFile,
-                    createStatement.project
-            ) ?: return
-
-
+            val problemReference: SqlReferenceExpression
+            val createStatementToCheck: DasObject
             if (createStatement.type != SqlElementTypes.SQL_CREATE_TRIGGER_STATEMENT) {
-                if (!PathPartManager.areSame(createStatement, realReference)) {
-                    val problemMessage = MsMessages.message(
-                            "inspection.ddl.renamed.problem",
-                            createStatement.name,
-                            realReference.text)
-
-                    val problem = myManager.createProblemDescriptor(
-                            createStatement.nameElement ?: return,
-                            problemMessage,
-                            true,
-                            ProblemHighlightType.WARNING,
-                            onTheFly,
-                            RenameRoutineQuickFix(SmartPointerManager.createPointer(createStatement), realReference.text)
-                    )
-                    addDescriptor(problem)
-                }
-            }
-            // TODO:...
-            return
-
-            val trigger = createStatement as? SqlCreateTriggerStatement ?: return
-            val targetElement = trigger.getChildOfElementType(SqlElementTypes.SQL_ON_TARGET_CLAUSE) ?: return
-            val targetReference = PsiTreeUtil.getChildOfType(targetElement, SqlReferenceExpression::class.java)
-                    ?: return
-
-            val sysCommentTableFile = targetReference.resolve()?.containingFile ?: return
-            val actualFile = trigger.containingFile.parent?.parent
-            //val sysCommentTableFile =
-//            if (actualTableName != trigger.targetContextExpression!!.text) {
-//                val problem2 = myManager.createProblemDescriptor(
-//                        trigger.targetContextExpression ?: return,
-//                        "Table name is $actualTableName",
-//                        true,
-//                        ProblemHighlightType.WARNING,
-//                        onTheFly
-//                )
-//                addDescriptor(problem2)
-//            }
-        }
-
-        private fun getActualFileName(file: PsiFile): String {
-            val actualName = file.name
-            val isOriginal = DbSrcFileSystem.isOriginalFilePath(actualName)
-            return if (isOriginal) {
-                actualName.replace(".orig.sql", "")
+                createStatementToCheck = createStatement
+                problemReference = PsiTreeUtil.findChildOfType(createStatement, SqlReferenceExpression::class.java)
+                        ?: return
             } else {
-                actualName.replace(".sql", "")
+                // Target table/view.
+                val targetElement = createStatement
+                        .getChildOfElementType(SqlElementTypes.SQL_ON_TARGET_CLAUSE) ?: return
+
+                // Reference to target table/view.
+                problemReference = PsiTreeUtil
+                        .getChildOfType(targetElement, SqlReferenceExpression::class.java) ?: return
+
+                // Try to resolver target table/view.
+                createStatementToCheck = (problemReference.reference.multiResolve(false)
+                        .asSequence().map { (it as SqlResolveResult).element }.filterIsInstance<PsiTable>().firstOrNull()
+                        ?: return)
+            }
+
+
+            if (!PathPartManager.areSame(createStatementToCheck, referenceFromFilePath)) {
+                val problemMessage = MsMessages.message(
+                        "inspection.ddl.renamed.problem",
+                        problemReference.text,
+                        referenceFromFilePath.text)
+
+                val problem = myManager.createProblemDescriptor(
+                        problemReference,
+                        problemMessage,
+                        true,
+                        ProblemHighlightType.WARNING,
+                        onTheFly,
+                        RenameRoutineQuickFix(SmartPointerManager.createPointer(createStatement), referenceFromFilePath.text)
+                )
+                addDescriptor(problem)
             }
         }
     }
