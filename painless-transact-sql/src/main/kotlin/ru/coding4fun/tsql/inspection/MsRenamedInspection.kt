@@ -100,7 +100,10 @@ class MsRenamedInspection : SqlInspectionBase(), CleanupLocalInspectionTool {
                         true,
                         ProblemHighlightType.WARNING,
                         onTheFly,
-                        RenameRoutineQuickFix(SmartPointerManager.createPointer(createStatement), referenceFromFilePath.text)
+                        RenameRoutineQuickFix(
+                                SmartPointerManager.createPointer(problemReference),
+                                SmartPointerManager.createPointer(referenceFromFilePath)
+                        )
                 )
                 addDescriptor(problem)
             }
@@ -108,18 +111,24 @@ class MsRenamedInspection : SqlInspectionBase(), CleanupLocalInspectionTool {
     }
 
     private class RenameRoutineQuickFix(
-            private val createStatement: SmartPsiElementPointer<SqlCreateStatement>,
-            private val actualName: String
-    ) : LocalQuickFixOnPsiElement(createStatement.element!!) {
+            private val problemReferencePoint: SmartPsiElementPointer<SqlReferenceExpression>,
+            private val actualReferencePoint: SmartPsiElementPointer<SqlReferenceExpression>
+    ) : LocalQuickFixOnPsiElement(problemReferencePoint.element!!) {
         override fun getFamilyName(): String = MsMessages.message("inspection.ddl.renamed.fix.family")
 
         override fun getText(): String = MsMessages.message(
                 "inspection.ddl.renamed.fix.text",
-                createStatement.element!!.name,
-                actualName)
+                problemReferencePoint.element?.name ?: "problem reference",
+                actualReferencePoint.element?.name ?: "actual reference")
 
         override fun invoke(project: Project, file: PsiFile, startElement: PsiElement, endElement: PsiElement) {
-
+            val replacedFullReference = problemReferencePoint.element!!.replace(actualReferencePoint.element!!)
+            val schemaReference = PsiTreeUtil.getChildOfType(replacedFullReference, SqlReferenceExpression::class.java)
+                    ?: return
+            val dbReference = PsiTreeUtil.getChildOfType(schemaReference, SqlReferenceExpression::class.java) ?: return
+            val dotSibling = PsiTreeUtil.findSiblingForward(dbReference, SqlElementTypes.SQL_PERIOD, null) ?: return
+            dbReference.delete()
+            dotSibling.delete()
         }
     }
 }

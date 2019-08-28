@@ -32,7 +32,7 @@ object PathPartManager {
         val schema = match.groups["schema"]!!.value
         val table = match.groups["table"]!!.value
 
-        return getObjectReference("[$db].[$schema].[$table]", createStatement.project)
+        return getObjectReference("[$db].[$schema].[$table]", createStatement)
     }
 
     fun areSame(dasObject: DasObject, sqlReferenceExpression: SqlReferenceExpression): Boolean {
