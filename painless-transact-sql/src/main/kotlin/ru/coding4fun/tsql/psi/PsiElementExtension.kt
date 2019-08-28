@@ -16,8 +16,11 @@
 
 package ru.coding4fun.tsql.psi
 
+import com.intellij.database.model.ObjectKind
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiFile
 import com.intellij.psi.impl.source.tree.LeafPsiElement
+import com.intellij.psi.tree.IElementType
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.sql.dialects.mssql.MssqlDialect
 import com.intellij.sql.dialects.mssql.MssqlTypes
@@ -149,4 +152,27 @@ fun SqlBinaryExpression.split(): Pair<SqlReferenceExpression, Int>? {
         }
     }
     return null
+}
+
+fun PsiFile.isSqlConsole(): Boolean {
+    val folderName = this.parent?.name ?: return false
+    return guidRegex.matches(folderName)
+}
+
+val guidRegex = Regex("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
+
+fun PsiElement.getChildOfElementType(type: IElementType): PsiElement? {
+    for (child in this.children) {
+        if (child.type == type) return child
+    }
+    return null
+}
+
+fun getObjectReference(objectPath: String, createStatement: SqlCreateStatement): SqlReferenceExpression {
+    val sql = when (createStatement.kind) {
+        ObjectKind.ROUTINE -> "EXEC $objectPath"
+        else -> "SELECT * FROM $objectPath"
+    }
+    val expression = SqlPsiElementFactory.createStatementFromText(sql, MssqlDialect.INSTANCE, createStatement.project, null)!!
+    return PsiTreeUtil.findChildrenOfType(expression, SqlReferenceExpression::class.java).maxBy { it.textRange.endOffset }!!
 }

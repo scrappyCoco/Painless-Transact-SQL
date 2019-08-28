@@ -13,47 +13,56 @@
                          bundle="messages.inspection" key="inspection.code.style.alias.as.equal.name"
                          groupBundle="messages.inspection" groupKey="inspection.code.style.group"
                          enabledByDefault="true" level="WEAK WARNING" language="TSQL" cleanupTool="true"
-                         implementationClass="ru.coding4fun.tsql.inspection.MsColumnAliasDefinitionInspection"/>
+                         implementationClass="ru.coding4fun.tsql.inspection.codeStyle.MsColumnAliasDefinitionInspection"/>
+        <localInspection groupPath="Painless T-SQL" suppressId="MsSemicolonAtTheEnd"
+                         shortName="MsSemicolonAtTheEndInspection"
+                         bundle="messages.inspection" key="inspection.code.style.semicolon.at.the.end.name"
+                         groupBundle="messages.inspection" groupKey="inspection.code.style.group"
+                         enabledByDefault="true" level="WEAK WARNING" language="TSQL" cleanupTool="true"
+                         implementationClass="ru.coding4fun.tsql.inspection.codeStyle.MsSemicolonAtTheEndInspection"/>
         <localInspection groupPath="Painless T-SQL" suppressId="MsCaseVsChoose"
                          shortName="MsCaseVsChooseInspection"
                          bundle="messages.inspection" key="inspection.code.style.case.vs.choose.name"
                          groupBundle="messages.inspection" groupKey="inspection.code.style.group"
                          enabledByDefault="true" level="WEAK WARNING" language="TSQL" cleanupTool="true"
-                         implementationClass="ru.coding4fun.tsql.inspection.MsCaseVsChooseInspection"/>
+                         implementationClass="ru.coding4fun.tsql.inspection.codeStyle.MsCaseVsChooseInspection"/>
         <localInspection groupPath="Painless T-SQL" suppressId="MsReadonlyParameter"
                          shortName="MsReadonlyParameterInspection"
                          bundle="messages.inspection" key="inspection.ddl.readonly.missing.name"
                          groupBundle="messages.inspection" groupKey="inspection.ddl.group"
                          enabledByDefault="true" level="ERROR" language="TSQL"
-                         implementationClass="ru.coding4fun.tsql.inspection.MsReadonlyParameterInspection"/>
+                         implementationClass="ru.coding4fun.tsql.inspection.ddl.MsReadonlyParameterInspection"/>
         <localInspection groupPath="Painless T-SQL" suppressId="MsReadonlyModification"
                          shortName="MsReadonlyModificationInspection"
                          bundle="messages.inspection" key="inspection.dml.readonly.modification.name"
                          groupBundle="messages.inspection" groupKey="inspection.dml.group"
                          enabledByDefault="true" level="ERROR" language="TSQL"
-                         implementationClass="ru.coding4fun.tsql.inspection.MsReadonlyModificationInspection"/>
+                         implementationClass="ru.coding4fun.tsql.inspection.dml.MsReadonlyModificationInspection"/>
         <localInspection groupPath="Painless T-SQL" suppressId="MsRedundantDistinctInSetOperators"
                          shortName="MsRedundantDistinctInSetOperatorsInspection"
                          bundle="messages.inspection"
                          key="inspection.dml.redundant.distinct.keyword.in.set.operators.name"
                          groupBundle="messages.inspection" groupKey="inspection.dml.group"
                          enabledByDefault="true" level="WEAK WARNING" language="TSQL"
-                         implementationClass="ru.coding4fun.tsql.inspection.MsRedundantDistinctInSetOperatorsInspection"/>
+                         implementationClass="ru.coding4fun.tsql.inspection.dml.MsRedundantDistinctInSetOperatorsInspection"/>
         <localInspection groupPath="Painless T-SQL" suppressId="MsSemicolonCte"
                          shortName="MsSemicolonCteInspection"
                          bundle="messages.inspection" key="inspection.dml.semicolon.cte.name"
                          groupBundle="messages.inspection" groupKey="inspection.dml.group"
                          enabledByDefault="true" level="WARNING" language="TSQL"
-                         implementationClass="ru.coding4fun.tsql.inspection.MsSemicolonCteInspection"/>
-        <localInspection groupPath="Painless T-SQL" suppressId="MsVariableNameUnique"
-                         shortName="MsVariableNameUniqueInspection"
-                         bundle="messages.inspection" key="inspection.dml.variable.name.unique.name"
-                         groupBundle="messages.inspection" groupKey="inspection.dml.group"
+                         implementationClass="ru.coding4fun.tsql.inspection.dml.MsSemicolonCteInspection"/>
+        <localInspection groupPath="Painless T-SQL" suppressId="MsRenamed"
+                         shortName="MsRenamedInspection"
+                         bundle="messages.inspection" key="inspection.ddl.renamed.name"
+                         groupBundle="messages.inspection" groupKey="inspection.ddl.group"
                          enabledByDefault="true" level="WARNING" language="TSQL"
-                         implementationClass="ru.coding4fun.tsql.inspection.MsVariableNameUniqueInspection"/>
+                         implementationClass="ru.coding4fun.tsql.inspection.ddl.MsRenamedInspection"/>
     </extensions>
 
-    <actions>
-        <!-- Add your actions here -->
-    </actions>
+    <!--    <actions>-->
+    <!--        &lt;!&ndash; Add your actions here &ndash;&gt;-->
+    <!--        <action id="Test" class="ru.coding4fun.tsql.action.Test" text="Test" description="Test">-->
+    <!--            <add-to-group group-id="HelpMenu" anchor="first"/>-->
+    <!--        </action>-->
+    <!--    </actions>-->
 </idea-plugin>
