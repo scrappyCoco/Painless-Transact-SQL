@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package ru.coding4fun.tsql.inspection
+package ru.coding4fun.tsql.inspection.codeStyle
 
 import com.intellij.codeInspection.*
 import com.intellij.codeInspection.ui.MultipleCheckboxOptionsPanel

@@ -20,7 +20,7 @@ import com.intellij.codeInspection.InspectionManager
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
-import ru.coding4fun.tsql.inspection.MsRenamedInspection
+import ru.coding4fun.tsql.inspection.ddl.MsRenamedInspection
 
 class Test : AnAction() {
 

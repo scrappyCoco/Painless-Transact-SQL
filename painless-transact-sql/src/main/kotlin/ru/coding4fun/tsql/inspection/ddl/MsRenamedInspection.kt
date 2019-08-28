@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package ru.coding4fun.tsql.inspection
+package ru.coding4fun.tsql.inspection.ddl
 
 import com.intellij.codeInspection.*
 import com.intellij.database.model.DasObject
@@ -38,6 +38,9 @@ import ru.coding4fun.tsql.psi.getChildOfElementType
 import ru.coding4fun.tsql.psi.isSqlConsole
 
 class MsRenamedInspection : SqlInspectionBase(), CleanupLocalInspectionTool {
+    override fun getGroupDisplayName(): String = MsMessages.message("inspection.ddl.group")
+    override fun isDialectIgnored(dialect: SqlLanguageDialectEx?): Boolean = !(dialect?.dbms?.isMicrosoft ?: false)
+
     override fun createAnnotationVisitor(
             dialectEx: SqlLanguageDialectEx,
             inspectionManager: InspectionManager,
