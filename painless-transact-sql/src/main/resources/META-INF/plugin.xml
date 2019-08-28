@@ -14,6 +14,12 @@
                          groupBundle="messages.inspection" groupKey="inspection.code.style.group"
                          enabledByDefault="true" level="WEAK WARNING" language="TSQL" cleanupTool="true"
                          implementationClass="ru.coding4fun.tsql.inspection.MsColumnAliasDefinitionInspection"/>
+        <localInspection groupPath="Painless T-SQL" suppressId="MsSemicolonAtTheEnd"
+                         shortName="MsSemicolonAtTheEndInspection"
+                         bundle="messages.inspection" key="inspection.code.style.semicolon.at.the.end.name"
+                         groupBundle="messages.inspection" groupKey="inspection.code.style.group"
+                         enabledByDefault="true" level="WEAK WARNING" language="TSQL" cleanupTool="true"
+                         implementationClass="ru.coding4fun.tsql.inspection.MsSemicolonAtTheEndInspection"/>
         <localInspection groupPath="Painless T-SQL" suppressId="MsCaseVsChoose"
                          shortName="MsCaseVsChooseInspection"
                          bundle="messages.inspection" key="inspection.code.style.case.vs.choose.name"
