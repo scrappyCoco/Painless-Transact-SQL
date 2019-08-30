@@ -57,6 +57,12 @@
                          groupBundle="messages.inspection" groupKey="inspection.ddl.group"
                          enabledByDefault="true" level="WARNING" language="TSQL"
                          implementationClass="ru.coding4fun.tsql.inspection.ddl.MsRenamedInspection"/>
+
+        <intentionAction>
+            <className>ru.coding4fun.tsql.intention.MsFlipBinaryExpressionIntention</className>
+            <bundleName>messages.intention</bundleName>
+            <categoryKey>intention.group.name</categoryKey>
+        </intentionAction>
     </extensions>
 
     <!--    <actions>-->

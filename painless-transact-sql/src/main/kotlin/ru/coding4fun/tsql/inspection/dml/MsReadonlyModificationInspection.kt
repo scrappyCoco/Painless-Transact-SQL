@@ -26,13 +26,13 @@ import com.intellij.sql.dialects.SqlLanguageDialectEx
 import com.intellij.sql.inspections.SqlInspectionBase
 import com.intellij.sql.psi.*
 import com.intellij.sql.psi.impl.SqlReturningClauseImpl
-import ru.coding4fun.tsql.MsMessages
+import ru.coding4fun.tsql.MsInspectionMessages
 import ru.coding4fun.tsql.psi.getAlias
 import ru.coding4fun.tsql.psi.getDmlHighlightRangeElements
 import ru.coding4fun.tsql.psi.isReadonly
 
 class MsReadonlyModificationInspection : SqlInspectionBase(), CleanupLocalInspectionTool {
-    override fun getGroupDisplayName(): String = MsMessages.message("inspection.dml.group")
+    override fun getGroupDisplayName(): String = MsInspectionMessages.message("inspection.dml.group")
     override fun isDialectIgnored(dialect: SqlLanguageDialectEx?): Boolean = !(dialect?.dbms?.isMicrosoft ?: false)
 
     override fun createAnnotationVisitor(
@@ -89,7 +89,7 @@ class MsReadonlyModificationInspection : SqlInspectionBase(), CleanupLocalInspec
 
         private fun addDmlProblem(readonlyElement: SqlReferenceExpression) {
             val parameterDefinition = readonlyElement.resolve() as SqlParameterDefinition
-            val problemDescription = MsMessages.message("inspection.dml.readonly.modification.problem", parameterDefinition.name)
+            val problemDescription = MsInspectionMessages.message("inspection.dml.readonly.modification.problem", parameterDefinition.name)
             val highlightElements = readonlyElement.getDmlHighlightRangeElements() ?: return
             val problem = myManager.createProblemDescriptor(
                     highlightElements.first,

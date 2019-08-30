@@ -29,7 +29,7 @@ import com.intellij.sql.psi.SqlElementTypes
 import com.intellij.sql.psi.SqlStatement
 import com.intellij.sql.psi.impl.SqlPsiElementFactory
 import com.intellij.sql.type
-import ru.coding4fun.tsql.MsMessages
+import ru.coding4fun.tsql.MsInspectionMessages
 import ru.coding4fun.tsql.psi.getNextNotEmptyLeaf
 import javax.swing.JComponent
 
@@ -39,11 +39,11 @@ class MsSemicolonAtTheEndInspection : SqlInspectionBase(), CleanupLocalInspectio
 
     override fun createOptionsPanel(): JComponent? {
         val panel = MultipleCheckboxOptionsPanel(this)
-        panel.addCheckbox(MsMessages.message("inspection.code.style.semicolon.at.the.end.option"), "preferSemicolonAtTheEnd")
+        panel.addCheckbox(MsInspectionMessages.message("inspection.code.style.semicolon.at.the.end.option"), "preferSemicolonAtTheEnd")
         return panel
     }
 
-    override fun getGroupDisplayName(): String = MsMessages.message("inspection.code.style.group")
+    override fun getGroupDisplayName(): String = MsInspectionMessages.message("inspection.code.style.group")
     override fun isDialectIgnored(dialect: SqlLanguageDialectEx?): Boolean = !(dialect?.dbms?.isMicrosoft ?: false)
 
     override fun createAnnotationVisitor(
@@ -76,8 +76,8 @@ class MsSemicolonAtTheEndInspection : SqlInspectionBase(), CleanupLocalInspectio
                 if (isNextIsWithCte && !preferSemicolonAtTheEnd) return
 
                 val problemMessage = if (preferSemicolonAtTheEnd)
-                    MsMessages.message("inspection.code.style.semicolon.at.the.end.fix.add")
-                else MsMessages.message("inspection.code.style.semicolon.at.the.end.fix.remove")
+                    MsInspectionMessages.message("inspection.code.style.semicolon.at.the.end.fix.add")
+                else MsInspectionMessages.message("inspection.code.style.semicolon.at.the.end.fix.remove")
 
                 val highlightType = if (preferSemicolonAtTheEnd)
                     ProblemHighlightType.INFORMATION else ProblemHighlightType.LIKE_UNUSED_SYMBOL
@@ -104,8 +104,8 @@ class MsSemicolonAtTheEndInspection : SqlInspectionBase(), CleanupLocalInspectio
             private val preferSemicolonAtTheEnd: Boolean
     ) : LocalQuickFixOnPsiElement(problemElement) {
         override fun getFamilyName(): String = if (preferSemicolonAtTheEnd)
-            MsMessages.message("inspection.code.style.semicolon.at.the.end.fix.add")
-        else MsMessages.message("inspection.code.style.semicolon.at.the.end.fix.remove")
+            MsInspectionMessages.message("inspection.code.style.semicolon.at.the.end.fix.add")
+        else MsInspectionMessages.message("inspection.code.style.semicolon.at.the.end.fix.remove")
 
         override fun getText(): String = familyName
 

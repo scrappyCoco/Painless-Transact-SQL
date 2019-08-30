@@ -32,13 +32,13 @@ import com.intellij.sql.psi.SqlElementTypes
 import com.intellij.sql.psi.SqlReferenceExpression
 import com.intellij.sql.psi.SqlResolveResult
 import com.intellij.sql.type
-import ru.coding4fun.tsql.MsMessages
+import ru.coding4fun.tsql.MsInspectionMessages
 import ru.coding4fun.tsql.dataSource.PathPartManager
 import ru.coding4fun.tsql.psi.getChildOfElementType
 import ru.coding4fun.tsql.psi.isSqlConsole
 
 class MsRenamedInspection : SqlInspectionBase(), CleanupLocalInspectionTool {
-    override fun getGroupDisplayName(): String = MsMessages.message("inspection.ddl.group")
+    override fun getGroupDisplayName(): String = MsInspectionMessages.message("inspection.ddl.group")
     override fun isDialectIgnored(dialect: SqlLanguageDialectEx?): Boolean = !(dialect?.dbms?.isMicrosoft ?: false)
 
     override fun createAnnotationVisitor(
@@ -92,7 +92,7 @@ class MsRenamedInspection : SqlInspectionBase(), CleanupLocalInspectionTool {
 
 
             if (!PathPartManager.areSame(createStatementToCheck, referenceFromFilePath)) {
-                val problemMessage = MsMessages.message(
+                val problemMessage = MsInspectionMessages.message(
                         "inspection.ddl.renamed.problem",
                         problemReference.text,
                         referenceFromFilePath.text)
@@ -117,9 +117,9 @@ class MsRenamedInspection : SqlInspectionBase(), CleanupLocalInspectionTool {
             private val problemReferencePoint: SmartPsiElementPointer<SqlReferenceExpression>,
             private val actualReferencePoint: SmartPsiElementPointer<SqlReferenceExpression>
     ) : LocalQuickFixOnPsiElement(problemReferencePoint.element!!) {
-        override fun getFamilyName(): String = MsMessages.message("inspection.ddl.renamed.fix.family")
+        override fun getFamilyName(): String = MsInspectionMessages.message("inspection.ddl.renamed.fix.family")
 
-        override fun getText(): String = MsMessages.message(
+        override fun getText(): String = MsInspectionMessages.message(
                 "inspection.ddl.renamed.fix.text",
                 problemReferencePoint.element?.name ?: "problem reference",
                 actualReferencePoint.element?.name ?: "actual reference")

@@ -31,11 +31,11 @@ import com.intellij.sql.psi.SqlParameterDefinition
 import com.intellij.sql.psi.SqlParameterList
 import com.intellij.sql.psi.SqlType
 import com.intellij.sql.psi.impl.SqlPsiElementFactory
-import ru.coding4fun.tsql.MsMessages
+import ru.coding4fun.tsql.MsInspectionMessages
 import ru.coding4fun.tsql.psi.isReadonly
 
 class MsReadonlyParameterInspection : SqlInspectionBase(), CleanupLocalInspectionTool {
-    override fun getGroupDisplayName(): String = MsMessages.message("inspection.ddl.group")
+    override fun getGroupDisplayName(): String = MsInspectionMessages.message("inspection.ddl.group")
     override fun isDialectIgnored(dialect: SqlLanguageDialectEx?): Boolean = !(dialect?.dbms?.isMicrosoft ?: false)
 
     override fun createAnnotationVisitor(
@@ -64,7 +64,7 @@ class MsReadonlyParameterInspection : SqlInspectionBase(), CleanupLocalInspectio
                     }.map { it as SqlParameterDefinition }.toList()
 
             for (parameterDefinition in parameterDefinitions) {
-                val problemDescription = MsMessages.getMessage("inspection.ddl.readonly.missing.problem", parameterDefinition.name)
+                val problemDescription = MsInspectionMessages.getMessage("inspection.ddl.readonly.missing.problem", parameterDefinition.name)
                 val parameterPointer = SmartPointerManager.createPointer(parameterDefinition)
                 val problem = myManager.createProblemDescriptor(
                         parameterDefinition,
@@ -83,8 +83,8 @@ class MsReadonlyParameterInspection : SqlInspectionBase(), CleanupLocalInspectio
 
     private class AddReadonlyQuickFix(private val parameterPointer: SmartPsiElementPointer<SqlParameterDefinition>) :
             LocalQuickFixOnPsiElement(parameterPointer.element, parameterPointer.element) {
-        override fun getFamilyName(): String = MsMessages.getMessage("inspection.ddl.readonly.missing.fix.family")
-        override fun getText(): String = MsMessages.getMessage("inspection.ddl.readonly.missing.fix.text", parameterPointer.element!!.name)
+        override fun getFamilyName(): String = MsInspectionMessages.getMessage("inspection.ddl.readonly.missing.fix.family")
+        override fun getText(): String = MsInspectionMessages.getMessage("inspection.ddl.readonly.missing.fix.text", parameterPointer.element!!.name)
 
         override fun invoke(project: Project, file: PsiFile, startElement: PsiElement, endElement: PsiElement) {
             val readonlyElement =

@@ -31,11 +31,11 @@ import com.intellij.sql.psi.SqlSelectStatement
 import com.intellij.sql.psi.SqlWithQueryExpression
 import com.intellij.sql.psi.impl.SqlPsiElementFactory
 import com.intellij.sql.type
-import ru.coding4fun.tsql.MsMessages
+import ru.coding4fun.tsql.MsInspectionMessages
 import ru.coding4fun.tsql.psi.getPrevNotEmptyLeaf
 
 class MsSemicolonCteInspection : SqlInspectionBase(), CleanupLocalInspectionTool {
-    override fun getGroupDisplayName(): String = MsMessages.message("inspection.dml.group")
+    override fun getGroupDisplayName(): String = MsInspectionMessages.message("inspection.dml.group")
     override fun isDialectIgnored(dialect: SqlLanguageDialectEx?): Boolean = !(dialect?.dbms?.isMicrosoft ?: false)
 
 
@@ -66,7 +66,7 @@ class MsSemicolonCteInspection : SqlInspectionBase(), CleanupLocalInspectionTool
             val flatPrevLeaf = sqlWithQueryExpression.getPrevNotEmptyLeaf() ?: return
             if (requiredPrevTypes.contains(flatPrevLeaf.type)) return
 
-            val problemMessage = MsMessages.message("inspection.dml.semicolon.cte.problem")
+            val problemMessage = MsInspectionMessages.message("inspection.dml.semicolon.cte.problem")
             val withKeyword = PsiTreeUtil.findChildOfType(sqlWithQueryExpression, LeafPsiElement::class.java) ?: return
             val selectStatement = queryExpression.parent as? SqlSelectStatement ?: return
             val problem = myManager.createProblemDescriptor(
@@ -85,8 +85,8 @@ class MsSemicolonCteInspection : SqlInspectionBase(), CleanupLocalInspectionTool
 
     private class AddSemicolonQuickFix(selectStatement: SqlSelectStatement
     ) : LocalQuickFixOnPsiElement(selectStatement) {
-        override fun getFamilyName(): String = MsMessages.message("inspection.dml.semicolon.cte.fix")
-        override fun getText(): String = MsMessages.message("inspection.dml.semicolon.cte.fix")
+        override fun getFamilyName(): String = MsInspectionMessages.message("inspection.dml.semicolon.cte.fix")
+        override fun getText(): String = MsInspectionMessages.message("inspection.dml.semicolon.cte.fix")
 
         override fun invoke(project: Project, file: PsiFile, startElement: PsiElement, endElement: PsiElement) {
             val selectStatement = startElement as SqlSelectStatement

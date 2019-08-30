@@ -29,7 +29,7 @@ import com.intellij.sql.inspections.SqlInspectionBase
 import com.intellij.sql.psi.SqlAsExpression
 import com.intellij.sql.psi.SqlElementTypes
 import com.intellij.sql.type
-import ru.coding4fun.tsql.MsMessages
+import ru.coding4fun.tsql.MsInspectionMessages
 import ru.coding4fun.tsql.psi.convertColumnAsToEqual
 import ru.coding4fun.tsql.psi.convertColumnEqualToAs
 import javax.swing.JComponent
@@ -38,12 +38,12 @@ class MsColumnAliasDefinitionInspection : SqlInspectionBase(), CleanupLocalInspe
     @Suppress("MemberVisibilityCanBePrivate")
     var preferEqualOverAs = true
 
-    override fun getGroupDisplayName(): String = MsMessages.message("inspection.code.style.group")
+    override fun getGroupDisplayName(): String = MsInspectionMessages.message("inspection.code.style.group")
     override fun isDialectIgnored(dialect: SqlLanguageDialectEx?): Boolean = !(dialect?.dbms?.isMicrosoft ?: false)
 
     override fun createOptionsPanel(): JComponent? {
         val panel = MultipleCheckboxOptionsPanel(this)
-        panel.addCheckbox(MsMessages.message("inspection.code.style.alias.as.equal.option"), "preferEqualOverAs")
+        panel.addCheckbox(MsInspectionMessages.message("inspection.code.style.alias.as.equal.option"), "preferEqualOverAs")
         return panel
     }
 
@@ -81,8 +81,8 @@ class MsColumnAliasDefinitionInspection : SqlInspectionBase(), CleanupLocalInspe
             }
 
             val problemDescription = if (preferEqualOverAs)
-                MsMessages.message("inspection.code.style.alias.as.equal.problem.as")
-            else MsMessages.message("inspection.code.style.alias.as.equal.problem.equals")
+                MsInspectionMessages.message("inspection.code.style.alias.as.equal.problem.as")
+            else MsInspectionMessages.message("inspection.code.style.alias.as.equal.problem.equals")
 
             val asExpressionPointer = SmartPointerManager.createPointer(asExpression)
             val problem = myManager.createProblemDescriptor(
@@ -103,14 +103,14 @@ class MsColumnAliasDefinitionInspection : SqlInspectionBase(), CleanupLocalInspe
             private val preferEqualOverAs: Boolean
     ) : LocalQuickFixOnPsiElement(asExpressionPointer.element, asExpressionPointer.element) {
         override fun getFamilyName(): String {
-            return if (preferEqualOverAs) MsMessages.message("inspection.code.style.alias.as.equal.fix.family.as")
-            else MsMessages.message("inspection.code.style.alias.as.equal.fix.family.equals")
+            return if (preferEqualOverAs) MsInspectionMessages.message("inspection.code.style.alias.as.equal.fix.family.as")
+            else MsInspectionMessages.message("inspection.code.style.alias.as.equal.fix.family.equals")
         }
 
         override fun getText(): String {
             return if (preferEqualOverAs)
-                MsMessages.message("inspection.code.style.alias.as.equal.fix.text.as", getAliasName())
-            else MsMessages.message("inspection.code.style.alias.as.equal.fix.text.equals", getAliasName())
+                MsInspectionMessages.message("inspection.code.style.alias.as.equal.fix.text.as", getAliasName())
+            else MsInspectionMessages.message("inspection.code.style.alias.as.equal.fix.text.equals", getAliasName())
         }
 
         private fun getAliasName() = asExpressionPointer.element!!.nameElement!!.text

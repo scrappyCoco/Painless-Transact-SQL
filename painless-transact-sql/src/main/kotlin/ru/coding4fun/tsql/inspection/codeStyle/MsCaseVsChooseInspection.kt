@@ -28,7 +28,7 @@ import com.intellij.sql.inspections.SqlInspectionBase
 import com.intellij.sql.psi.*
 import com.intellij.sql.psi.impl.SqlPsiElementFactory
 import com.intellij.sql.type
-import ru.coding4fun.tsql.MsMessages
+import ru.coding4fun.tsql.MsInspectionMessages
 import ru.coding4fun.tsql.psi.firstNotEmpty
 import ru.coding4fun.tsql.psi.isSimple
 import ru.coding4fun.tsql.psi.split
@@ -41,11 +41,11 @@ class MsCaseVsChooseInspection : SqlInspectionBase(), CleanupLocalInspectionTool
 
     override fun createOptionsPanel(): JComponent? {
         val panel = MultipleCheckboxOptionsPanel(this)
-        panel.addCheckbox(MsMessages.message("inspection.code.style.case.vs.choose.option"), "preferCaseOverChoose")
+        panel.addCheckbox(MsInspectionMessages.message("inspection.code.style.case.vs.choose.option"), "preferCaseOverChoose")
         return panel
     }
 
-    override fun getGroupDisplayName(): String = MsMessages.message("inspection.code.style.group")
+    override fun getGroupDisplayName(): String = MsInspectionMessages.message("inspection.code.style.group")
     override fun isDialectIgnored(dialect: SqlLanguageDialectEx?): Boolean = !(dialect?.dbms?.isMicrosoft ?: false)
 
     override fun createAnnotationVisitor(
@@ -77,7 +77,7 @@ class MsCaseVsChooseInspection : SqlInspectionBase(), CleanupLocalInspectionTool
             } ?: return
 
 
-            val problemMessage = MsMessages.message("inspection.code.style.case.vs.choose.problem.case.to.choose")
+            val problemMessage = MsInspectionMessages.message("inspection.code.style.case.vs.choose.problem.case.to.choose")
             val caseKeyword = caseExpression.children.firstNotEmpty()
             val problem = myManager.createProblemDescriptor(
                     caseKeyword,
@@ -153,7 +153,7 @@ class MsCaseVsChooseInspection : SqlInspectionBase(), CleanupLocalInspectionTool
             if (!"CHOOSE".equals(functionCallExpression.nameElement?.name, true)) return
             if (functionCallExpression.parameterList?.expressionList?.size ?: 0 < 2) return
 
-            val problemMessage = MsMessages.message("inspection.code.style.case.vs.choose.problem.choose.to.case")
+            val problemMessage = MsInspectionMessages.message("inspection.code.style.case.vs.choose.problem.choose.to.case")
             val caseKeyword = functionCallExpression.children.firstNotEmpty()
             val problem = myManager.createProblemDescriptor(
                     caseKeyword,
@@ -173,8 +173,8 @@ class MsCaseVsChooseInspection : SqlInspectionBase(), CleanupLocalInspectionTool
                                               private val referenceText: String,
                                               private val values: List<String>
     ) : LocalQuickFixOnPsiElement(caseKeyword, caseKeyword) {
-        override fun getFamilyName(): String = MsMessages.message("inspection.code.style.case.vs.choose.fix.case.to.choose")
-        override fun getText(): String = MsMessages.message("inspection.code.style.case.vs.choose.fix.case.to.choose")
+        override fun getFamilyName(): String = MsInspectionMessages.message("inspection.code.style.case.vs.choose.fix.case.to.choose")
+        override fun getText(): String = MsInspectionMessages.message("inspection.code.style.case.vs.choose.fix.case.to.choose")
 
         override fun invoke(project: Project, file: PsiFile, startElement: PsiElement, endElement: PsiElement) {
             val sqlCaseExpression = PsiTreeUtil.getParentOfType(startElement, SqlCaseExpression::class.java)!!
@@ -189,8 +189,8 @@ class MsCaseVsChooseInspection : SqlInspectionBase(), CleanupLocalInspectionTool
     }
 
     private class ReplaceChooseToCaseQuickFix(chooseCallExpression: SqlFunctionCallExpression) : LocalQuickFixOnPsiElement(chooseCallExpression, chooseCallExpression) {
-        override fun getFamilyName(): String = MsMessages.message("inspection.code.style.case.vs.choose.fix.choose.to.case")
-        override fun getText(): String = MsMessages.message("inspection.code.style.case.vs.choose.fix.choose.to.case")
+        override fun getFamilyName(): String = MsInspectionMessages.message("inspection.code.style.case.vs.choose.fix.choose.to.case")
+        override fun getText(): String = MsInspectionMessages.message("inspection.code.style.case.vs.choose.fix.choose.to.case")
 
         override fun invoke(project: Project, file: PsiFile, startElement: PsiElement, endElement: PsiElement) {
             val chooseCallExpression = startElement as SqlFunctionCallExpression

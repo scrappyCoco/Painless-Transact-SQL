@@ -26,10 +26,10 @@ import com.intellij.sql.dialects.SqlLanguageDialectEx
 import com.intellij.sql.inspections.SqlInspectionBase
 import com.intellij.sql.psi.*
 import com.intellij.sql.type
-import ru.coding4fun.tsql.MsMessages
+import ru.coding4fun.tsql.MsInspectionMessages
 
 class MsRedundantDistinctInSetOperatorsInspection : SqlInspectionBase(), CleanupLocalInspectionTool {
-    override fun getGroupDisplayName(): String = MsMessages.message("inspection.dml.group")
+    override fun getGroupDisplayName(): String = MsInspectionMessages.message("inspection.dml.group")
     override fun isDialectIgnored(dialect: SqlLanguageDialectEx?): Boolean = !(dialect?.dbms?.isMicrosoft ?: false)
 
     override fun createAnnotationVisitor(dialect: SqlLanguageDialectEx, manager: InspectionManager, result: MutableList<ProblemDescriptor>, onTheFly: Boolean): SqlAnnotationVisitor? {
@@ -75,7 +75,7 @@ class MsRedundantDistinctInSetOperatorsInspection : SqlInspectionBase(), Cleanup
                             ?: continue
 
                     val setOperator = setElement.text.toUpperCase()
-                    val problemMessage = MsMessages.message("inspection.dml.redundant.distinct.keyword.in.set.operators.problem", setOperator)
+                    val problemMessage = MsInspectionMessages.message("inspection.dml.redundant.distinct.keyword.in.set.operators.problem", setOperator)
 
                     val problem = myManager.createProblemDescriptor(
                             distinctElement,
@@ -98,8 +98,8 @@ class MsRedundantDistinctInSetOperatorsInspection : SqlInspectionBase(), Cleanup
             endElement: PsiElement,
             private val setOperator: String
     ) : LocalQuickFixOnPsiElement(startElement, endElement) {
-        override fun getFamilyName(): String = MsMessages.message("inspection.dml.redundant.distinct.keyword.in.set.operators.fix.family")
-        override fun getText(): String = MsMessages.message("inspection.dml.redundant.distinct.keyword.in.set.operators.fix.text", setOperator)
+        override fun getFamilyName(): String = MsInspectionMessages.message("inspection.dml.redundant.distinct.keyword.in.set.operators.fix.family")
+        override fun getText(): String = MsInspectionMessages.message("inspection.dml.redundant.distinct.keyword.in.set.operators.fix.text", setOperator)
 
         override fun invoke(project: Project, file: PsiFile, startElement: PsiElement, endElement: PsiElement) {
             startElement.delete()
