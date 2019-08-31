@@ -63,6 +63,12 @@
             <bundleName>messages.intention</bundleName>
             <categoryKey>intention.group.name</categoryKey>
         </intentionAction>
+
+        <intentionAction>
+            <className>ru.coding4fun.tsql.intention.MsReverseIifIntention</className>
+            <bundleName>messages.intention</bundleName>
+            <categoryKey>intention.group.name</categoryKey>
+        </intentionAction>
     </extensions>
 
     <!--    <actions>-->

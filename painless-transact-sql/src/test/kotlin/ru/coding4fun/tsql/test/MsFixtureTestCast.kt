@@ -3,7 +3,6 @@ package ru.coding4fun.tsql.test
 import com.intellij.codeInsight.intention.IntentionAction
 import com.intellij.codeInspection.LocalInspectionTool
 import com.intellij.codeInspection.ex.LocalInspectionToolWrapper
-import com.intellij.openapi.application.PathManager
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.sql.dialects.SqlDialectMappings
 import com.intellij.sql.dialects.mssql.MssqlDialect
@@ -16,7 +15,7 @@ abstract class MsFixtureTestCast: CodeInsightFixtureTestCase<EmptyModuleFixtureB
     override fun setUp() {
         super.setUp()
         SqlDialectMappings.getInstance(myFixture.project).setMapping(null, MssqlDialect.INSTANCE)
-        myFixture.testDataPath = "..\\testData"
+        myFixture.testDataPath = "/home/artem/IdeaProjects/Painless-Transact-SQL/painless-transact-sql/testData"
     }
 
     private val src = "src"
