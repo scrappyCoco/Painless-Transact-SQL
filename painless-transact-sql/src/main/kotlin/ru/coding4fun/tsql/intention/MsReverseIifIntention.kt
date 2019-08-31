@@ -5,6 +5,7 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
+import com.intellij.sql.dialects.mssql.MssqlDialect
 import com.intellij.sql.psi.SqlBinaryExpression
 import com.intellij.sql.psi.SqlElementTypes
 import com.intellij.sql.psi.SqlFunctionCallExpression
@@ -16,6 +17,7 @@ class MsReverseIifIntention : BaseElementAtCaretIntentionAction() {
     override fun getText(): String = MsIntentionMessages.message("reverse.iif.name")
 
     override fun isAvailable(project: Project, editor: Editor?, element: PsiElement): Boolean {
+        if (element.containingFile.language != MssqlDialect.INSTANCE) return false
         if (element.type != SqlElementTypes.SQL_IDENT) return false
         if (!"IIF".equals(element.text, true)) return false
         return true
@@ -24,7 +26,7 @@ class MsReverseIifIntention : BaseElementAtCaretIntentionAction() {
     override fun invoke(project: Project, editor: Editor?, element: PsiElement) {
         val functionCallExpression = PsiTreeUtil.getParentOfType(element, SqlFunctionCallExpression::class.java)
                 ?: return
-        val argExpressions = functionCallExpression.parameterList.expressionList ?: return
+        val argExpressions = functionCallExpression.parameterList?.expressionList ?: return
         if (argExpressions.size != 3) return
 
         val binaryExpression = argExpressions[0] as? SqlBinaryExpression ?: return
