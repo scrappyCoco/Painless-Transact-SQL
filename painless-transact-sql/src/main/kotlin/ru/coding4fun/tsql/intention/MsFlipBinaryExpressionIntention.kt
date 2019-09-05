@@ -6,7 +6,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.psi.util.PsiTreeUtil
-import com.intellij.sql.dialects.mssql.MssqlDialect
+import com.intellij.sql.dialects.mssql.MsDialect
 import com.intellij.sql.psi.SqlBinaryExpression
 import com.intellij.sql.type
 import ru.coding4fun.tsql.MsIntentionMessages
@@ -16,7 +16,7 @@ class MsFlipBinaryExpressionIntention : BaseElementAtCaretIntentionAction() {
     override fun getFamilyName(): String = MsIntentionMessages.message("flip.binary.expression.name")
 
     override fun isAvailable(project: Project, editor: Editor?, element: PsiElement): Boolean {
-        if (element.containingFile.language != MssqlDialect.INSTANCE) return false
+        if (element.containingFile.language != MsDialect.INSTANCE) return false
         return FlipUtil.contains((element as? LeafPsiElement)?.type ?: return false)
     }
 

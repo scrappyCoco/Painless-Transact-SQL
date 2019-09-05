@@ -5,7 +5,7 @@ import com.intellij.codeInspection.LocalInspectionTool
 import com.intellij.codeInspection.ex.LocalInspectionToolWrapper
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.sql.dialects.SqlDialectMappings
-import com.intellij.sql.dialects.mssql.MssqlDialect
+import com.intellij.sql.dialects.mssql.MsDialect
 import com.intellij.testFramework.fixtures.CodeInsightFixtureTestCase
 import com.intellij.testFramework.fixtures.impl.EmptyModuleFixtureBuilderImpl
 import com.intellij.testFramework.fixtures.impl.ModuleFixtureImpl
@@ -14,7 +14,7 @@ import java.io.File
 abstract class MsFixtureTestCast: CodeInsightFixtureTestCase<EmptyModuleFixtureBuilderImpl<ModuleFixtureImpl>>() {
     override fun setUp() {
         super.setUp()
-        SqlDialectMappings.getInstance(myFixture.project).setMapping(null, MssqlDialect.INSTANCE)
+        SqlDialectMappings.getInstance(myFixture.project).setMapping(null, MsDialect.INSTANCE)
         myFixture.testDataPath = "/home/artem/IdeaProjects/Painless-Transact-SQL/painless-transact-sql/testData"
     }
 

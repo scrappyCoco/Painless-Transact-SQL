@@ -24,7 +24,7 @@ import com.intellij.psi.SmartPointerManager
 import com.intellij.psi.SmartPsiElementPointer
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.sql.dialects.SqlLanguageDialectEx
-import com.intellij.sql.dialects.mssql.MssqlDialect
+import com.intellij.sql.dialects.mssql.MsDialect
 import com.intellij.sql.inspections.SqlInspectionBase
 import com.intellij.sql.psi.SqlCreateProcedureStatement
 import com.intellij.sql.psi.SqlParameterDefinition
@@ -88,7 +88,7 @@ class MsReadonlyParameterInspection : SqlInspectionBase(), CleanupLocalInspectio
 
         override fun invoke(project: Project, file: PsiFile, startElement: PsiElement, endElement: PsiElement) {
             val readonlyElement =
-                    SqlPsiElementFactory.createLeafFromText(startElement.project, MssqlDialect.INSTANCE, "READONLY")
+                    SqlPsiElementFactory.createLeafFromText(startElement.project, MsDialect.INSTANCE, "READONLY")
             val parameterDefinition = parameterPointer.element!!
             parameterDefinition.add(readonlyElement)
         }

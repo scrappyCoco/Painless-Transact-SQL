@@ -5,7 +5,7 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
-import com.intellij.sql.dialects.mssql.MssqlDialect
+import com.intellij.sql.dialects.mssql.MsDialect
 import com.intellij.sql.psi.*
 import com.intellij.sql.psi.impl.SqlPsiElementFactory
 import com.intellij.sql.type
@@ -16,7 +16,7 @@ class MsReplaceValuesToSelectIntention : BaseElementAtCaretIntentionAction() {
     override fun getText(): String = MsIntentionMessages.message("replace.values.to.select.name")
 
     override fun isAvailable(project: Project, editor: Editor?, element: PsiElement): Boolean {
-        if (element.containingFile.language != MssqlDialect.INSTANCE) return false
+        if (element.containingFile.language != MsDialect.INSTANCE) return false
         return element.type == SqlElementTypes.SQL_VALUES
     }
 
@@ -37,7 +37,7 @@ class MsReplaceValuesToSelectIntention : BaseElementAtCaretIntentionAction() {
                 scriptBuilder.append(columnName, " = ", cellExpression.text)
             }
         }
-        val selectStatement = SqlPsiElementFactory.createStatementFromText(scriptBuilder.toString(), MssqlDialect.INSTANCE, project, null)
+        val selectStatement = SqlPsiElementFactory.createStatementFromText(scriptBuilder.toString(), MsDialect.INSTANCE, project, null)
                 ?: return
         valuesExpression.replace(selectStatement)
     }

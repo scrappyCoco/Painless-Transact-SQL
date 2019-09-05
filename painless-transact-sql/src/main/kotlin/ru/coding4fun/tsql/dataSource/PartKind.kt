@@ -16,7 +16,7 @@
 
 package ru.coding4fun.tsql.dataSource
 
-import com.intellij.database.dialects.mssql.MssqlDialect
+import com.intellij.database.dialects.mssql.MsDialect
 import com.intellij.database.model.DasObject
 import com.intellij.sql.psi.SqlCreateStatement
 import com.intellij.sql.psi.SqlReferenceExpression
@@ -41,7 +41,7 @@ object PathPartManager {
         var iteration = 0
         while (currentDasObject != null && ++iteration <= 3) {
             if (currentDasObject.name.isBlank()) break
-            var statementName = MssqlDialect.INSTANCE.quoteIdentifier(currentDasObject.name, true, false)
+            var statementName = MsDialect.INSTANCE.quoteIdentifier(currentDasObject.name, true, false)
             if (statementTextSb.isNotEmpty()) {
                 statementName += "."
             }

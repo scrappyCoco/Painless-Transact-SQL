@@ -23,7 +23,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.sql.dialects.SqlLanguageDialectEx
-import com.intellij.sql.dialects.mssql.MssqlDialect
+import com.intellij.sql.dialects.mssql.MsDialect
 import com.intellij.sql.inspections.SqlInspectionBase
 import com.intellij.sql.psi.*
 import com.intellij.sql.psi.impl.SqlPsiElementFactory
@@ -183,7 +183,7 @@ class MsCaseVsChooseInspection : SqlInspectionBase(), CleanupLocalInspectionTool
                 scriptBuilder.append(",\n  ", value)
             }
             scriptBuilder.append(")")
-            val chooseExpression = SqlPsiElementFactory.createExpressionFromText(scriptBuilder.toString(), MssqlDialect.INSTANCE, project, null)!!
+            val chooseExpression = SqlPsiElementFactory.createExpressionFromText(scriptBuilder.toString(), MsDialect.INSTANCE, project, null)!!
             sqlCaseExpression.replace(chooseExpression)
         }
     }
@@ -204,7 +204,7 @@ class MsCaseVsChooseInspection : SqlInspectionBase(), CleanupLocalInspectionTool
                 }
             }
             scriptBuilder.append("END")
-            val caseExpression = SqlPsiElementFactory.createExpressionFromText(scriptBuilder.toString(), MssqlDialect.INSTANCE, project, null)!!
+            val caseExpression = SqlPsiElementFactory.createExpressionFromText(scriptBuilder.toString(), MsDialect.INSTANCE, project, null)!!
             chooseCallExpression.replace(caseExpression)
         }
     }

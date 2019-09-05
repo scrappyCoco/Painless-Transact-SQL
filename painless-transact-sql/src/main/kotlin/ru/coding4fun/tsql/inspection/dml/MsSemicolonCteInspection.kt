@@ -23,7 +23,7 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.sql.dialects.SqlLanguageDialectEx
-import com.intellij.sql.dialects.mssql.MssqlDialect
+import com.intellij.sql.dialects.mssql.MsDialect
 import com.intellij.sql.inspections.SqlInspectionBase
 import com.intellij.sql.psi.SqlElementTypes
 import com.intellij.sql.psi.SqlQueryExpression
@@ -90,7 +90,7 @@ class MsSemicolonCteInspection : SqlInspectionBase(), CleanupLocalInspectionTool
 
         override fun invoke(project: Project, file: PsiFile, startElement: PsiElement, endElement: PsiElement) {
             val selectStatement = startElement as SqlSelectStatement
-            val semicolonElement = SqlPsiElementFactory.createLeafFromText(project, MssqlDialect.INSTANCE, ";")
+            val semicolonElement = SqlPsiElementFactory.createLeafFromText(project, MsDialect.INSTANCE, ";")
             selectStatement.parent.addBefore(semicolonElement, selectStatement)
         }
     }

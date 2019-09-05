@@ -22,8 +22,8 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.util.PsiTreeUtil
-import com.intellij.sql.dialects.mssql.MssqlDialect
-import com.intellij.sql.dialects.mssql.MssqlTypes
+import com.intellij.sql.dialects.mssql.MsDialect
+import com.intellij.sql.dialects.mssql.MsTypes
 import com.intellij.sql.psi.*
 import com.intellij.sql.psi.impl.SqlPsiElementFactory
 import com.intellij.sql.type
@@ -43,9 +43,9 @@ private fun convertColumn(asExpression: SqlAsExpression, toAs: Boolean) {
     val nameElement = asExpression.nameElement!!
     val expressionElement = asExpression.expression!!
     asExpression.deleteAllExcept(expressionElement)
-    val columnName = MssqlDialect.INSTANCE.quoteIdentifier(nameElement.project, nameElement.name)
+    val columnName = MsDialect.INSTANCE.quoteIdentifier(nameElement.project, nameElement.name)
     val sql = if (toAs) "SELECT 1 AS $columnName" else "SELECT $columnName = 1"
-    val queryExpression = SqlPsiElementFactory.createQueryExpressionFromText(sql, MssqlDialect.INSTANCE, asExpression.project)!!
+    val queryExpression = SqlPsiElementFactory.createQueryExpressionFromText(sql, MsDialect.INSTANCE, asExpression.project)!!
     val asExpressionTemplate = PsiTreeUtil.findChildOfType(queryExpression, SqlAsExpression::class.java)!!
     val first = if (toAs) asExpressionTemplate.firstChild.nextSibling else asExpressionTemplate.firstChild
     val last = if (toAs) asExpressionTemplate.lastChild else asExpressionTemplate.lastChild.prevSibling
@@ -58,7 +58,7 @@ private fun convertColumn(asExpression: SqlAsExpression, toAs: Boolean) {
 
 fun SqlParameterDefinition.isReadonly(): Boolean {
     val lastChild = this.lastChild as? LeafPsiElement ?: return false
-    return lastChild.elementType == MssqlTypes.MSSQL_READONLY
+    return lastChild.elementType == MsTypes.MSSQL_READONLY
 }
 
 fun SqlReferenceExpression.getAlias(): SqlIdentifier? {
@@ -173,6 +173,6 @@ fun getObjectReference(objectPath: String, createStatement: SqlCreateStatement):
         ObjectKind.ROUTINE -> "EXEC $objectPath"
         else -> "SELECT * FROM $objectPath"
     }
-    val expression = SqlPsiElementFactory.createStatementFromText(sql, MssqlDialect.INSTANCE, createStatement.project, null)!!
+    val expression = SqlPsiElementFactory.createStatementFromText(sql, MsDialect.INSTANCE, createStatement.project, null)!!
     return PsiTreeUtil.findChildrenOfType(expression, SqlReferenceExpression::class.java).maxBy { it.textRange.endOffset }!!
 }
