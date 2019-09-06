@@ -68,6 +68,11 @@ class MsSemicolonAtTheEndInspection : SqlInspectionBase(), CleanupLocalInspectio
                 super.visitSqlStatement(sqlStatement)
                 return
             }
+            // Has any children statements?
+            if (PsiTreeUtil.getChildOfType(sqlStatement, SqlStatement::class.java) != null) {
+                super.visitSqlStatement(sqlStatement)
+                return
+            }
 
             val semicolonLeaf = lastLeaf.getNextNotEmptyLeaf()
             val isEndedWithSemicolon = semicolonLeaf?.type == SqlElementTypes.SQL_SEMICOLON
@@ -83,7 +88,7 @@ class MsSemicolonAtTheEndInspection : SqlInspectionBase(), CleanupLocalInspectio
                     ProblemHighlightType.INFORMATION else ProblemHighlightType.LIKE_UNUSED_SYMBOL
 
                 val problemElement = if (preferSemicolonAtTheEnd)
-                    sqlStatement else semicolonLeaf!!
+                    PsiTreeUtil.firstChild(sqlStatement) else semicolonLeaf!!
 
                 val problem = myManager.createProblemDescriptor(
                         problemElement,
@@ -94,8 +99,9 @@ class MsSemicolonAtTheEndInspection : SqlInspectionBase(), CleanupLocalInspectio
                         SemicolonAtTheEndQuickFix(problemElement, preferSemicolonAtTheEnd)
                 )
                 addDescriptor(problem)
+            } else {
+                super.visitSqlStatement(sqlStatement)
             }
-            super.visitSqlStatement(sqlStatement)
         }
     }
 
@@ -112,7 +118,8 @@ class MsSemicolonAtTheEndInspection : SqlInspectionBase(), CleanupLocalInspectio
         override fun invoke(project: Project, file: PsiFile, startElement: PsiElement, endElement: PsiElement) {
             if (preferSemicolonAtTheEnd) {
                 val semicolonLeaf = SqlPsiElementFactory.createLeafFromText(project, MsDialect.INSTANCE, ";")
-                startElement.parent.addAfter(semicolonLeaf, startElement)
+                val statement = PsiTreeUtil.getParentOfType(startElement, SqlStatement::class.java)!!
+                statement.parent.addAfter(semicolonLeaf, statement)
             } else {
                 startElement.delete() // semicolonLeaf
             }
