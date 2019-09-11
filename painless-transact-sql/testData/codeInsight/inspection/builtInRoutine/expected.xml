@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<problems>
+    <problem>
+        <file>Literal.sql</file>
+        <line>2</line>
+        <problem_class severity="WARNING" attribute_key="WARNING_ATTRIBUTES">Warnings for built-in functions</problem_class>
+        <description>The size of separator must be 1</description>
+    </problem>
+    <problem>
+        <file>Var.sql</file>
+        <line>3</line>
+        <problem_class severity="WARNING" attribute_key="WARNING_ATTRIBUTES">Warnings for built-in functions</problem_class>
+        <description>The size of separator must be 1</description>
+    </problem>
+    <problem>
+        <file>Table.sql</file>
+        <line>7</line>
+        <problem_class severity="WARNING" attribute_key="WARNING_ATTRIBUTES">Warnings for built-in functions</problem_class>
+        <description>The size of separator must be 1</description>
+    </problem>
+</problems>

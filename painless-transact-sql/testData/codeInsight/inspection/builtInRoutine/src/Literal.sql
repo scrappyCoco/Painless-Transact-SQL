@@ -1,0 +1,2 @@
+SELECT value
+FROM STRING_SPLIT('1,2,3', '3,');

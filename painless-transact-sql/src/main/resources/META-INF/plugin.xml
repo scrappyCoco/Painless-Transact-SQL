@@ -57,6 +57,12 @@
                          groupBundle="messages.inspection" groupKey="inspection.dml.group"
                          enabledByDefault="true" level="WARNING" language="TSQL"
                          implementationClass="ru.coding4fun.tsql.inspection.dml.MsOrderByClIxInspection"/>
+        <localInspection groupPath="Painless T-SQL" suppressId="MsBuiltInRoutine"
+                         shortName="MsBuiltInRoutineInspection"
+                         bundle="messages.inspection" key="dml.built.in.routine.name"
+                         groupBundle="messages.inspection" groupKey="inspection.dml.group"
+                         enabledByDefault="true" level="WARNING" language="TSQL"
+                         implementationClass="ru.coding4fun.tsql.inspection.dml.MsBuiltInRoutineInspection"/>
         <localInspection groupPath="Painless T-SQL" suppressId="MsRenamed"
                          shortName="MsRenamedInspection"
                          bundle="messages.inspection" key="inspection.ddl.renamed.name"
