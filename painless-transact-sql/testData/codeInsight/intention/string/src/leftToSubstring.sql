@@ -1,0 +1,1 @@
+SELECT LEFT('ABCDEF', 2);

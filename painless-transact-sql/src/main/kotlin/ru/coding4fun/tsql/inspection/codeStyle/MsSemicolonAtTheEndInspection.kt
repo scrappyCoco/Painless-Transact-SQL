@@ -22,13 +22,13 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.PsiTreeUtil
+import com.intellij.psi.util.elementType
 import com.intellij.sql.dialects.SqlLanguageDialectEx
 import com.intellij.sql.dialects.mssql.MsDialect
 import com.intellij.sql.inspections.SqlInspectionBase
 import com.intellij.sql.psi.SqlElementTypes
 import com.intellij.sql.psi.SqlStatement
 import com.intellij.sql.psi.impl.SqlPsiElementFactory
-import com.intellij.sql.type
 import ru.coding4fun.tsql.MsInspectionMessages
 import ru.coding4fun.tsql.psi.getNextNotEmptyLeaf
 import javax.swing.JComponent
@@ -75,9 +75,9 @@ class MsSemicolonAtTheEndInspection : SqlInspectionBase(), CleanupLocalInspectio
             }
 
             val semicolonLeaf = lastLeaf.getNextNotEmptyLeaf()
-            val isEndedWithSemicolon = semicolonLeaf?.type == SqlElementTypes.SQL_SEMICOLON
+            val isEndedWithSemicolon = semicolonLeaf?.elementType == SqlElementTypes.SQL_SEMICOLON
             if (isEndedWithSemicolon.xor(preferSemicolonAtTheEnd)) {
-                val isNextIsWithCte = semicolonLeaf?.getNextNotEmptyLeaf()?.type == SqlElementTypes.SQL_WITH
+                val isNextIsWithCte = semicolonLeaf?.getNextNotEmptyLeaf()?.elementType == SqlElementTypes.SQL_WITH
                 if (isNextIsWithCte && !preferSemicolonAtTheEnd) return
 
                 val problemMessage = if (preferSemicolonAtTheEnd)

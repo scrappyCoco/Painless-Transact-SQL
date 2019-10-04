@@ -22,15 +22,15 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.util.PsiTreeUtil
+import com.intellij.psi.util.elementType
 import com.intellij.sql.dialects.mssql.MsDialect
 import com.intellij.sql.dialects.mssql.MsTypes
 import com.intellij.sql.psi.*
 import com.intellij.sql.psi.impl.SqlPsiElementFactory
-import com.intellij.sql.type
 
 fun PsiElement.deleteAllExcept(exceptElement: PsiElement) {
     for (child in this.children) {
-        if (child != exceptElement && child.type != SqlElementTypes.WHITE_SPACE) {
+        if (child != exceptElement && child.elementType != SqlElementTypes.WHITE_SPACE) {
             child.delete()
         }
     }
@@ -67,7 +67,7 @@ fun SqlReferenceExpression.getAlias(): SqlIdentifier? {
 }
 
 fun Array<PsiElement>.firstNotEmpty(): PsiElement {
-    return this.first { !SqlElementTypes.WS_OR_COMMENTS.contains(it.type) }
+    return this.first { !SqlElementTypes.WS_OR_COMMENTS.contains(it.elementType) }
 }
 
 fun SqlReferenceExpression.getDmlHighlightRangeElements(): Pair<PsiElement, PsiElement>? {
@@ -99,7 +99,7 @@ fun SqlReferenceExpression.getDmlHighlightRangeElements(): Pair<PsiElement, PsiE
 
 fun PsiElement.getPrevNotEmptyLeaf(): PsiElement? {
     var currentElement: PsiElement? = PsiTreeUtil.prevVisibleLeaf(this)
-    while (currentElement != null && SqlElementTypes.WS_OR_COMMENTS.contains(currentElement.type)) {
+    while (currentElement != null && SqlElementTypes.WS_OR_COMMENTS.contains(currentElement.elementType)) {
         currentElement = PsiTreeUtil.prevVisibleLeaf(currentElement)
     }
     return currentElement
@@ -107,7 +107,7 @@ fun PsiElement.getPrevNotEmptyLeaf(): PsiElement? {
 
 fun PsiElement.getNextNotEmptyLeaf(): PsiElement? {
     var currentElement: PsiElement? = PsiTreeUtil.nextVisibleLeaf(this)
-    while (currentElement != null && SqlElementTypes.WS_OR_COMMENTS.contains(currentElement.type)) {
+    while (currentElement != null && SqlElementTypes.WS_OR_COMMENTS.contains(currentElement.elementType)) {
         currentElement = PsiTreeUtil.nextVisibleLeaf(currentElement)
     }
     return currentElement
@@ -115,7 +115,7 @@ fun PsiElement.getNextNotEmptyLeaf(): PsiElement? {
 
 fun PsiElement.getNextNotEmptySibling(): PsiElement? {
     var currentElement: PsiElement? = this.nextSibling
-    while (currentElement != null && SqlElementTypes.WS_OR_COMMENTS.contains(currentElement.type)) {
+    while (currentElement != null && SqlElementTypes.WS_OR_COMMENTS.contains(currentElement.elementType)) {
         currentElement = currentElement.nextSibling
     }
     return currentElement
@@ -123,7 +123,7 @@ fun PsiElement.getNextNotEmptySibling(): PsiElement? {
 
 fun PsiElement.getPrevNotEmptySibling(): PsiElement? {
     var currentElement: PsiElement? = this.prevSibling
-    while (currentElement != null && SqlElementTypes.WS_OR_COMMENTS.contains(currentElement.type)) {
+    while (currentElement != null && SqlElementTypes.WS_OR_COMMENTS.contains(currentElement.elementType)) {
         currentElement = currentElement.prevSibling
     }
     return currentElement
@@ -163,7 +163,7 @@ val guidRegex = Regex("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]
 
 fun PsiElement.getChildOfElementType(type: IElementType): PsiElement? {
     for (child in this.children) {
-        if (child.type == type) return child
+        if (child.elementType == type) return child
     }
     return null
 }

@@ -22,6 +22,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.psi.util.PsiTreeUtil
+import com.intellij.psi.util.elementType
 import com.intellij.sql.dialects.SqlLanguageDialectEx
 import com.intellij.sql.dialects.mssql.MsDialect
 import com.intellij.sql.inspections.SqlInspectionBase
@@ -30,7 +31,6 @@ import com.intellij.sql.psi.SqlQueryExpression
 import com.intellij.sql.psi.SqlSelectStatement
 import com.intellij.sql.psi.SqlWithQueryExpression
 import com.intellij.sql.psi.impl.SqlPsiElementFactory
-import com.intellij.sql.type
 import ru.coding4fun.tsql.MsInspectionMessages
 import ru.coding4fun.tsql.psi.getPrevNotEmptyLeaf
 
@@ -64,7 +64,7 @@ class MsSemicolonCteInspection : SqlInspectionBase(), CleanupLocalInspectionTool
             if (queryExpression == null) return
             val sqlWithQueryExpression = queryExpression as? SqlWithQueryExpression ?: return
             val flatPrevLeaf = sqlWithQueryExpression.getPrevNotEmptyLeaf() ?: return
-            if (requiredPrevTypes.contains(flatPrevLeaf.type)) return
+            if (requiredPrevTypes.contains(flatPrevLeaf.elementType)) return
 
             val problemMessage = MsInspectionMessages.message("inspection.dml.semicolon.cte.problem")
             val withKeyword = PsiTreeUtil.findChildOfType(sqlWithQueryExpression, LeafPsiElement::class.java) ?: return

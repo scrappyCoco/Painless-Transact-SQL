@@ -16,8 +16,8 @@
 
 package ru.coding4fun.tsql.dataSource
 
-import com.intellij.database.dialects.mssql.MsDialect
 import com.intellij.database.model.DasObject
+import com.intellij.sql.dialects.mssql.MsDialect
 import com.intellij.sql.psi.SqlCreateStatement
 import com.intellij.sql.psi.SqlReferenceExpression
 import ru.coding4fun.tsql.psi.getObjectReference
@@ -39,15 +39,15 @@ object PathPartManager {
         val statementTextSb = StringBuilder()
         var currentDasObject: DasObject? = dasObject
         var iteration = 0
-        while (currentDasObject != null && ++iteration <= 3) {
-            if (currentDasObject.name.isBlank()) break
-            var statementName = MsDialect.INSTANCE.quoteIdentifier(currentDasObject.name, true, false)
-            if (statementTextSb.isNotEmpty()) {
-                statementName += "."
-            }
-            statementTextSb.insert(0, statementName)
-            currentDasObject = currentDasObject.dasParent ?: return false
-        }
+//        while (currentDasObject != null && ++iteration <= 3) {
+//            if (currentDasObject.name.isBlank()) break
+//            var statementName = MsDialect.INSTANCE.quoteIdentifier(currentDasObject.name, true, false)
+//            if (statementTextSb.isNotEmpty()) {
+//                statementName += "."
+//            }
+//            statementTextSb.insert(0, statementName)
+//            currentDasObject = currentDasObject.dasParent ?: return false
+//        }
 
         return sqlReferenceExpression.text.endsWith(statementTextSb, true)
     }

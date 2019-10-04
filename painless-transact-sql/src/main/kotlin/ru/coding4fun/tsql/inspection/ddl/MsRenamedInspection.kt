@@ -25,13 +25,13 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.SmartPointerManager
 import com.intellij.psi.SmartPsiElementPointer
 import com.intellij.psi.util.PsiTreeUtil
+import com.intellij.psi.util.elementType
 import com.intellij.sql.dialects.SqlLanguageDialectEx
 import com.intellij.sql.inspections.SqlInspectionBase
 import com.intellij.sql.psi.SqlCreateStatement
 import com.intellij.sql.psi.SqlElementTypes
 import com.intellij.sql.psi.SqlReferenceExpression
 import com.intellij.sql.psi.SqlResolveResult
-import com.intellij.sql.type
 import ru.coding4fun.tsql.MsInspectionMessages
 import ru.coding4fun.tsql.dataSource.PathPartManager
 import ru.coding4fun.tsql.psi.getChildOfElementType
@@ -64,14 +64,14 @@ class MsRenamedInspection : SqlInspectionBase(), CleanupLocalInspectionTool {
 
         override fun visitSqlCreateStatement(createStatement: SqlCreateStatement?) {
             if (createStatement == null) return
-            if (!targetTypes.contains(createStatement.type)) return
+            if (!targetTypes.contains(createStatement.elementType)) return
             if (createStatement.containingFile.isSqlConsole()) return
             // Reference to the procedure/function from the file path. If there the context of trigger, then it's the table/view.
             val referenceFromFilePath = PathPartManager.getReferenceFromFilePath(createStatement) ?: return
 
             val problemReference: SqlReferenceExpression
             val createStatementToCheck: DasObject
-            if (createStatement.type != SqlElementTypes.SQL_CREATE_TRIGGER_STATEMENT) {
+            if (createStatement.elementType != SqlElementTypes.SQL_CREATE_TRIGGER_STATEMENT) {
                 createStatementToCheck = createStatement
                 problemReference = PsiTreeUtil.findChildOfType(createStatement, SqlReferenceExpression::class.java)
                         ?: return

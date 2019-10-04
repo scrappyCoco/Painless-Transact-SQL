@@ -1,0 +1,1 @@
+SELECT LEFT('abcdef', 3)

@@ -24,11 +24,11 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.SmartPointerManager
 import com.intellij.psi.SmartPsiElementPointer
 import com.intellij.psi.impl.source.tree.LeafPsiElement
+import com.intellij.psi.util.elementType
 import com.intellij.sql.dialects.SqlLanguageDialectEx
 import com.intellij.sql.inspections.SqlInspectionBase
 import com.intellij.sql.psi.SqlAsExpression
 import com.intellij.sql.psi.SqlElementTypes
-import com.intellij.sql.type
 import ru.coding4fun.tsql.MsInspectionMessages
 import ru.coding4fun.tsql.psi.convertColumnAsToEqual
 import ru.coding4fun.tsql.psi.convertColumnEqualToAs
@@ -65,7 +65,7 @@ class MsColumnAliasDefinitionInspection : SqlInspectionBase(), CleanupLocalInspe
     ) : SqlAnnotationVisitor(manager, dialect, problems) {
         override fun visitSqlAsExpression(asExpression: SqlAsExpression?) {
             if (asExpression == null) return
-            if (SqlElementTypes.SQL_SELECT_CLAUSE != asExpression.context.type) {
+            if (SqlElementTypes.SQL_SELECT_CLAUSE != asExpression.context.elementType) {
                 super.visitSqlAsExpression(asExpression)
                 return
             }

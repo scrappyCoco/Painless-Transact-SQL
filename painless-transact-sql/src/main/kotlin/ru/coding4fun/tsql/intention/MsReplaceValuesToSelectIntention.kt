@@ -5,10 +5,10 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
+import com.intellij.psi.util.elementType
 import com.intellij.sql.dialects.mssql.MsDialect
 import com.intellij.sql.psi.*
 import com.intellij.sql.psi.impl.SqlPsiElementFactory
-import com.intellij.sql.type
 import ru.coding4fun.tsql.MsIntentionMessages
 
 class MsReplaceValuesToSelectIntention : BaseElementAtCaretIntentionAction() {
@@ -17,7 +17,7 @@ class MsReplaceValuesToSelectIntention : BaseElementAtCaretIntentionAction() {
 
     override fun isAvailable(project: Project, editor: Editor?, element: PsiElement): Boolean {
         if (element.containingFile.language != MsDialect.INSTANCE) return false
-        return element.type == SqlElementTypes.SQL_VALUES
+        return element.elementType == SqlElementTypes.SQL_VALUES
     }
 
     override fun invoke(project: Project, editor: Editor?, element: PsiElement) {
