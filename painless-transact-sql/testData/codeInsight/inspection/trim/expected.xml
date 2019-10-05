@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<problems>
+    <problem>
+        <file>ltrimRtrim.sql</file>
+        <line>1</line>
+        <problem_class severity="WEAK WARNING" attribute_key="INFO_ATTRIBUTES">TRIM function check</problem_class>
+        <description>LTRIM/RTRIM can be replaced to TRIM</description>
+    </problem>
+</problems>

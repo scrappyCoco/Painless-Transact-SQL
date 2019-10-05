@@ -1,0 +1,1 @@
+SELECT RTRIM(LTRIM(rtrim(' ABC ')));

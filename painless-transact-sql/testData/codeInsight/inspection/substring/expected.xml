@@ -3,7 +3,7 @@
     <problem>
         <file>leftLiteral.sql</file>
         <line>1</line>
-        <problem_class severity="WEAK WARNING" attribute_key="INFO_ATTRIBUTES">Substring inspection</problem_class>
+        <problem_class severity="WEAK WARNING" attribute_key="INFO_ATTRIBUTES">SUBSTRING function check</problem_class>
         <description>SUBSTRING can be replaced to LEFT</description>
     </problem>
 </problems>

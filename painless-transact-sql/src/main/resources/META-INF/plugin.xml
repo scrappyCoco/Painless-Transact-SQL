@@ -69,6 +69,13 @@
                          groupBundle="messages.inspection" groupKey="inspection.function.string.group"
                          enabledByDefault="true" level="WEAK WARNING" language="TSQL"
                          implementationClass="ru.coding4fun.tsql.inspection.function.string.MsSubstringInspection"/>
+        <localInspection groupPath="Painless T-SQL" suppressId="MsTrim"
+                         shortName="MsTrimInspection"
+                         bundle="messages.inspection" key="inspection.function.trim.name"
+                         groupBundle="messages.inspection" groupKey="inspection.function.string.group"
+                         enabledByDefault="true" level="WEAK WARNING" language="TSQL"
+                         implementationClass="ru.coding4fun.tsql.inspection.function.string.MsTrimInspection"/>
+
 
         <intentionAction>
             <className>ru.coding4fun.tsql.intention.MsFlipBinaryExpressionIntention</className>

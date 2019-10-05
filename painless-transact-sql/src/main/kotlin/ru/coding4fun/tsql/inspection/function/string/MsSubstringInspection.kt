@@ -13,7 +13,7 @@ import com.intellij.sql.psi.impl.SqlPsiElementFactory
 import ru.coding4fun.tsql.MsInspectionMessages
 
 class MsSubstringInspection:  SqlInspectionBase(), CleanupLocalInspectionTool {
-    override fun getGroupDisplayName(): String = MsInspectionMessages.message("inspection.code.style.group")
+    override fun getGroupDisplayName(): String = MsInspectionMessages.message("inspection.function.string.group")
     override fun isDialectIgnored(dialect: SqlLanguageDialectEx?): Boolean = !(dialect?.dbms?.isMicrosoft ?: false)
 
     override fun createAnnotationVisitor(
