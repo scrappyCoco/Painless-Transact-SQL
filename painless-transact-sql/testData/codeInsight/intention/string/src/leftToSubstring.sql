@@ -1,1 +1,1 @@
-SELECT LEFT('ABCDEF', 2);
+SELECT <caret>LEFT('ABCDEF', 2);

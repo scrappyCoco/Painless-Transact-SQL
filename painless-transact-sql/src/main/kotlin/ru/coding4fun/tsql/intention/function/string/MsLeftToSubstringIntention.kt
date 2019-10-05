@@ -10,14 +10,11 @@ import com.intellij.sql.psi.SqlFunctionCallExpression
 import com.intellij.sql.psi.SqlReferenceExpression
 import com.intellij.sql.psi.impl.SqlPsiElementFactory
 import ru.coding4fun.tsql.MsIntentionMessages
+import ru.coding4fun.tsql.intention.IntentionFunUtil
 
 class MsLeftToSubstringIntention : BaseElementAtCaretIntentionAction() {
     override fun isAvailable(project: Project, editor: Editor?, element: PsiElement): Boolean {
-        val funReference = PsiTreeUtil.getParentOfType(element, SqlReferenceExpression::class.java) ?: return false
-        if (!"LEFT".equals(funReference.name, true)) return false
-        val funCallExpression = funReference.parent as? SqlFunctionCallExpression ?: return false
-        if (funCallExpression.parameterList?.expressionList?.size ?: 0 != 2) return false
-        return true
+        return IntentionFunUtil.isAvailable(element, "LEFT", arrayListOf(2))
     }
 
     override fun invoke(project: Project, editor: Editor?, element: PsiElement) {

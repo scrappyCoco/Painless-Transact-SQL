@@ -83,7 +83,7 @@
             <categoryKey>intention.group.name</categoryKey>
         </intentionAction>
         <intentionAction>
-            <className>ru.coding4fun.tsql.intention.MsReverseIifIntention</className>
+            <className>ru.coding4fun.tsql.intention.function.MsReverseIifIntention</className>
             <bundleName>messages.intention</bundleName>
             <categoryKey>intention.group.name</categoryKey>
         </intentionAction>
@@ -94,6 +94,16 @@
         </intentionAction>
         <intentionAction>
             <className>ru.coding4fun.tsql.intention.function.string.MsLeftToSubstringIntention</className>
+            <bundleName>messages.intention</bundleName>
+            <categoryKey>intention.group.name</categoryKey>
+        </intentionAction>
+        <intentionAction>
+            <className>ru.coding4fun.tsql.intention.function.MsCastToConvertIntention</className>
+            <bundleName>messages.intention</bundleName>
+            <categoryKey>intention.group.name</categoryKey>
+        </intentionAction>
+        <intentionAction>
+            <className>ru.coding4fun.tsql.intention.function.MsConvertToCastIntention</className>
             <bundleName>messages.intention</bundleName>
             <categoryKey>intention.group.name</categoryKey>
         </intentionAction>

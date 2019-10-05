@@ -28,6 +28,26 @@ import com.intellij.sql.dialects.mssql.MsTypes
 import com.intellij.sql.psi.*
 import com.intellij.sql.psi.impl.SqlPsiElementFactory
 
+fun PsiElement.getTextOwner(): PsiElement {
+    var current = this
+    while (current.parent.textRange == current.textRange) current = current.parent
+    return current
+}
+
+fun SqlFunctionCallExpression.getParams(): List<PsiElement> {
+    val params = arrayListOf<PsiElement>()
+    var isFirstBeforeComma = true
+    for (child in this.parameterList?.children ?: return params) {
+        if (child.isEmpty()) continue
+        if (isFirstBeforeComma) {
+            params.add(child)
+            isFirstBeforeComma = false
+        }
+        else if ((child as? LeafPsiElement)?.text == ",") isFirstBeforeComma = true
+    }
+    return params
+}
+
 fun PsiElement.deleteAllExcept(exceptElement: PsiElement) {
     for (child in this.children) {
         if (child != exceptElement && child.elementType != SqlElementTypes.WHITE_SPACE) {
@@ -99,7 +119,7 @@ fun SqlReferenceExpression.getDmlHighlightRangeElements(): Pair<PsiElement, PsiE
 
 fun PsiElement.getPrevNotEmptyLeaf(): PsiElement? {
     var currentElement: PsiElement? = PsiTreeUtil.prevVisibleLeaf(this)
-    while (currentElement != null && SqlElementTypes.WS_OR_COMMENTS.contains(currentElement.elementType)) {
+    while (currentElement != null && currentElement.isEmpty()) {
         currentElement = PsiTreeUtil.prevVisibleLeaf(currentElement)
     }
     return currentElement
@@ -107,15 +127,19 @@ fun PsiElement.getPrevNotEmptyLeaf(): PsiElement? {
 
 fun PsiElement.getNextNotEmptyLeaf(): PsiElement? {
     var currentElement: PsiElement? = PsiTreeUtil.nextVisibleLeaf(this)
-    while (currentElement != null && SqlElementTypes.WS_OR_COMMENTS.contains(currentElement.elementType)) {
+    while (currentElement != null && currentElement.isEmpty()) {
         currentElement = PsiTreeUtil.nextVisibleLeaf(currentElement)
     }
     return currentElement
 }
 
+private fun PsiElement.isEmpty(): Boolean {
+    return SqlElementTypes.WS_OR_COMMENTS.contains(this.elementType)
+}
+
 fun PsiElement.getNextNotEmptySibling(): PsiElement? {
     var currentElement: PsiElement? = this.nextSibling
-    while (currentElement != null && SqlElementTypes.WS_OR_COMMENTS.contains(currentElement.elementType)) {
+    while (currentElement != null && currentElement.isEmpty()) {
         currentElement = currentElement.nextSibling
     }
     return currentElement
@@ -123,7 +147,7 @@ fun PsiElement.getNextNotEmptySibling(): PsiElement? {
 
 fun PsiElement.getPrevNotEmptySibling(): PsiElement? {
     var currentElement: PsiElement? = this.prevSibling
-    while (currentElement != null && SqlElementTypes.WS_OR_COMMENTS.contains(currentElement.elementType)) {
+    while (currentElement != null && currentElement.isEmpty()) {
         currentElement = currentElement.prevSibling
     }
     return currentElement
@@ -163,6 +187,7 @@ val guidRegex = Regex("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]
 
 fun PsiElement.getChildOfElementType(type: IElementType): PsiElement? {
     for (child in this.children) {
+        if (child is SqlInfoElementType<*>) continue
         if (child.elementType == type) return child
     }
     return null

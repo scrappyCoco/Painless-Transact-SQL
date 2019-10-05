@@ -1,0 +1,1 @@
+SELECT <caret>CONVERT(INT, '123456');
