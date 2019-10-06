@@ -50,6 +50,9 @@ After:
 SELECT 1;
 ```
 
+#### Redundant qualifier check
+![MsRedundantQualifierInspection](https://raw.githubusercontent.com/scrappyCoco/Painless-Transact-SQL/master/screenshots/MsRedundantQualifierInspection.png)
+
 ### DDL
 #### READONLY keyword check
 This inspection warn when keyword READONLY was missing.
