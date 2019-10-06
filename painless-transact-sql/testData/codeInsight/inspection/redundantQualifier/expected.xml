@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<problems>
+    <problem>
+        <file>merge.sql</file>
+        <line>9</line>
+        <problem_class severity="WEAK WARNING" attribute_key="NOT_USED_ELEMENT_ATTRIBUTES">Redundant qualifier check</problem_class>
+        <description>Redundant qualifier SOURCE</description>
+    </problem>
+    <problem>
+        <file>merge.sql</file>
+        <line>9</line>
+        <problem_class severity="WEAK WARNING" attribute_key="NOT_USED_ELEMENT_ATTRIBUTES">Redundant qualifier check</problem_class>
+        <description>Redundant qualifier SOURCE</description>
+    </problem>
+    <problem>
+        <file>merge.sql</file>
+        <line>12</line>
+        <problem_class severity="WEAK WARNING" attribute_key="NOT_USED_ELEMENT_ATTRIBUTES">Redundant qualifier check</problem_class>
+        <description>Redundant qualifier TARGET</description>
+    </problem>
+    <problem>
+        <file>update.sql</file>
+        <line>5</line>
+        <problem_class severity="WEAK WARNING" attribute_key="NOT_USED_ELEMENT_ATTRIBUTES">Redundant qualifier check</problem_class>
+        <description>Redundant qualifier dbo.TableOne</description>
+    </problem>
+</problems>

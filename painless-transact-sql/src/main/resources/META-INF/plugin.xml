@@ -26,6 +26,13 @@
                          groupBundle="messages.inspection" groupKey="inspection.code.style.group"
                          enabledByDefault="true" level="WEAK WARNING" language="TSQL" cleanupTool="true"
                          implementationClass="ru.coding4fun.tsql.inspection.codeStyle.MsCaseVsChooseInspection"/>
+        <localInspection groupPath="Painless T-SQL" suppressId="MsRedundantQualifier"
+                         shortName="MsRedundantQualifierInspection"
+                         bundle="messages.inspection"
+                         key="redundant.qualifier.name"
+                         groupBundle="messages.inspection" groupKey="inspection.code.style.group"
+                         enabledByDefault="true" level="WEAK WARNING" language="TSQL"
+                         implementationClass="ru.coding4fun.tsql.inspection.codeStyle.MsRedundantQualifierInspection"/>
         <localInspection groupPath="Painless T-SQL" suppressId="MsReadonlyParameter"
                          shortName="MsReadonlyParameterInspection"
                          bundle="messages.inspection" key="inspection.ddl.readonly.missing.name"
