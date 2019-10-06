@@ -71,10 +71,12 @@ DISTINCT is redundant in set operators: UNION, INTERSECT, EXCEPT.
 ### String functions
 #### SUBSTRING function check
 This inspection offer to replace SUBSTRING to LEFT.
+
 Before:
 ```sql
 SELECT SUBSTRING('ABCDEF', 1, 2);
 ```
+
 After:
 ```sql
 SELECT LEFT('ABCDEF', 2);
@@ -82,10 +84,12 @@ SELECT LEFT('ABCDEF', 2);
 
 #### TRIM function check
 This inspection offer to replace the sequence LTRIM/RTRIM to TRIM.
+
 Before:
 ```sql
 SELECT LTRIM(RTRIM(' ABCDEF '));
 ```
+
 After:
 ```sql
 SELECT TRIM(' ABCDEF ');
@@ -97,6 +101,7 @@ Before:
 ```sql
 SELECT LEFT('ABCDEF', 2);
 ```
+
 After:
 ```sql
 SELECT SUBSTRING('ABCDEF', 1, 2);
@@ -107,6 +112,7 @@ Before:
 ```sql
 SELECT CAST('123' AS INT);
 ```
+
 After:
 ```sql
 SELECT CONVERT(INT, '123');
@@ -117,6 +123,7 @@ Before:
 ```sql
 SELECT CONVERT(INT, '123');
 ```
+
 After:
 ```sql
 SELECT CAST('123' AS INT);
@@ -127,6 +134,7 @@ Before:
 ```sql
 SELECT IIF(@a > @b, 'A', 'B');
 ```
+
 After:
 ```sql
 SELECT IIF(@b < @a, 'B', 'A');
@@ -137,6 +145,7 @@ Before:
 ```sql
 IF @a > @b PRINT 'A';
 ```
+
 After:
 ```sql
 IF @b < @a PRINT 'A';
