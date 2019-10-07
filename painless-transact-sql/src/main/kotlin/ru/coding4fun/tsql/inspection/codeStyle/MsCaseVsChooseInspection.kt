@@ -22,12 +22,12 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.PsiTreeUtil
+import com.intellij.psi.util.elementType
 import com.intellij.sql.dialects.SqlLanguageDialectEx
 import com.intellij.sql.dialects.mssql.MsDialect
 import com.intellij.sql.inspections.SqlInspectionBase
 import com.intellij.sql.psi.*
 import com.intellij.sql.psi.impl.SqlPsiElementFactory
-import com.intellij.sql.type
 import ru.coding4fun.tsql.MsInspectionMessages
 import ru.coding4fun.tsql.psi.firstNotEmpty
 import ru.coding4fun.tsql.psi.isSimple
@@ -101,7 +101,7 @@ class MsCaseVsChooseInspection : SqlInspectionBase(), CleanupLocalInspectionTool
                 val sqlWhenThenClause = clause as? SqlWhenThenClause ?: return null
                 val literalExpression = sqlWhenThenClause.whenClause?.expression as? SqlLiteralExpression
                         ?: return null
-                if (literalExpression.type != SqlElementTypes.SQL_NUMERIC_LITERAL) return null
+                if (literalExpression.elementType != SqlElementTypes.SQL_NUMERIC_LITERAL) return null
                 val position = Integer.parseInt(literalExpression.text)
                 val thenText = sqlWhenThenClause.thenClause?.body?.firstOrNull()?.text ?: return null
                 result.add(Triple(reference, position, thenText))

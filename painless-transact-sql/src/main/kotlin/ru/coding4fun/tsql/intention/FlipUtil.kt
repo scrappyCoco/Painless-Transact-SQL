@@ -3,11 +3,11 @@ package ru.coding4fun.tsql.intention
 import com.intellij.openapi.project.Project
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.util.PsiTreeUtil
+import com.intellij.psi.util.elementType
 import com.intellij.sql.dialects.mssql.MsDialect
 import com.intellij.sql.psi.SqlBinaryExpression
 import com.intellij.sql.psi.SqlElementTypes
 import com.intellij.sql.psi.impl.SqlPsiElementFactory
-import com.intellij.sql.type
 
 object FlipUtil {
     private val operators = hashMapOf(
@@ -32,18 +32,18 @@ object FlipUtil {
 
     fun reverse(project: Project, binaryExpression: SqlBinaryExpression) {
         val opSignElement = binaryExpression.opSignElement
-        val newOperatorType = when (opSignElement.type!!) {
+        val newOperatorType = when (opSignElement.elementType!!) {
             SqlElementTypes.SQL_OP_EQ -> SqlElementTypes.SQL_OP_NEQ
             SqlElementTypes.SQL_OP_NEQ -> SqlElementTypes.SQL_OP_EQ
             SqlElementTypes.SQL_OP_NEQ2 -> SqlElementTypes.SQL_OP_EQ
-            else -> operators[opSignElement.type]!!
+            else -> operators[opSignElement.elementType]!!
         }
         val newOperatorElement = SqlPsiElementFactory.createLeafFromText(project, MsDialect.INSTANCE, newOperatorType.toString())
         opSignElement.replace(newOperatorElement)
     }
 
     fun flip(project: Project, binaryExpression: SqlBinaryExpression) {
-        val newOperatorType = operators[binaryExpression.opSignElement.type!!]!!
+        val newOperatorType = operators[binaryExpression.opSignElement.elementType!!]!!
         val swappedSql = "IF ${binaryExpression.rOperand!!.text} $newOperatorType ${binaryExpression.lOperand.text} SELECT 1"
         val newExpression = SqlPsiElementFactory.createStatementFromText(swappedSql, MsDialect.INSTANCE, project, null)
         val newBinaryExpression = PsiTreeUtil.findChildOfType(newExpression, SqlBinaryExpression::class.java)!!

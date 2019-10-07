@@ -25,7 +25,6 @@ import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.sql.dialects.SqlLanguageDialectEx
 import com.intellij.sql.inspections.SqlInspectionBase
 import com.intellij.sql.psi.*
-import com.intellij.sql.type
 import ru.coding4fun.tsql.MsInspectionMessages
 
 class MsRedundantDistinctInSetOperatorsInspection : SqlInspectionBase(), CleanupLocalInspectionTool {
@@ -53,14 +52,14 @@ class MsRedundantDistinctInSetOperatorsInspection : SqlInspectionBase(), Cleanup
 
             val setOperatorElements = unionExpression.children
                     .filterIsInstance<LeafPsiElement>()
-                    .filter { setElementTypes.contains(it.type) || it.type == SqlElementTypes.SQL_ALL }
+                    .filter { setElementTypes.contains(it.elementType) || it.elementType == SqlElementTypes.SQL_ALL }
 
             for (index in 0 until setOperatorElements.size) {
                 val setElement = setOperatorElements[index]
-                if (!setElementTypes.contains(setElement.type)) continue
+                if (!setElementTypes.contains(setElement.elementType)) continue
                 val nextElement = setOperatorElements.elementAtOrNull(index + 1)
                 // Skip for UNION ALL.
-                if (nextElement.type == SqlElementTypes.SQL_ALL) continue
+                if (nextElement?.elementType == SqlElementTypes.SQL_ALL) continue
                 val firstQuery = PsiTreeUtil.getPrevSiblingOfType(setElement, SqlQueryExpression::class.java)
                         ?: continue
                 val nextQuery = PsiTreeUtil.getNextSiblingOfType(setElement, SqlQueryExpression::class.java) ?: continue

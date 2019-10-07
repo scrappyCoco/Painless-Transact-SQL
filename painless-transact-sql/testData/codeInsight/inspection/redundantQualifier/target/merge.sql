@@ -1,0 +1,12 @@
+CREATE TABLE dbo.TableOne (Id INT, Name VARCHAR(50));
+CREATE TABLE dbo.TableTwo (Id INT, Name VARCHAR(50));
+
+MERGE dbo.TableOne AS TARGET
+USING dbo.TableTwo AS SOURCE
+ON TARGET.Id = SOURCE.Id
+WHEN NOT MATCHED THEN
+    INSERT (Id, Name)
+    VALUES (Id, Name)
+WHEN MATCHED THEN
+    UPDATE
+    SET Name = SOURCE.Name;

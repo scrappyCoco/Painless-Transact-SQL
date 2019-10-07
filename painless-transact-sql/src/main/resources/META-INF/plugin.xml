@@ -26,6 +26,13 @@
                          groupBundle="messages.inspection" groupKey="inspection.code.style.group"
                          enabledByDefault="true" level="WEAK WARNING" language="TSQL" cleanupTool="true"
                          implementationClass="ru.coding4fun.tsql.inspection.codeStyle.MsCaseVsChooseInspection"/>
+        <localInspection groupPath="Painless T-SQL" suppressId="MsRedundantQualifier"
+                         shortName="MsRedundantQualifierInspection"
+                         bundle="messages.inspection"
+                         key="redundant.qualifier.name"
+                         groupBundle="messages.inspection" groupKey="inspection.code.style.group"
+                         enabledByDefault="true" level="WEAK WARNING" language="TSQL"
+                         implementationClass="ru.coding4fun.tsql.inspection.codeStyle.MsRedundantQualifierInspection"/>
         <localInspection groupPath="Painless T-SQL" suppressId="MsReadonlyParameter"
                          shortName="MsReadonlyParameterInspection"
                          bundle="messages.inspection" key="inspection.ddl.readonly.missing.name"
@@ -51,24 +58,31 @@
                          groupBundle="messages.inspection" groupKey="inspection.dml.group"
                          enabledByDefault="true" level="WARNING" language="TSQL"
                          implementationClass="ru.coding4fun.tsql.inspection.dml.MsSemicolonCteInspection"/>
-        <localInspection groupPath="Painless T-SQL" suppressId="MsOrderByClIx"
-                         shortName="MsOrderByClIxInspection"
-                         bundle="messages.inspection" key="dml.ms.order.by.cl.ix.name"
-                         groupBundle="messages.inspection" groupKey="inspection.dml.group"
-                         enabledByDefault="true" level="WARNING" language="TSQL"
-                         implementationClass="ru.coding4fun.tsql.inspection.dml.MsOrderByClIxInspection"/>
-        <localInspection groupPath="Painless T-SQL" suppressId="MsBuiltInRoutine"
-                         shortName="MsBuiltInRoutineInspection"
-                         bundle="messages.inspection" key="dml.built.in.routine.name"
-                         groupBundle="messages.inspection" groupKey="inspection.dml.group"
-                         enabledByDefault="true" level="WARNING" language="TSQL"
-                         implementationClass="ru.coding4fun.tsql.inspection.dml.MsBuiltInRoutineInspection"/>
-        <localInspection groupPath="Painless T-SQL" suppressId="MsRenamed"
-                         shortName="MsRenamedInspection"
-                         bundle="messages.inspection" key="inspection.ddl.renamed.name"
-                         groupBundle="messages.inspection" groupKey="inspection.ddl.group"
-                         enabledByDefault="true" level="WARNING" language="TSQL"
-                         implementationClass="ru.coding4fun.tsql.inspection.ddl.MsRenamedInspection"/>
+<!--        <localInspection groupPath="Painless T-SQL" suppressId="MsOrderByClIx"-->
+<!--                         shortName="MsOrderByClIxInspection"-->
+<!--                         bundle="messages.inspection" key="dml.ms.order.by.cl.ix.name"-->
+<!--                         groupBundle="messages.inspection" groupKey="inspection.dml.group"-->
+<!--                         enabledByDefault="true" level="WARNING" language="TSQL"-->
+<!--                         implementationClass="ru.coding4fun.tsql.inspection.dml.MsOrderByClIxInspection"/>-->
+<!--        <localInspection groupPath="Painless T-SQL" suppressId="MsRenamed"-->
+<!--                         shortName="MsRenamedInspection"-->
+<!--                         bundle="messages.inspection" key="inspection.ddl.renamed.name"-->
+<!--                         groupBundle="messages.inspection" groupKey="inspection.ddl.group"-->
+<!--                         enabledByDefault="true" level="WARNING" language="TSQL"-->
+<!--                         implementationClass="ru.coding4fun.tsql.inspection.ddl.MsRenamedInspection"/>-->
+        <localInspection groupPath="Painless T-SQL" suppressId="MsSubstring"
+                         shortName="MsSubstringInspection"
+                         bundle="messages.inspection" key="inspection.function.substring.name"
+                         groupBundle="messages.inspection" groupKey="inspection.function.string.group"
+                         enabledByDefault="true" level="WEAK WARNING" language="TSQL"
+                         implementationClass="ru.coding4fun.tsql.inspection.function.string.MsSubstringInspection"/>
+        <localInspection groupPath="Painless T-SQL" suppressId="MsTrim"
+                         shortName="MsTrimInspection"
+                         bundle="messages.inspection" key="inspection.function.trim.name"
+                         groupBundle="messages.inspection" groupKey="inspection.function.string.group"
+                         enabledByDefault="true" level="WEAK WARNING" language="TSQL"
+                         implementationClass="ru.coding4fun.tsql.inspection.function.string.MsTrimInspection"/>
+
 
         <intentionAction>
             <className>ru.coding4fun.tsql.intention.MsFlipBinaryExpressionIntention</className>
@@ -76,12 +90,27 @@
             <categoryKey>intention.group.name</categoryKey>
         </intentionAction>
         <intentionAction>
-            <className>ru.coding4fun.tsql.intention.MsReverseIifIntention</className>
+            <className>ru.coding4fun.tsql.intention.function.MsReverseIifIntention</className>
             <bundleName>messages.intention</bundleName>
             <categoryKey>intention.group.name</categoryKey>
         </intentionAction>
         <intentionAction>
             <className>ru.coding4fun.tsql.intention.MsReplaceValuesToSelectIntention</className>
+            <bundleName>messages.intention</bundleName>
+            <categoryKey>intention.group.name</categoryKey>
+        </intentionAction>
+        <intentionAction>
+            <className>ru.coding4fun.tsql.intention.function.string.MsLeftToSubstringIntention</className>
+            <bundleName>messages.intention</bundleName>
+            <categoryKey>intention.group.name</categoryKey>
+        </intentionAction>
+        <intentionAction>
+            <className>ru.coding4fun.tsql.intention.function.MsCastToConvertIntention</className>
+            <bundleName>messages.intention</bundleName>
+            <categoryKey>intention.group.name</categoryKey>
+        </intentionAction>
+        <intentionAction>
+            <className>ru.coding4fun.tsql.intention.function.MsConvertToCastIntention</className>
             <bundleName>messages.intention</bundleName>
             <categoryKey>intention.group.name</categoryKey>
         </intentionAction>

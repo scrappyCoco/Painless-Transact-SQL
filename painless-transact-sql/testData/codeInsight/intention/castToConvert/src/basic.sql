@@ -1,0 +1,1 @@
+SELECT <caret>CAST('123' AS INT);

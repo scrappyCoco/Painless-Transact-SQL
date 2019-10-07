@@ -1,0 +1,1 @@
+SELECT <caret>LEFT('ABCDEF', 2);

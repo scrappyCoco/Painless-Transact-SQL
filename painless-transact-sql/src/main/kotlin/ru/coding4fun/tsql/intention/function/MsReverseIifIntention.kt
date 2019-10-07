@@ -1,26 +1,22 @@
-package ru.coding4fun.tsql.intention
+package ru.coding4fun.tsql.intention.function
 
 import com.intellij.codeInsight.intention.BaseElementAtCaretIntentionAction
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
-import com.intellij.sql.dialects.mssql.MsDialect
 import com.intellij.sql.psi.SqlBinaryExpression
-import com.intellij.sql.psi.SqlElementTypes
 import com.intellij.sql.psi.SqlFunctionCallExpression
-import com.intellij.sql.type
 import ru.coding4fun.tsql.MsIntentionMessages
+import ru.coding4fun.tsql.intention.FlipUtil
+import ru.coding4fun.tsql.intention.IntentionFunUtil
 
 class MsReverseIifIntention : BaseElementAtCaretIntentionAction() {
     override fun getFamilyName(): String = MsIntentionMessages.message("reverse.iif.name")
     override fun getText(): String = MsIntentionMessages.message("reverse.iif.name")
 
     override fun isAvailable(project: Project, editor: Editor?, element: PsiElement): Boolean {
-        if (element.containingFile.language != MsDialect.INSTANCE) return false
-        if (element.type != SqlElementTypes.SQL_IDENT) return false
-        if (!"IIF".equals(element.text, true)) return false
-        return true
+        return IntentionFunUtil.isAvailable(element, "IIF", arrayListOf(3))
     }
 
     override fun invoke(project: Project, editor: Editor?, element: PsiElement) {
