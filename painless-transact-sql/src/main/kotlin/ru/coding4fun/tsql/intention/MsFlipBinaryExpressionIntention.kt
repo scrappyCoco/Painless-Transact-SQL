@@ -18,7 +18,7 @@ class MsFlipBinaryExpressionIntention : BaseElementAtCaretIntentionAction() {
     override fun isAvailable(project: Project, editor: Editor?, element: PsiElement): Boolean {
         if (element.containingFile.language != MsDialect.INSTANCE) return false
         val binaryExpr = element.parent as? SqlBinaryExpression ?: return false
-        return FlipUtil.contains(binaryExpr.elementType ?: return false)
+        return FlipUtil.contains(binaryExpr.opSign)
     }
 
     override fun invoke(project: Project, editor: Editor?, element: PsiElement) {

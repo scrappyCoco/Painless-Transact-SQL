@@ -15,7 +15,7 @@ abstract class MsFixtureTestCast: CodeInsightFixtureTestCase<EmptyModuleFixtureB
     override fun setUp() {
         super.setUp()
         SqlDialectMappings.getInstance(myFixture.project).setMapping(null, MsDialect.INSTANCE)
-        myFixture.testDataPath = "/Users/artemkorsunov/IdeaProjects/Painless-Transact-SQL/painless-transact-sql/testData"
+        myFixture.testDataPath = "D:\\git\\Painless-Transact-SQL\\painless-transact-sql\\testData\\"
     }
 
     private val src = "src"

@@ -6,8 +6,10 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.sql.dialects.mssql.MsDialect
+import com.intellij.sql.psi.SqlElementType
 import com.intellij.sql.psi.SqlElementTypes
 import com.intellij.sql.psi.SqlFunctionCallExpression
+import com.intellij.sql.psi.SqlTypeElement
 import com.intellij.sql.psi.impl.SqlPsiElementFactory
 import ru.coding4fun.tsql.MsIntentionMessages
 import ru.coding4fun.tsql.intention.IntentionFunUtil
@@ -25,8 +27,8 @@ class MsCastToConvertIntention : BaseElementAtCaretIntentionAction() {
     override fun invoke(project: Project, editor: Editor?, element: PsiElement) {
         val funCallExpr = PsiTreeUtil.getParentOfType(element, SqlFunctionCallExpression::class.java)!!
         val exprList = funCallExpr.parameterList!!
-        val typeDef = exprList.firstChild
-        val expr = exprList.getChildOfElementType(SqlElementTypes.SQL_AS)?.getNextNotEmptySibling() ?: return
+        val expr = exprList.firstChild
+        val typeDef = PsiTreeUtil.getChildOfType(exprList, SqlTypeElement::class.java) ?: return
         val script = "CONVERT(${typeDef.text}, ${expr.text})"
         val convertExpr = SqlPsiElementFactory.createExpressionFromText(script, MsDialect.INSTANCE, project, null)!!
         funCallExpr.replace(convertExpr)
