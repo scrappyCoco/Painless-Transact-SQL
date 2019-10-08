@@ -143,7 +143,7 @@ After:
 SELECT IIF(@b < @a, 'B', 'A');
 ```
 
-### Swap operands
+### Flip operands
 Before:
 ```sql
 IF @a > @b PRINT 'A';
