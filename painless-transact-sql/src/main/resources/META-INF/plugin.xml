@@ -3,7 +3,7 @@
     <name>Painless Transact SQL</name>
     <vendor email="coding4fun@list.ru" url="https://github.com/scrappyCoco/Painless-Transact-SQL">Coding4fun</vendor>
     <description>A little bit inspections for MS SQL developers.</description>
-
+    <idea-version since-build="IU-193.4099.13" />
     <depends>com.intellij.modules.database</depends>
     <depends>com.intellij.modules.sql</depends>
 
@@ -115,11 +115,4 @@
             <categoryKey>intention.group.name</categoryKey>
         </intentionAction>
     </extensions>
-
-    <!--    <actions>-->
-    <!--        &lt;!&ndash; Add your actions here &ndash;&gt;-->
-    <!--        <action id="Test" class="ru.coding4fun.tsql.action.Test" text="Test" description="Test">-->
-    <!--            <add-to-group group-id="HelpMenu" anchor="first"/>-->
-    <!--        </action>-->
-    <!--    </actions>-->
 </idea-plugin>
