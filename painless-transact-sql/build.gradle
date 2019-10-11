@@ -26,7 +26,7 @@ plugins {
 }
 
 group 'ru.coding4fun'
-version '2019.3.1'
+version '2019.3.3'
 
 repositories {
     mavenCentral()
@@ -43,16 +43,11 @@ dependencies {
 intellij {
     type 'IU'
     plugins 'DatabaseTools'
-    version 'LATEST-EAP-SNAPSHOT'
+    version 'IU-193.4099.13-EAP-SNAPSHOT'
 }
 compileKotlin {
     kotlinOptions.jvmTarget = "11"
 }
 compileTestKotlin {
     kotlinOptions.jvmTarget = "11"
-}
-patchPluginXml {
-    changeNotes """
-      Add change notes here.<br>
-      <em>most HTML tags may be used</em>"""
 }

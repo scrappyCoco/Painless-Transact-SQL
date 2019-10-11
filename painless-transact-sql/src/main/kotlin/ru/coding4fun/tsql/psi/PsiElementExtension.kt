@@ -34,20 +34,6 @@ fun PsiElement.getTextOwner(): PsiElement {
     return current
 }
 
-fun SqlFunctionCallExpression.getParams(): List<PsiElement> {
-    val params = arrayListOf<PsiElement>()
-    var isFirstBeforeComma = true
-    for (child in this.parameterList?.children ?: return params) {
-        if (child.isEmpty()) continue
-        if (isFirstBeforeComma) {
-            params.add(child)
-            isFirstBeforeComma = false
-        }
-        else if ((child as? LeafPsiElement)?.text == ",") isFirstBeforeComma = true
-    }
-    return params
-}
-
 fun PsiElement.deleteAllExcept(exceptElement: PsiElement) {
     for (child in this.children) {
         if (child != exceptElement && child.elementType != SqlElementTypes.WHITE_SPACE) {
@@ -133,7 +119,7 @@ fun PsiElement.getNextNotEmptyLeaf(): PsiElement? {
     return currentElement
 }
 
-private fun PsiElement.isEmpty(): Boolean {
+fun PsiElement.isEmpty(): Boolean {
     return SqlElementTypes.WS_OR_COMMENTS.contains(this.elementType)
 }
 

@@ -3,11 +3,9 @@
     <name>Painless Transact SQL</name>
     <vendor email="coding4fun@list.ru" url="https://github.com/scrappyCoco/Painless-Transact-SQL">Coding4fun</vendor>
     <description>A little bit inspections for MS SQL developers.</description>
-    <change-notes>Initial release of the plugin. There were presented some code style inspections, READONLY validation,
-        inspections for SUBSTRING and TRIM functions, and some intentions. For more information please see https://github.com/scrappyCoco/Painless-Transact-SQL.
-    </change-notes>
+    <change-notes>Initial release of the plugin. There were presented some code style inspections, READONLY validation, inspections for SUBSTRING and TRIM functions, and some intentions. For more information please see https://github.com/scrappyCoco/Painless-Transact-SQL.</change-notes>
 
-    <idea-version since-build="IU-193.4099.13" />
+    <idea-version since-build="193.4099.12" />
     <depends>com.intellij.modules.database</depends>
     <depends>com.intellij.modules.sql</depends>
 
@@ -88,6 +86,11 @@
                          implementationClass="ru.coding4fun.tsql.inspection.function.string.MsTrimInspection"/>
 
 
+        <intentionAction>
+            <className>ru.coding4fun.tsql.intention.AddDateStyleInConvertIntention</className>
+            <bundleName>messages.intention</bundleName>
+            <categoryKey>intention.group.name</categoryKey>
+        </intentionAction>
         <intentionAction>
             <className>ru.coding4fun.tsql.intention.MsFlipBinaryExpressionIntention</className>
             <bundleName>messages.intention</bundleName>
