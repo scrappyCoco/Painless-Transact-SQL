@@ -98,6 +98,17 @@ After:
 SELECT TRIM(' ABCDEF ');
 ```
 
+#### Prefer implicitly length in VARCHAR
+If the length of VARCHAR is not specified in CONVERT/CAST it interpretated as VARCHAR(30). The best way is to specify implicitly the length of VARCHAR.
+Before:
+```sql
+SELECT CONVERT(VARCHAR, NEWID());
+```
+After:
+```sql
+SELECT CONVERT(VARCHAR(30), NEWID());
+```
+
 ## Intentions
 ### Replace LEFT to SUBSTRING
 Before:
@@ -171,3 +182,20 @@ UNION ALL
 SELECT Id   = 2,
        Name = 'Ivan';
 ```
+
+### Move TOP to ORDER BY
+Before:
+```sql
+SELECT TOP 100 *
+FROM #MyTable
+```
+After:
+```sql
+SELECT *
+FROM #MyTable
+ORDER BY 1 OFFSET 0 ROWS
+FETCH NEXT 100 ROWS ONLY
+```
+
+#### Add style for date
+![MsAddDateStyleInConvertIntention](https://raw.githubusercontent.com/scrappyCoco/Painless-Transact-SQL/master/screenshots/MsAddDateStyleInConvertIntention.png)
