@@ -13,7 +13,7 @@ import ru.coding4fun.tsql.MsIntentionMessages
 import ru.coding4fun.tsql.psi.addParam
 import java.awt.Color
 
-class AddDateStyleInConvertIntention : BaseElementAtCaretIntentionAction() {
+class MsAddDateStyleInConvertIntention : BaseElementAtCaretIntentionAction() {
     override fun getFamilyName(): String = MsIntentionMessages.message("add.date.style.in.convert.name")
     override fun getText(): String = MsIntentionMessages.message("add.date.style.in.convert.name")
 
@@ -52,7 +52,7 @@ class AddDateStyleInConvertIntention : BaseElementAtCaretIntentionAction() {
                 .setRenderer(MsDateFormatRenderer())
                 .setMovable(true)
                 .setResizable(true)
-                .setTitle("Choose date format")
+                .setTitle("Choose date style")
                 .setNamerForFiltering { it.title }
                 .setItemChosenCallback { chosenFormat ->
                     while (true) {

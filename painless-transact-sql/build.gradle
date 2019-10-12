@@ -5,12 +5,8 @@ buildscript {
         jcenter()
         maven { url "https://kotlin.bintray.com/kotlinx" }
         mavenCentral()
-        maven {
-            url "https://oss.sonatype.org/content/repositories/snapshots/"
-        }
-        maven {
-            url 'https://dl.bintray.com/jetbrains/intellij-plugin-service'
-        }
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+        maven { url "https://dl.bintray.com/jetbrains/intellij-plugin-service" }
     }
 
     dependencies {
@@ -43,7 +39,7 @@ dependencies {
 intellij {
     type 'IU'
     plugins 'DatabaseTools'
-    version 'IU-193.4099.13-EAP-SNAPSHOT'
+    version 'LATEST-EAP-SNAPSHOT'
 }
 compileKotlin {
     kotlinOptions.jvmTarget = "11"
