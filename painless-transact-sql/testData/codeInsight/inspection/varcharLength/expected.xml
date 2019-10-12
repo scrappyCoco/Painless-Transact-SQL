@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<problems>
+    <problem>
+        <file>convert.sql</file>
+        <line>1</line>
+        <problem_class severity="WARNING" attribute_key="WARN_ATTRIBUTES">Prefer implicitly length in VARCHAR</problem_class>
+        <description>The length of VARCHAR by default is 30</description>
+    </problem>
+</problems>

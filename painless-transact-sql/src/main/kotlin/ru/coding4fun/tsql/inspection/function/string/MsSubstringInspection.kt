@@ -47,22 +47,15 @@ class MsSubstringInspection:  SqlInspectionBase(), CleanupLocalInspectionTool {
                                       private val onTheFly: Boolean
     ) : SqlAnnotationVisitor(manager, dialect, problems) {
         override fun visitSqlFunctionCallExpression(funExpression: SqlFunctionCallExpression?) {
-            if (!"SUBSTRING".equals(funExpression?.nameElement?.name, true)) {
-                super.visitSqlFunctionCallExpression(funExpression)
-                return
-            }
+            checkForLeft(funExpression)
+            super.visitSqlFunctionCallExpression(funExpression)
+        }
 
+        private fun checkForLeft(funExpression: SqlFunctionCallExpression?) {
+            if (!"SUBSTRING".equals(funExpression?.nameElement?.name, true)) return
             val parameters = funExpression?.parameterList?.expressionList
-            if (parameters == null || parameters.size != 3) {
-                super.visitSqlFunctionCallExpression(funExpression)
-                return
-            }
-
-            val offsetParam = parameters[1] as? SqlLiteralExpression
-            if (offsetParam == null) {
-                super.visitSqlFunctionCallExpression(funExpression)
-                return
-            }
+            if (parameters == null || parameters.size != 3) return
+            val offsetParam = parameters[1] as? SqlLiteralExpression ?: return
 
             if (offsetParam.text == "1") {
                 val problemMessage = MsInspectionMessages.message("inspection.function.substring.problem")
@@ -77,8 +70,6 @@ class MsSubstringInspection:  SqlInspectionBase(), CleanupLocalInspectionTool {
                 )
                 addDescriptor(problem)
             }
-
-            super.visitSqlFunctionCallExpression(funExpression)
         }
     }
 

@@ -3,13 +3,22 @@
     <name>Painless Transact SQL</name>
     <vendor email="coding4fun@list.ru" url="https://github.com/scrappyCoco/Painless-Transact-SQL">Coding4fun</vendor>
     <description>A little bit inspections for MS SQL developers.</description>
-    <change-notes>Initial release of the plugin. There were presented some code style inspections, READONLY validation, inspections for SUBSTRING and TRIM functions, and some intentions. For more information please see https://github.com/scrappyCoco/Painless-Transact-SQL.</change-notes>
+    <change-notes>Initial release of the plugin. There were presented some code style inspections, READONLY validation,
+        inspections for SUBSTRING and TRIM functions, and some intentions. For more information please see
+        https://github.com/scrappyCoco/Painless-Transact-SQL.
+    </change-notes>
 
-    <idea-version since-build="193.4099.12" />
+    <idea-version since-build="193.4099.12"/>
     <depends>com.intellij.modules.database</depends>
     <depends>com.intellij.modules.sql</depends>
 
     <extensions defaultExtensionNs="com.intellij">
+        <localInspection groupPath="Painless T-SQL" suppressId="MsImplicitlyVarcharLength"
+                         shortName="MsImplicitlyVarcharLengthInspection"
+                         bundle="messages.inspection" key="implicitly.varchar.length.name"
+                         groupBundle="messages.inspection" groupKey="inspection.function.string.group"
+                         enabledByDefault="true" level="WARNING" language="TSQL" cleanupTool="true"
+                         implementationClass="ru.coding4fun.tsql.inspection.function.string.MsImplicitlyVarcharLengthInspection"/>
         <localInspection groupPath="Painless T-SQL" suppressId="MsColumnAliasDefinition"
                          shortName="MsColumnAliasDefinitionInspection"
                          bundle="messages.inspection" key="inspection.code.style.alias.as.equal.name"
@@ -60,18 +69,18 @@
                          groupBundle="messages.inspection" groupKey="inspection.dml.group"
                          enabledByDefault="true" level="WARNING" language="TSQL"
                          implementationClass="ru.coding4fun.tsql.inspection.dml.MsSemicolonCteInspection"/>
-<!--        <localInspection groupPath="Painless T-SQL" suppressId="MsOrderByClIx"-->
-<!--                         shortName="MsOrderByClIxInspection"-->
-<!--                         bundle="messages.inspection" key="dml.ms.order.by.cl.ix.name"-->
-<!--                         groupBundle="messages.inspection" groupKey="inspection.dml.group"-->
-<!--                         enabledByDefault="true" level="WARNING" language="TSQL"-->
-<!--                         implementationClass="ru.coding4fun.tsql.inspection.dml.MsOrderByClIxInspection"/>-->
-<!--        <localInspection groupPath="Painless T-SQL" suppressId="MsRenamed"-->
-<!--                         shortName="MsRenamedInspection"-->
-<!--                         bundle="messages.inspection" key="inspection.ddl.renamed.name"-->
-<!--                         groupBundle="messages.inspection" groupKey="inspection.ddl.group"-->
-<!--                         enabledByDefault="true" level="WARNING" language="TSQL"-->
-<!--                         implementationClass="ru.coding4fun.tsql.inspection.ddl.MsRenamedInspection"/>-->
+        <!--        <localInspection groupPath="Painless T-SQL" suppressId="MsOrderByClIx"-->
+        <!--                         shortName="MsOrderByClIxInspection"-->
+        <!--                         bundle="messages.inspection" key="dml.ms.order.by.cl.ix.name"-->
+        <!--                         groupBundle="messages.inspection" groupKey="inspection.dml.group"-->
+        <!--                         enabledByDefault="true" level="WARNING" language="TSQL"-->
+        <!--                         implementationClass="ru.coding4fun.tsql.inspection.dml.MsOrderByClIxInspection"/>-->
+        <!--        <localInspection groupPath="Painless T-SQL" suppressId="MsRenamed"-->
+        <!--                         shortName="MsRenamedInspection"-->
+        <!--                         bundle="messages.inspection" key="inspection.ddl.renamed.name"-->
+        <!--                         groupBundle="messages.inspection" groupKey="inspection.ddl.group"-->
+        <!--                         enabledByDefault="true" level="WARNING" language="TSQL"-->
+        <!--                         implementationClass="ru.coding4fun.tsql.inspection.ddl.MsRenamedInspection"/>-->
         <localInspection groupPath="Painless T-SQL" suppressId="MsSubstring"
                          shortName="MsSubstringInspection"
                          bundle="messages.inspection" key="inspection.function.substring.name"
