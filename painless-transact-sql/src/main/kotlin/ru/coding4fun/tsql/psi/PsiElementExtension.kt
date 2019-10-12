@@ -17,12 +17,14 @@
 package ru.coding4fun.tsql.psi
 
 import com.intellij.database.model.ObjectKind
+import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.elementType
+import com.intellij.sql.children
 import com.intellij.sql.dialects.mssql.MsDialect
 import com.intellij.sql.dialects.mssql.MsTypes
 import com.intellij.sql.psi.*
@@ -186,4 +188,16 @@ fun getObjectReference(objectPath: String, createStatement: SqlCreateStatement):
     }
     val expression = SqlPsiElementFactory.createStatementFromText(sql, MsDialect.INSTANCE, createStatement.project, null)!!
     return PsiTreeUtil.findChildrenOfType(expression, SqlReferenceExpression::class.java).maxBy { it.textRange.endOffset }!!
+}
+
+fun PsiElement.getLeafChildrenByAst(textRange: TextRange): ArrayList<LeafPsiElement> {
+    val children = arrayListOf<LeafPsiElement>()
+    for (child in this.node.children()) {
+        if (child.textRange.startOffset < textRange.startOffset) continue
+        if (child.textRange.startOffset >= textRange.endOffset) break
+        val leafPsiElement = child.psi as? LeafPsiElement ?: continue
+        if (leafPsiElement.isEmpty()) continue
+        children.add(leafPsiElement)
+    }
+    return children
 }

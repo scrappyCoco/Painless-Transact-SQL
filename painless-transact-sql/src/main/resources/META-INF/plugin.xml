@@ -13,7 +13,13 @@
     <depends>com.intellij.modules.sql</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <localInspection groupPath="Painless T-SQL" suppressId="MsImplicitlyVarcharLength"
+        <localInspection groupPath="Painless T-SQL" suppressId="MsCursor"
+                         shortName="MsCursorInspection"
+                         bundle="messages.inspection" key="cursor.definition.check.name"
+                         groupBundle="messages.inspection" groupKey="inspection.dml.group"
+                         enabledByDefault="true" level="WARNING" language="TSQL" cleanupTool="true"
+                         implementationClass="ru.coding4fun.tsql.inspection.dml.MsCursorInspection"/>
+        <localInspection groupPath="Painless T-SQL" suppressId="MsCursorInspection"
                          shortName="MsImplicitlyVarcharLengthInspection"
                          bundle="messages.inspection" key="implicitly.varchar.length.name"
                          groupBundle="messages.inspection" groupKey="inspection.function.string.group"
