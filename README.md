@@ -171,3 +171,20 @@ UNION ALL
 SELECT Id   = 2,
        Name = 'Ivan';
 ```
+
+### Move TOP to ORDER BY
+Before:
+```sql
+SELECT TOP 100 *
+FROM #MyTable
+```
+After:
+```sql
+SELECT *
+FROM #MyTable
+ORDER BY 1 OFFSET 0 ROWS
+FETCH NEXT 100 ROWS ONLY
+```
+
+#### Add style for date
+![MsAddDateStyleInConvertIntention](https://raw.githubusercontent.com/scrappyCoco/Painless-Transact-SQL/master/screenshots/MsAddDateStyleInConvertIntention.png)
