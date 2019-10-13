@@ -71,6 +71,9 @@ This inspection check for existence semicolon before CTE.
 DISTINCT is redundant in set operators: UNION, INTERSECT, EXCEPT.
 ![MsRedundantDistinctInSetOperatorsInspection](https://raw.githubusercontent.com/scrappyCoco/Painless-Transact-SQL/master/screenshots/MsRedundantDistinctInSetOperatorsInspection.png)
 
+#### Check for the CURSOR definition
+![MsCursorInspection](https://raw.githubusercontent.com/scrappyCoco/Painless-Transact-SQL/master/screenshots/MsCursorInsepction.png)
+
 ### String functions
 #### SUBSTRING function check
 This inspection offer to replace SUBSTRING to LEFT.
