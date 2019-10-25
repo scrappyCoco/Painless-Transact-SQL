@@ -48,7 +48,7 @@ class MsReplaceValuesToSelectIntention : BaseElementAtCaretIntentionAction() {
             scriptBuilder.append("SELECT ")
 
             for ((cellNumber, cellExpression) in parenthesizedExpression.expressionList.withIndex()) {
-                val columnName = columnNames[cellNumber]
+                val columnName = MsDialect.INSTANCE.quoteIdentifier(project, columnNames[cellNumber])
                 if (cellNumber > 0) scriptBuilder.append(",\n")
                 scriptBuilder.append(columnName, " = ", cellExpression.text)
             }

@@ -34,6 +34,7 @@ class MsMoveLimitToOrderByIntention : BaseElementAtCaretIntentionAction() {
 
     override fun isAvailable(project: Project, editor: Editor?, element: PsiElement): Boolean {
         PsiTreeUtil.getParentOfType(element, SqlLimitClause::class.java) ?: return false
+        if (!"TOP".equals(PsiTreeUtil.getDeepestVisibleFirst(element)?.text, true)) return false
         return true
     }
 

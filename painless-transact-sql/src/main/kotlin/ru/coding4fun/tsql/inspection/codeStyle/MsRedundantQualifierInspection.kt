@@ -17,6 +17,7 @@
 package ru.coding4fun.tsql.inspection.codeStyle
 
 import com.intellij.codeInspection.*
+import com.intellij.database.model.ObjectKind
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
@@ -70,6 +71,7 @@ class MsRedundantQualifierInspection : SqlInspectionBase(), CleanupLocalInspecti
 
         private fun addProblem(element: SqlElement) {
             val columnRef = element as? SqlReferenceExpression ?: return
+            if (columnRef.referenceElementType.targetKind != ObjectKind.COLUMN) return
             val qualifier = PsiTreeUtil.getChildOfType(columnRef, SqlReferenceExpression::class.java) ?: return
 
             val problemMessage = MsInspectionMessages.message("redundant.qualifier.problem", qualifier.text)

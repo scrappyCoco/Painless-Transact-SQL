@@ -15,13 +15,29 @@
     <problem>
         <file>merge.sql</file>
         <line>12</line>
-        <problem_class severity="WEAK WARNING" attribute_key="NOT_USED_ELEMENT_ATTRIBUTES">Redundant qualifier check</problem_class>
+        <problem_class severity="WEAK WARNING" attribute_key="NOT_USED_ELEMENT_ATTRIBUTES">Redundant qualifier check
+        </problem_class>
         <description>Redundant qualifier TARGET</description>
     </problem>
     <problem>
         <file>update.sql</file>
         <line>5</line>
-        <problem_class severity="WEAK WARNING" attribute_key="NOT_USED_ELEMENT_ATTRIBUTES">Redundant qualifier check</problem_class>
+        <problem_class severity="WEAK WARNING" attribute_key="NOT_USED_ELEMENT_ATTRIBUTES">Redundant qualifier check
+        </problem_class>
         <description>Redundant qualifier dbo.TableOne</description>
+    </problem>
+    <problem>
+        <file>fun.sql</file>
+        <line>26</line>
+        <problem_class severity="WEAK WARNING" attribute_key="NOT_USED_ELEMENT_ATTRIBUTES">Redundant qualifier check
+        </problem_class>
+        <description>Redundant qualifier SOURCE</description>
+    </problem>
+    <problem>
+        <file>fun.sql</file>
+        <line>26</line>
+        <problem_class severity="WEAK WARNING" attribute_key="NOT_USED_ELEMENT_ATTRIBUTES">Redundant qualifier check
+        </problem_class>
+        <description>Redundant qualifier SOURCE</description>
     </problem>
 </problems>

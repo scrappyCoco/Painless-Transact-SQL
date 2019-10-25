@@ -39,7 +39,7 @@ dependencies {
 intellij {
     type 'IU'
     plugins 'DatabaseTools'
-    version 'LATEST-EAP-SNAPSHOT'
+    version '193.4386.10-EAP-SNAPSHOT'
 }
 compileKotlin {
     kotlinOptions.jvmTarget = "11"

@@ -36,12 +36,12 @@ class MsImplicitlyVarcharLengthInspection : SqlInspectionBase(), CleanupLocalIns
         override fun visitSqlTypeElement(typeElement: SqlTypeElement?) {
             if (typeElement == null) return
             val typeName = typeElement.dataType.typeName
-            val len = typeElement.dataType.length
             if (!listOf("NVARCHAR", "VARCHAR").any { it.equals(typeName, true) }) return
             val funCallExpr = PsiTreeUtil.getParentOfType(typeElement, SqlFunctionCallExpression::class.java) ?: return
             val funName = funCallExpr.nameElement?.text ?: return
             if (!listOf("CAST", "TRY_CAST", "CONVERT", "TRY_CONVERT").any { it.equals(funName, true) }) return
-            if (len != -1) return
+            if (typeElement.text.contains("MAX", true)) return
+            if (typeElement.dataType.length > 0) return
 
             val problemMessage = MsInspectionMessages.message("implicitly.varchar.length.problem")
             val problem = myManager.createProblemDescriptor(
@@ -65,7 +65,7 @@ class MsImplicitlyVarcharLengthInspection : SqlInspectionBase(), CleanupLocalIns
         override fun invoke(project: Project, file: PsiFile, startElement: PsiElement, endElement: PsiElement) {
             val sql = "${typeElement.element!!.dataType.typeName}(30)"
             val sqlTypeExpr = SqlPsiElementFactory.createDataTypeFromText(sql, MsDialect.INSTANCE, startElement.context!!)!!
-            startElement.replace(sqlTypeExpr);
+            startElement.replace(sqlTypeExpr)
         }
     }
 }
