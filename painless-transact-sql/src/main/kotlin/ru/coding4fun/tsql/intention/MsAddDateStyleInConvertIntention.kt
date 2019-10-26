@@ -89,7 +89,7 @@ class MsAddDateStyleInConvertIntention : BaseElementAtCaretIntentionAction() {
     private class MsDateFormatRenderer : ListCellRendererWithRightAlignedComponent<MsDateFormat>() {
         override fun customize(value: MsDateFormat?) {
             setLeftText(value!!.title)
-            setRightText(value.id + " | " + value.format)
+            setRightText(value.format + " | " + value.id)
             setRightForeground(Color.GRAY)
         }
     }
