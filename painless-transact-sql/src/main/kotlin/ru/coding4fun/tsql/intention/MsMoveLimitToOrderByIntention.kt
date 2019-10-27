@@ -33,6 +33,7 @@ class MsMoveLimitToOrderByIntention : BaseElementAtCaretIntentionAction() {
     override fun getText(): String = MsIntentionMessages.message("move.limit.to.order.by.name")
 
     override fun isAvailable(project: Project, editor: Editor?, element: PsiElement): Boolean {
+        if (element.containingFile.language != MsDialect.INSTANCE) return false
         PsiTreeUtil.getParentOfType(element, SqlLimitClause::class.java) ?: return false
         if (!"TOP".equals(PsiTreeUtil.getDeepestVisibleFirst(element)?.text, true)) return false
         return true

@@ -1,3 +1,17 @@
+CREATE TABLE dbo.MySource
+(
+    Id   INT          NOT NULL PRIMARY KEY,
+    Name VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE dbo.MyTarget
+(
+    Id      INT          NOT NULL PRIMARY KEY,
+    Name    VARCHAR(100) NOT NULL,
+    AddDate DATETIME
+);
+GO
+
 MERGE dbo.MyTarget AS Target
 USING (
     SELECT Id      = Id,

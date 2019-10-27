@@ -20,6 +20,7 @@ class MsAddCommentIntention : BaseElementAtCaretIntentionAction() {
     override fun getText(): String = MsIntentionMessages.message("add.comment.name")
 
     override fun isAvailable(project: Project, editor: Editor?, element: PsiElement): Boolean {
+        if (element.containingFile.language != MsDialect.INSTANCE) return false
         PsiTreeUtil.getParentOfType(element, SqlDefinition::class.java) ?: return false
         return true
     }

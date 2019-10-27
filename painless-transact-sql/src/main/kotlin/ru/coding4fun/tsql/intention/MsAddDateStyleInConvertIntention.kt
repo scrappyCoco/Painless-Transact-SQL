@@ -23,6 +23,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.popup.JBPopupFactory
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
+import com.intellij.sql.dialects.mssql.MsDialect
 import com.intellij.sql.psi.SqlFunctionCallExpression
 import com.intellij.ui.ListCellRendererWithRightAlignedComponent
 import ru.coding4fun.tsql.MsIntentionMessages
@@ -33,8 +34,10 @@ class MsAddDateStyleInConvertIntention : BaseElementAtCaretIntentionAction() {
     override fun getFamilyName(): String = MsIntentionMessages.message("add.date.style.in.convert.name")
     override fun getText(): String = MsIntentionMessages.message("add.date.style.in.convert.name")
 
-    override fun isAvailable(project: Project, editor: Editor?, element: PsiElement): Boolean =
-            IntentionFunUtil.isAvailable(element, "CONVERT", arrayListOf(2))
+    override fun isAvailable(project: Project, editor: Editor?, element: PsiElement): Boolean {
+        if (element.containingFile.language != MsDialect.INSTANCE) return false
+        return IntentionFunUtil.isAvailable(element, "CONVERT", arrayListOf(2))
+    }
 
     override fun invoke(project: Project, editor: Editor?, element: PsiElement) {
         val list = listOf(

@@ -1,12 +1,14 @@
 package ru.coding4fun.tsql.test
 
-import ru.coding4fun.tsql.intention.*
+import ru.coding4fun.tsql.intention.MsConvertToMergeIntention
+import ru.coding4fun.tsql.intention.MsFlipBinaryExpressionIntention
+import ru.coding4fun.tsql.intention.MsReplaceValuesToSelectIntention
 import ru.coding4fun.tsql.intention.function.MsCastToConvertIntention
 import ru.coding4fun.tsql.intention.function.MsConvertToCastIntention
 import ru.coding4fun.tsql.intention.function.MsReverseIifIntention
 import ru.coding4fun.tsql.intention.function.string.MsLeftToSubstringIntention
 
-class MsIntentionTest: MsFixtureTestCast() {
+class MsIntentionTest : MsFixtureTestCast() {
     fun testFlipBinaryExpression() =
             testIntention("codeInsight/intention/flipBinaryExpression", MsFlipBinaryExpressionIntention())
 
@@ -24,4 +26,6 @@ class MsIntentionTest: MsFixtureTestCast() {
 
     fun testConvertToCast() =
             testIntention("codeInsight/intention/convertToCast", MsConvertToCastIntention())
+
+    fun testConvertToMerge() = testIntention("codeInsight/intention/convertToMerge", MsConvertToMergeIntention())
 }
