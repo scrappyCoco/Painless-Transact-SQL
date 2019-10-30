@@ -29,6 +29,7 @@ import com.intellij.sql.dialects.mssql.MsDialect
 import com.intellij.sql.dialects.mssql.MsTypes
 import com.intellij.sql.psi.*
 import com.intellij.sql.psi.impl.SqlPsiElementFactory
+import com.intellij.util.castSafelyTo
 
 fun PsiElement.getTextOwner(): PsiElement {
     var current = this
@@ -111,6 +112,17 @@ fun PsiElement.getPrevNotEmptyLeaf(): PsiElement? {
         currentElement = PsiTreeUtil.prevVisibleLeaf(currentElement)
     }
     return currentElement
+}
+
+fun PsiElement.findLeaf(elementType: IElementType): LeafPsiElement? {
+    val endOffset = this.textRange.endOffset
+    var curElement = PsiTreeUtil.getDeepestFirst(this)
+    while (true) {
+        if (curElement.elementType == elementType) return curElement.castSafelyTo<LeafPsiElement>()
+        curElement = curElement.getNextNotEmptyLeaf() ?: break
+        if (curElement.textRange.endOffset > endOffset) break
+    }
+    return null
 }
 
 fun PsiElement.getNextNotEmptyLeaf(): PsiElement? {
