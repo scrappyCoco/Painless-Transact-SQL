@@ -26,8 +26,10 @@ import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.elementType
 import com.intellij.sql.children
 import com.intellij.sql.dialects.mssql.MsDialect
-import com.intellij.sql.dialects.mssql.MsTypes
-import com.intellij.sql.psi.*
+import com.intellij.sql.psi.SqlCreateStatement
+import com.intellij.sql.psi.SqlElementTypes
+import com.intellij.sql.psi.SqlInfoElementType
+import com.intellij.sql.psi.SqlReferenceExpression
 import com.intellij.sql.psi.impl.SqlPsiElementFactory
 import com.intellij.util.castSafelyTo
 
@@ -45,65 +47,8 @@ fun PsiElement.deleteAllExcept(exceptElement: PsiElement) {
     }
 }
 
-fun SqlAsExpression.convertColumnAsToEqual() = convertColumn(this, false)
-fun SqlAsExpression.convertColumnEqualToAs() = convertColumn(this, true)
-
-private fun convertColumn(asExpression: SqlAsExpression, toAs: Boolean) {
-    val nameElement = asExpression.nameElement!!
-    val expressionElement = asExpression.expression!!
-    asExpression.deleteAllExcept(expressionElement)
-    val columnName = MsDialect.INSTANCE.quoteIdentifier(nameElement.project, nameElement.name)
-    val sql = if (toAs) "SELECT 1 AS $columnName" else "SELECT $columnName = 1"
-    val queryExpression = SqlPsiElementFactory.createQueryExpressionFromText(sql, MsDialect.INSTANCE, asExpression.project)!!
-    val asExpressionTemplate = PsiTreeUtil.findChildOfType(queryExpression, SqlAsExpression::class.java)!!
-    val first = if (toAs) asExpressionTemplate.firstChild.nextSibling else asExpressionTemplate.firstChild
-    val last = if (toAs) asExpressionTemplate.lastChild else asExpressionTemplate.lastChild.prevSibling
-    if (toAs) {
-        asExpression.addRangeAfter(first, last, expressionElement)
-    } else {
-        asExpression.addRangeBefore(first, last, expressionElement)
-    }
-}
-
-fun SqlParameterDefinition.isReadonly(): Boolean {
-    val lastChild = this.lastChild as? LeafPsiElement ?: return false
-    return lastChild.elementType == MsTypes.MSSQL_READONLY
-}
-
-fun SqlReferenceExpression.getAlias(): SqlIdentifier? {
-    val asExpression = this.parent as? SqlAsExpression ?: return null
-    return asExpression.nameElement
-}
-
 fun Array<PsiElement>.firstNotEmpty(): PsiElement {
     return this.first { !SqlElementTypes.WS_OR_COMMENTS.contains(it.elementType) }
-}
-
-fun SqlReferenceExpression.getDmlHighlightRangeElements(): Pair<PsiElement, PsiElement>? {
-
-    val intoElement = this.getPrevNotEmptyLeaf() as? LeafPsiElement
-    if (intoElement != null && intoElement.elementType == SqlElementTypes.SQL_INTO) {
-        val insertElement = intoElement.getPrevNotEmptyLeaf() as? LeafPsiElement
-        if (insertElement != null && insertElement.elementType == SqlElementTypes.SQL_INSERT) {
-            // [INSERT INTO @a] ...
-            return Pair(insertElement, this)
-        }
-        // ... OUTPUT ... [INTO @a] ...
-        return Pair(intoElement, this)
-    }
-
-    val dmlStatementElement = PsiTreeUtil.getParentOfType(this, SqlDmlStatement::class.java)
-    if (dmlStatementElement != null) {
-        val dmlOperationElement = dmlStatementElement.children.first { it is LeafPsiElement }
-        val dmlInstruction = PsiTreeUtil.findChildOfType(dmlStatementElement, SqlDmlInstruction::class.java)
-                ?: return null
-        val dmlTargetElement = dmlInstruction.children.firstNotEmpty()
-
-        // [DELETE @a] ... | [DELETE A] ... | [MERGE @a] ... | [UPDATE @a] ...
-        return Pair(dmlOperationElement, dmlTargetElement)
-    }
-
-    return null
 }
 
 fun PsiElement.getPrevNotEmptyLeaf(): PsiElement? {
@@ -151,31 +96,6 @@ fun PsiElement.getPrevNotEmptySibling(): PsiElement? {
         currentElement = currentElement.prevSibling
     }
     return currentElement
-}
-
-/*
- Is Simple CASE expression or Searched CASE expression?
- */
-fun SqlCaseExpression.isSimple(): Boolean? {
-    val caseKeyword = this.children.firstOrNull()!!
-    val searchedExpressionCandidate = caseKeyword.getNextNotEmptySibling() ?: return null
-    return searchedExpressionCandidate is SqlWhenThenClause
-}
-
-fun SqlBinaryExpression.split(): Pair<SqlReferenceExpression, Int>? {
-    // ... @a = 1 ... || 1 = @a
-    val variants = arrayOf(this.rOperand to this.lOperand, this.lOperand to this.rOperand)
-    for (variant in variants) {
-        val literalExpression = variant.first as? SqlLiteralExpression
-        val hasLiteralInteger = literalExpression?.sqlType?.category == SqlType.Category.INTEGER
-        val referenceExpression = variant.second as? SqlReferenceExpression
-        val hasReference = referenceExpression != null
-        if (hasLiteralInteger && hasReference) {
-            val intValue = Integer.parseInt(literalExpression!!.text)
-            return Pair(referenceExpression!!, intValue)
-        }
-    }
-    return null
 }
 
 fun PsiFile.isSqlConsole(): Boolean {

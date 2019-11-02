@@ -28,3 +28,4 @@ WHEN MATCHED THEN
     UPDATE
     SET Name    = Source.Name,
         AddDate = Source.AddDate;
+;

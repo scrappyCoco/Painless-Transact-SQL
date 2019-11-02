@@ -46,4 +46,6 @@ class MsIntentionTest : MsFixtureTestCast() {
     fun testReplaceVarTableToTemp() = testIntention("codeInsight/intention/replaceVarTableToTemp", MsReplaceVarTableToTempIntention())
 
     fun testReplaceTempTableToVar() = testIntention("codeInsight/intention/replaceTempTableToVar", MsReplaceTempTableToVarIntention())
+
+    fun testAddComment() = testIntention("codeInsight/intention/addComment", MsAddCommentIntention())
 }

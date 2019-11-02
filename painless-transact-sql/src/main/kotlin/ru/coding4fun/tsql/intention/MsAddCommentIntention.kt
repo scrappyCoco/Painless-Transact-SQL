@@ -24,6 +24,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.popup.JBPopupFactory
 import com.intellij.openapi.ui.popup.PopupStep
 import com.intellij.openapi.ui.popup.util.BaseListPopupStep
+import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.sql.dialects.mssql.MsDialect
@@ -37,8 +38,9 @@ class MsAddCommentIntention : BaseElementAtCaretIntentionAction() {
 
     override fun isAvailable(project: Project, editor: Editor?, element: PsiElement): Boolean {
         if (element.containingFile.language != MsDialect.INSTANCE) return false
-        PsiTreeUtil.getParentOfType(element, SqlDefinition::class.java) ?: return false
-        return true
+        val sqlDefinition = PsiTreeUtil.getParentOfType(element, SqlDefinition::class.java) ?: return false
+        val objNameRef = PsiTreeUtil.getChildOfType(sqlDefinition, SqlReferenceExpression::class.java) ?: return false
+        return TextRange(sqlDefinition.textRange.startOffset, objNameRef.textRange.endOffset).contains(editor!!.caretModel.offset)
     }
 
     override fun invoke(project: Project, editor: Editor?, element: PsiElement) {
@@ -52,20 +54,25 @@ class MsAddCommentIntention : BaseElementAtCaretIntentionAction() {
             is SqlColumnDefinition -> listOf(forAllColumns, forSelectedColumn)
             is SqlTableDefinition -> listOf(forTable, forTableAndAllColumns)
             else -> null
-        } ?: return
+        }
 
-        JBPopupFactory.getInstance()
-                .createListPopup(object : BaseListPopupStep<String>("Create description", popupValues) {
-                    override fun onChosen(selectedValue: String, finalChoice: Boolean): PopupStep<String>? {
-                        WriteCommandAction.runWriteCommandAction(project) {
-                            val createForAllColumns = arrayOf(forAllColumns, forTableAndAllColumns).contains(selectedValue)
-                            val createForTable = arrayOf(forTable, forTableAndAllColumns).contains(selectedValue)
-                            sqlDefinition.accept(SqlDefinitionVisitor(createForAllColumns, createForTable))
+        if (popupValues == null) {
+            sqlDefinition.accept(SqlDefinitionVisitor(false, false))
+        } else {
+            JBPopupFactory.getInstance()
+                    .createListPopup(object : BaseListPopupStep<String>("Create description", popupValues) {
+                        override fun onChosen(selectedValue: String, finalChoice: Boolean): PopupStep<String>? {
+                            WriteCommandAction.runWriteCommandAction(project) {
+                                val createForAllColumns = arrayOf(forAllColumns, forTableAndAllColumns).contains(selectedValue)
+                                val createForTable = arrayOf(forTable, forTableAndAllColumns).contains(selectedValue)
+                                sqlDefinition.accept(SqlDefinitionVisitor(createForAllColumns, createForTable))
+                            }
+                            @Suppress("UNCHECKED_CAST")
+                            return FINAL_CHOICE as PopupStep<String>?
                         }
-                        @Suppress("UNCHECKED_CAST")
-                        return FINAL_CHOICE as PopupStep<String>?
-                    }
-                }).showInBestPositionFor(editor!!)
+                    }).showInBestPositionFor(editor!!)
+        }
+
     }
 
 
@@ -78,10 +85,10 @@ class MsAddCommentIntention : BaseElementAtCaretIntentionAction() {
                     .append("EXEC sys.sp_addextendedproperty\n")
                     .append("  @name = N'MS_Description', @value = N'...',\n")
                     .append("  @level0type = N'SCHEMA', @level0name = N'", schemaName, "',\n")
-                    .append("  @level0type = N'TABLE', @level0name = N'", objectName, "'\n")
+                    .append("  @level1type = N'TABLE', @level1name = N'", objectName, "'\n")
                     .also {
                         if (columnName != null)
-                            it.append(",\n").append("  @level1type = N'COLUMN', @level1name = N'", columnName, "'\n")
+                            it.append(",\n").append("  @level2type = N'COLUMN', @level2name = N'", columnName, "'\n")
                     }.append("\n").toString()
         }
 
@@ -129,13 +136,13 @@ class MsAddCommentIntention : BaseElementAtCaretIntentionAction() {
             }
         }
 
-        private fun getObjectName(tableDefinition: SqlCreateTableStatement): String {
-            return tableDefinition.name
+        private fun getObjectName(createStatement: SqlCreateStatement): String {
+            return createStatement.name
         }
 
-        private fun getSchemaName(tableDefinition: SqlCreateTableStatement): String {
+        private fun getSchemaName(createStatement: SqlCreateStatement): String {
             val defaultNamespace = "dbo"
-            val nameElement = tableDefinition.nameElement ?: return "dbo"
+            val nameElement = createStatement.nameElement ?: return defaultNamespace
 
             return nameElement.children
                     .filterIsInstance<SqlReferenceExpression>()
@@ -146,6 +153,20 @@ class MsAddCommentIntention : BaseElementAtCaretIntentionAction() {
         override fun visitSqlCreateTableStatement(tableDefinition: SqlCreateTableStatement?) {
             if (tableDefinition == null) return
             createScriptInDocument(tableDefinition, null)
+        }
+
+        override fun visitSqlCreateStatement(createStatement: SqlCreateStatement?) {
+            if (createStatement == null) return
+            val schemaName = getSchemaName(createStatement)
+            val objectName = getObjectName(createStatement)
+            val sqlCmdToAddComment = getCommand(schemaName, objectName, null)
+            val commentStmt = SqlPsiElementFactory.createStatementFromText(
+                    sqlCmdToAddComment,
+                    MsDialect.INSTANCE,
+                    createStatement.project,
+                    null
+            ) ?: return
+            createStatement.parent.add(commentStmt)
         }
     }
 }

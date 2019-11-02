@@ -1,7 +1,9 @@
 DECLARE @MyTable TABLE
                  (
-                     Id   INT,
-                     Name VARCHAR(200)
+                     Id
+                         INT,
+                     Name
+                         VARCHAR(200)
                  );
 
 INSERT INTO @MyTable (Id, Name)
