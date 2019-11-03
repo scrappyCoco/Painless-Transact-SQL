@@ -18,10 +18,15 @@
     <id>ru.coding4fun.painless-transact-sql</id>
     <name>Painless Transact SQL</name>
     <vendor email="coding4fun@list.ru" url="https://github.com/scrappyCoco/Painless-Transact-SQL">Coding4fun</vendor>
-    <description>A little bit inspections for MS SQL developers.</description>
-    <change-notes>Initial release of the plugin. There were presented some code style inspections, READONLY validation,
-        inspections for SUBSTRING and TRIM functions, and some intentions. For more information please see
-        https://github.com/scrappyCoco/Painless-Transact-SQL.
+    <description>A little bit inspections for MS SQL developers. For more information please checkout
+        https://github.com/scrappyCoco/Painless-Transact-SQL.</description>
+    <change-notes>The following intentions were added:
+        1. Replace temp table to variable table and vice-versa
+        2. Add comment to objects
+        3. Convert SELECT to MERGE
+        4. Add date style for CONVERT
+        And inspections:
+        1. Check for implicit size for VARCHAR in CONVERT/CAST
     </change-notes>
 
     <idea-version since-build="193.4099.12"/>
