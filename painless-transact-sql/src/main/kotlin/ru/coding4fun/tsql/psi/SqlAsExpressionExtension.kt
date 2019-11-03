@@ -16,9 +16,11 @@
 
 package ru.coding4fun.tsql.psi
 
+import com.intellij.database.model.DasObject
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.sql.dialects.mssql.MsDialect
 import com.intellij.sql.psi.SqlAsExpression
+import com.intellij.sql.psi.SqlReferenceExpression
 import com.intellij.sql.psi.impl.SqlPsiElementFactory
 
 fun SqlAsExpression.convertColumnAsToEqual() = convertColumn(this, false)
@@ -39,4 +41,9 @@ private fun convertColumn(asExpression: SqlAsExpression, toAs: Boolean) {
     } else {
         asExpression.addRangeBefore(first, last, expressionElement)
     }
+}
+
+fun SqlAsExpression.getTarget(): DasObject? {
+    val refExpr = this.expression as? SqlReferenceExpression
+    return refExpr?.resolve() as DasObject
 }

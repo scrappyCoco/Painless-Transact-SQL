@@ -1,0 +1,8 @@
+DECLARE @T TABLE
+(
+   Id   INT NOT NULL PRIMARY KEY,
+   Name VARCHAR
+);
+
+SELECT TOP (1) *
+FROM @T;

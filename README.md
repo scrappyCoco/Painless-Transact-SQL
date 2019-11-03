@@ -101,7 +101,7 @@ SELECT TRIM(' ABCDEF ');
 ```
 
 ### Prefer implicitly length in VARCHAR
-If the length of VARCHAR is not specified in CONVERT/CAST it interpretated as VARCHAR(30). The best way is to specify implicitly the length of VARCHAR.
+If the length of VARCHAR is not specified in CONVERT/CAST it interpreted as VARCHAR(30). The best way is to specify implicitly the length of VARCHAR.
 Before:
 ```sql
 SELECT CONVERT(VARCHAR, NEWID());
@@ -138,6 +138,29 @@ SELECT CONVERT(INT, '123');
 Before:
 ```sql
 SELECT CONVERT(INT, '123');
+```
+
+## Replace temp table to variable and vice-versa
+```sql
+-- Before
+DECLARE @MyTable TABLE
+(
+    Id INT,
+    Name VARCHAR (200)
+);
+
+INSERT INTO @MyTable (Id, Name)
+VALUES (1, '2')
+
+-- After
+CREATE TABLE #MyTable
+(
+    Id   INT,
+    Name VARCHAR(200)
+);
+
+INSERT INTO #MyTable (Id, Name)
+VALUES (1, '2')
 ```
 
 After:
@@ -203,7 +226,7 @@ FETCH NEXT 100 ROWS ONLY
 ![MsAddDateStyleInConvertIntention](https://raw.githubusercontent.com/scrappyCoco/Painless-Transact-SQL/master/screenshots/MsAddDateStyleInConvertIntention.png)
 
 ### Convert to MERGE
-MERGE instructions is wide and time-consuming. This intention can reduce the time to write it. To use it there must be presented SELECT statement with "Source" and Target table aliases.
+MERGE instructions is wide and time-consuming. This intention can reduce the time to write it. To use it there must be presented SELECT statement with "Source" and "Target" table aliases.
 
 ```sql
 CREATE TABLE dbo.MySource
@@ -256,17 +279,17 @@ CREATE TABLE dbo.MyTable
 EXEC sys.sp_addextendedproperty
   @name = N'MS_Description', @value = N'...',
   @level0type = N'SCHEMA', @level0name = N'dbo',
-  @level0type = N'TABLE', @level0name = N'MyTable'
+  @level1type = N'TABLE', @level1name = N'MyTable'
 
 EXEC sys.sp_addextendedproperty
   @name = N'MS_Description', @value = N'...',
   @level0type = N'SCHEMA', @level0name = N'dbo',
-  @level0type = N'TABLE', @level0name = N'MyTable',
-  @level1type = N'COLUMN', @level1name = N'Id'
+  @level1type = N'TABLE', @level1name = N'MyTable',
+  @level2type = N'COLUMN', @level2name = N'Id'
 
 EXEC sys.sp_addextendedproperty
   @name = N'MS_Description', @value = N'...',
   @level0type = N'SCHEMA', @level0name = N'dbo',
-  @level0type = N'TABLE', @level0name = N'MyTable',
-  @level1type = N'COLUMN', @level1name = N'Name'
+  @level1type = N'TABLE', @level1name = N'MyTable',
+  @level2type = N'COLUMN', @level2name = N'Name'
 ```
