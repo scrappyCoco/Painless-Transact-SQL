@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<problems>
+    <problem>
+        <file>basic.sql</file>
+        <line>8</line>
+        <problem_class severity="WEAK WARNING" attribute_key="INFO_ATTRIBUTES">Check for implicit column list in DML</problem_class>
+        <description>Use implicit column list is a bad practice</description>
+    </problem>
+    <problem>
+        <file>delete.sql</file>
+        <line>17</line>
+        <problem_class severity="WEAK WARNING" attribute_key="INFO_ATTRIBUTES">Check for implicit column list in DML</problem_class>
+        <description>Use implicit column list is a bad practice</description>
+    </problem>
+    <problem>
+        <file>delete-join.sql</file>
+        <line>23</line>
+        <problem_class severity="WEAK WARNING" attribute_key="INFO_ATTRIBUTES">Check for implicit column list in DML</problem_class>
+        <description>Use implicit column list is a bad practice</description>
+    </problem>
+    <problem>
+        <file>merge.sql</file>
+        <line>26</line>
+        <problem_class severity="WEAK WARNING" attribute_key="INFO_ATTRIBUTES">Check for implicit column list in DML</problem_class>
+        <description>Use implicit column list is a bad practice</description>
+    </problem>
+    <problem>
+        <file>merge-output.sql</file>
+        <line>27</line>
+        <problem_class severity="WEAK WARNING" attribute_key="INFO_ATTRIBUTES">Check for implicit column list in DML</problem_class>
+        <description>Use implicit column list is a bad practice</description>
+        <highlighted_element>@temp</highlighted_element>
+    </problem>
+    <problem>
+        <file>output.sql</file>
+        <line>23</line>
+        <problem_class severity="WEAK WARNING" attribute_key="INFO_ATTRIBUTES">Check for implicit column list in DML</problem_class>
+        <description>Use implicit column list is a bad practice</description>
+    </problem>
+    <problem>
+        <file>select.sql</file>
+        <line>16</line>
+        <problem_class severity="WEAK WARNING" attribute_key="INFO_ATTRIBUTES">Check for implicit column list in DML</problem_class>
+        <description>Use implicit column list is a bad practice</description>
+    </problem>
+</problems>

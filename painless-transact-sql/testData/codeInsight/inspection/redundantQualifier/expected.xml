@@ -4,40 +4,40 @@
         <file>merge.sql</file>
         <line>9</line>
         <problem_class severity="WEAK WARNING" attribute_key="NOT_USED_ELEMENT_ATTRIBUTES">Redundant qualifier check</problem_class>
-        <description>Redundant qualifier SOURCE</description>
+        <description>The redundant qualifier SOURCE</description>
     </problem>
     <problem>
         <file>merge.sql</file>
         <line>9</line>
         <problem_class severity="WEAK WARNING" attribute_key="NOT_USED_ELEMENT_ATTRIBUTES">Redundant qualifier check</problem_class>
-        <description>Redundant qualifier SOURCE</description>
+        <description>The redundant qualifier SOURCE</description>
     </problem>
     <problem>
         <file>merge.sql</file>
         <line>12</line>
         <problem_class severity="WEAK WARNING" attribute_key="NOT_USED_ELEMENT_ATTRIBUTES">Redundant qualifier check
         </problem_class>
-        <description>Redundant qualifier TARGET</description>
+         <description>The redundant qualifier TARGET</description>
     </problem>
     <problem>
         <file>update.sql</file>
         <line>5</line>
         <problem_class severity="WEAK WARNING" attribute_key="NOT_USED_ELEMENT_ATTRIBUTES">Redundant qualifier check
         </problem_class>
-        <description>Redundant qualifier dbo.TableOne</description>
+        <description>The redundant qualifier dbo.TableOne</description>
     </problem>
     <problem>
         <file>fun.sql</file>
         <line>26</line>
         <problem_class severity="WEAK WARNING" attribute_key="NOT_USED_ELEMENT_ATTRIBUTES">Redundant qualifier check
         </problem_class>
-        <description>Redundant qualifier SOURCE</description>
+        <description>The redundant qualifier SOURCE</description>
     </problem>
     <problem>
         <file>fun.sql</file>
         <line>26</line>
         <problem_class severity="WEAK WARNING" attribute_key="NOT_USED_ELEMENT_ATTRIBUTES">Redundant qualifier check
         </problem_class>
-        <description>Redundant qualifier SOURCE</description>
+        <description>The redundant qualifier SOURCE</description>
     </problem>
 </problems>

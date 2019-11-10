@@ -48,13 +48,18 @@ abstract class MsFixtureTestCast : CodeInsightFixtureTestCase<EmptyModuleFixture
             this.myFixture.enableInspections(inspection)
 
             val allQuickFixes = this.myFixture.getAllQuickFixes()
-            for (quickFix in allQuickFixes) {
-                WriteCommandAction.runWriteCommandAction(myFixture.project) {
-                    quickFix.invoke(myFixture.project, editor, myFixture.file)
+            if (file.name.startsWith("ignore")) {
+                val hasIntention = allQuickFixes.any()
+                UsefulTestCase.assertFalse(hasIntention)
+            } else {
+                for (quickFix in allQuickFixes) {
+                    WriteCommandAction.runWriteCommandAction(myFixture.project) {
+                        quickFix.invoke(myFixture.project, editor, myFixture.file)
+                    }
                 }
-            }
 
-            this.myFixture.checkResultByFile(inspectionPath + "/$target/" + file.name, true)
+                this.myFixture.checkResultByFile(inspectionPath + "/$target/" + file.name, true)
+            }
         }
     }
 

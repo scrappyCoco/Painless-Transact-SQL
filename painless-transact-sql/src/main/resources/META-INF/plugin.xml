@@ -77,6 +77,12 @@
                          groupBundle="messages.inspection" groupKey="inspection.ddl.group"
                          enabledByDefault="true" level="ERROR" language="TSQL"
                          implementationClass="ru.coding4fun.tsql.inspection.ddl.MsReadonlyParameterInspection"/>
+        <localInspection groupPath="Painless T-SQL" suppressId="MsDmlColumnList"
+                         shortName="MsDmlColumnListInspection"
+                         bundle="messages.inspection" key="implicit.column.list.name"
+                         groupBundle="messages.inspection" groupKey="inspection.dml.group"
+                         enabledByDefault="true" level="ERROR" language="TSQL"
+                         implementationClass="ru.coding4fun.tsql.inspection.dml.MsDmlColumnListInspection"/>
         <localInspection groupPath="Painless T-SQL" suppressId="MsReadonlyModification"
                          shortName="MsReadonlyModificationInspection"
                          bundle="messages.inspection" key="inspection.dml.readonly.modification.name"
