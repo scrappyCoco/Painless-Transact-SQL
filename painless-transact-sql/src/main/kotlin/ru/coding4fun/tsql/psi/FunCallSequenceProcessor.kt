@@ -12,7 +12,7 @@ class FunCallSequenceProcessor(private val expectedFunctions: Map<String, Int>) 
     override fun execute(callExpr: SqlFunctionCallExpression): Boolean {
         // Check for already processed elements.
         val parentCall = PsiTreeUtil.getParentOfType(callExpr, SqlFunctionCallExpression::class.java)
-        if (parentCall != null && expectedFunctions.contains(parentCall.nameElement?.name)) return false
+        if (parentCall?.nameElement?.name != null && expectedFunctions.contains(parentCall.nameElement?.name)) return false
 
         val waitingFunctions = expectedFunctions.map { it.key }.toCollection(TreeSet(String.CASE_INSENSITIVE_ORDER))
 

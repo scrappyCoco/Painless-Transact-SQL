@@ -89,7 +89,10 @@ class MsRedundantQualifierInspection : SqlInspectionBase(), CleanupLocalInspecti
         private class RemoveQualifierQuickFix(private val refExpr: SmartPsiElementPointer<SqlReferenceExpression>
         ) : LocalQuickFixOnPsiElement(refExpr.element!!) {
             override fun getFamilyName(): String = MsInspectionMessages.message("redundant.qualifier.fix.family")
-            override fun getText(): String = MsInspectionMessages.message("redundant.qualifier.fix.text", refExpr.element!!.text)
+            override fun getText(): String {
+                if (refExpr.element?.text == null) return familyName
+                return MsInspectionMessages.message("redundant.qualifier.fix.text", refExpr.element!!.text)
+            }
 
             override fun invoke(project: Project, file: PsiFile, startElement: PsiElement, endElement: PsiElement) {
                 refExpr.element?.getNextNotEmptyLeaf()?.delete()

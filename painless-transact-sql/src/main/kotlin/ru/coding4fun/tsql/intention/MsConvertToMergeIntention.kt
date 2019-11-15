@@ -49,6 +49,8 @@ class MsConvertToMergeIntention : BaseElementAtCaretIntentionAction() {
     }
 
     override fun invoke(project: Project, editor: Editor?, element: PsiElement) {
+        fun quote(colName: String): String = MsDialect.INSTANCE.quoteIdentifier(project, colName)
+
         val selectStatement = PsiTreeUtil.getParentOfType(element, SqlSelectStatement::class.java) ?: return
         val mergeProcessor = MsMergeProcessor()
         PsiTreeUtil.processElements(mergeProcessor, selectStatement)
@@ -56,23 +58,24 @@ class MsConvertToMergeIntention : BaseElementAtCaretIntentionAction() {
         val target = mergeProcessor.targetAlias?.getTarget()!!
         val joinColumns = getJoinColumns(mergeProcessor.joinClause!!, target)
         val joinText = joinColumns.joinToString(" AND ") { col ->
-            "Source.${col.name} = Target.${col.name}"
+            "Source.${quote(col.name)} = Target.${quote(col.name)}"
         }
         val sourceColumns = getColumns(mergeProcessor.sourceAlias!!)
                 .associateByTo(TreeMap(String.CASE_INSENSITIVE_ORDER)) { it.name }
 
         val targetColumns = getColumns(mergeProcessor.targetAlias!!)
         val selectColText = targetColumns.joinToString(",\n", "           ") { col ->
-            val sourceCol = sourceColumns[col.name] as? DasColumn
+            val sourceCol = sourceColumns[col.name]
             val targetCol = mergeProcessor.joinTargetToSourceColumns?.get(col as? PsiElement) as? DasColumn
-            val targetColName = sourceCol?.name ?: targetCol?.name ?: "NULL"
-            "${col.name} = $targetColName"
+            var targetColName = (sourceCol?.name ?: targetCol?.name)
+            targetColName = if (targetColName != null) quote(targetColName) else "NULL"
+            "${quote(col.name)} = $targetColName"
         }
-        val insertColText = targetColumns.joinToString(separator = ", ") { it.name }
+        val insertColText = targetColumns.joinToString(separator = ", ") { quote(it.name) }
         val updateColText = targetColumns
                 .filter { !joinColumns.contains(it) }
                 .map { it.name }
-                .joinToString(separator = ",\n    ", transform = { "$it = Source.$it" })
+                .joinToString(separator = ",\n    ", transform = { "${quote(it)} = Source.${quote(it)}" })
 
 
         val scriptBuilder = StringBuilder()
@@ -106,7 +109,7 @@ class MsConvertToMergeIntention : BaseElementAtCaretIntentionAction() {
                 else if ("TARGET".equals(aliasName, true)) targetAlias = element
             } else if (element is SqlJoinConditionClause) {
                 joinClause = element
-                val targetObj = targetAlias!!.getTarget()!!
+                val targetObj = targetAlias?.getTarget() ?: return false
                 joinTargetToSourceColumns = getTargetToSources(element, targetObj)
             }
             return !isMatch()
