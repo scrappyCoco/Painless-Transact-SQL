@@ -22,7 +22,7 @@ import ru.coding4fun.tsql.intention.function.MsConvertToCastIntention
 import ru.coding4fun.tsql.intention.function.MsReverseIifIntention
 import ru.coding4fun.tsql.intention.function.string.MsLeftToSubstringIntention
 
-class MsIntentionTest : MsFixtureTestCast() {
+class MsIntentionTest : MsFixtureTestCase() {
     fun testFlipBinaryExpression() =
             testIntention("codeInsight/intention/flipBinaryExpression", MsFlipBinaryExpressionIntention())
 

@@ -65,7 +65,7 @@ class MsConvertToMergeIntention : BaseElementAtCaretIntentionAction() {
 
         val targetColumns = getColumns(mergeProcessor.targetAlias!!)
         val selectColText = targetColumns.joinToString(",\n", "           ") { col ->
-            val sourceCol = sourceColumns[col.name]
+            val sourceCol = sourceColumns[col.name] as? DasColumn
             val targetCol = mergeProcessor.joinTargetToSourceColumns?.get(col as? PsiElement) as? DasColumn
             var targetColName = (sourceCol?.name ?: targetCol?.name)
             targetColName = if (targetColName != null) quote(targetColName) else "NULL"

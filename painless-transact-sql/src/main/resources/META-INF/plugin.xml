@@ -34,6 +34,8 @@
     <depends>com.intellij.modules.sql</depends>
 
     <extensions defaultExtensionNs="com.intellij">
+        <completion.contributor implementationClass="ru.coding4fun.tsql.completion.PainlessCompletionContributor" language="SQL" />
+
         <localInspection groupPath="Painless T-SQL" suppressId="MsCursor"
                          shortName="MsCursorInspection"
                          bundle="messages.inspection" key="cursor.definition.check.name"

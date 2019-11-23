@@ -28,7 +28,7 @@ import com.intellij.testFramework.fixtures.impl.EmptyModuleFixtureBuilderImpl
 import com.intellij.testFramework.fixtures.impl.ModuleFixtureImpl
 import java.io.File
 
-abstract class MsFixtureTestCast : CodeInsightFixtureTestCase<EmptyModuleFixtureBuilderImpl<ModuleFixtureImpl>>() {
+abstract class MsFixtureTestCase : CodeInsightFixtureTestCase<EmptyModuleFixtureBuilderImpl<ModuleFixtureImpl>>() {
     override fun setUp() {
         super.setUp()
         SqlDialectMappings.getInstance(myFixture.project).setMapping(null, MsDialect.INSTANCE)

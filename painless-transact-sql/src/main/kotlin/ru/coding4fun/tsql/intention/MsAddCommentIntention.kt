@@ -31,6 +31,7 @@ import com.intellij.sql.dialects.mssql.MsDialect
 import com.intellij.sql.psi.*
 import com.intellij.sql.psi.impl.SqlPsiElementFactory
 import ru.coding4fun.tsql.MsIntentionMessages
+import ru.coding4fun.tsql.psi.isTempOrVariable
 
 class MsAddCommentIntention : BaseElementAtCaretIntentionAction() {
     override fun getFamilyName(): String = text
@@ -41,6 +42,7 @@ class MsAddCommentIntention : BaseElementAtCaretIntentionAction() {
         val sqlDefinition = PsiTreeUtil.getParentOfType(element, SqlDefinition::class.java) ?: return false
         val objNameRef = PsiTreeUtil.getChildOfType(sqlDefinition, SqlReferenceExpression::class.java) ?: return false
         return TextRange(sqlDefinition.textRange.startOffset, objNameRef.textRange.endOffset).contains(editor!!.caretModel.offset)
+                && !objNameRef.isTempOrVariable()
     }
 
     override fun invoke(project: Project, editor: Editor?, element: PsiElement) {

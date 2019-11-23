@@ -22,7 +22,7 @@ import ru.coding4fun.tsql.inspection.function.string.MsImplicitlyVarcharLengthIn
 import ru.coding4fun.tsql.inspection.function.string.MsSubstringInspection
 import ru.coding4fun.tsql.inspection.function.string.MsTrimInspection
 
-class MsInspectionTest: MsFixtureTestCast() {
+class MsInspectionTest: MsFixtureTestCase() {
     fun testReplaceSubstringToLeft() {
         this.testInspections("codeInsight/inspection/substring", MsSubstringInspection())
     }

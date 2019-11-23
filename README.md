@@ -293,3 +293,8 @@ EXEC sys.sp_addextendedproperty
   @level1type = N'TABLE', @level1name = N'MyTable',
   @level2type = N'COLUMN', @level2name = N'Name'
 ```
+
+
+# Completions
+## Column list interface in INSERT context
+![Insert Template Completion](https://raw.githubusercontent.com/scrappyCoco/Painless-Transact-SQL/master/screenshots/InsertTemplateCompletion.gif)

@@ -19,6 +19,7 @@ package ru.coding4fun.tsql.psi
 import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.psi.util.PsiTreeUtil
+import com.intellij.sql.dialects.mssql.MsGeneratedParserUtil
 import com.intellij.sql.psi.*
 
 fun SqlReferenceExpression.getAlias(): SqlIdentifier? {
@@ -52,3 +53,7 @@ fun SqlReferenceExpression.getDmlHighlightRangeElements(): Pair<PsiElement, PsiE
 
     return null
 }
+
+private val tv = arrayOf('#', '@')
+
+fun SqlReferenceExpression.isTempOrVariable(): Boolean = tv.contains(this.text[0])
