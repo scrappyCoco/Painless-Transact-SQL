@@ -34,7 +34,8 @@
     <depends>com.intellij.modules.sql</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <completion.contributor implementationClass="ru.coding4fun.tsql.completion.PainlessCompletionContributor" language="SQL" />
+        <completion.contributor implementationClass="ru.coding4fun.tsql.completion.PainlessCompletionContributor" language="TSQL" />
+        <codeInsight.parameterNameHints language="TSQL" implementationClass="ru.coding4fun.tsql.PainlessInlayParameterHintProvider"/>
 
         <localInspection groupPath="Painless T-SQL" suppressId="MsCursor"
                          shortName="MsCursorInspection"
