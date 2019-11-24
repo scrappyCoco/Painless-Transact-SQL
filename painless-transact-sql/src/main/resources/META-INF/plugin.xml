@@ -190,5 +190,15 @@
             <bundleName>messages.intention</bundleName>
             <categoryKey>intention.group.name</categoryKey>
         </intentionAction>
+        <intentionAction>
+            <className>ru.coding4fun.tsql.intention.function.MsIsNullToCaseIntention</className>
+            <bundleName>messages.intention</bundleName>
+            <categoryKey>intention.group.name</categoryKey>
+        </intentionAction>
+        <intentionAction>
+            <className>ru.coding4fun.tsql.intention.function.MsNullIfToCaseIntention</className>
+            <bundleName>messages.intention</bundleName>
+            <categoryKey>intention.group.name</categoryKey>
+        </intentionAction>
     </extensions>
 </idea-plugin>

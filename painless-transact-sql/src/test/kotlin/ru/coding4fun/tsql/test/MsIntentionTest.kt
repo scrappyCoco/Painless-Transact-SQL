@@ -17,9 +17,7 @@
 package ru.coding4fun.tsql.test
 
 import ru.coding4fun.tsql.intention.*
-import ru.coding4fun.tsql.intention.function.MsCastToConvertIntention
-import ru.coding4fun.tsql.intention.function.MsConvertToCastIntention
-import ru.coding4fun.tsql.intention.function.MsReverseIifIntention
+import ru.coding4fun.tsql.intention.function.*
 import ru.coding4fun.tsql.intention.function.string.MsLeftToSubstringIntention
 
 class MsIntentionTest : MsFixtureTestCase() {
@@ -48,4 +46,8 @@ class MsIntentionTest : MsFixtureTestCase() {
     fun testReplaceTempTableToVar() = testIntention("codeInsight/intention/replaceTempTableToVar", MsReplaceTempTableToVarIntention())
 
     fun testAddComment() = testIntention("codeInsight/intention/addComment", MsAddCommentIntention())
+
+    fun testIsNullToCase() = testIntention("codeInsight/intention/isNullToCase", MsIsNullToCaseIntention())
+
+    fun testNullIfToCase() = testIntention("codeInsight/intention/nullIfToCase", MsNullIfToCaseIntention())
 }

@@ -1,0 +1,3 @@
+DECLARE @i VARCHAR(100) = '123'
+
+SELECT <caret>NULLIF(@i, '123');

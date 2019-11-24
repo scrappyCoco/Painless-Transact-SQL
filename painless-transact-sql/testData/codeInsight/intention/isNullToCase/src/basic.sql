@@ -1,0 +1,3 @@
+DECLARE @i VARCHAR(100)
+
+SELECT <caret>ISNULL(@i, '123');
