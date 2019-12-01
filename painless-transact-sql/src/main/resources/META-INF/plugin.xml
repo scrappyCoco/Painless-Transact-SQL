@@ -35,8 +35,14 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <completion.contributor implementationClass="ru.coding4fun.tsql.completion.PainlessCompletionContributor" language="TSQL" />
-        <codeInsight.parameterNameHints language="TSQL" implementationClass="ru.coding4fun.tsql.PainlessInlayParameterHintProvider"/>
+<!--        <codeInsight.parameterNameHints language="TSQL" implementationClass="ru.coding4fun.tsql.PainlessInlayParameterHintProvider"/>-->
 
+        <localInspection groupPath="Painless T-SQL" suppressId="MsStringToReplicate"
+                         shortName="MsStringToReplicateInspection"
+                         bundle="messages.inspection" key="string.to.replicate.name"
+                         groupBundle="messages.inspection" groupKey="inspection.function.string.group"
+                         enabledByDefault="true" level="WEAK WARNING" language="TSQL" cleanupTool="true"
+                         implementationClass="ru.coding4fun.tsql.inspection.function.string.MsStringToReplicateInspection"/>
         <localInspection groupPath="Painless T-SQL" suppressId="MsCursor"
                          shortName="MsCursorInspection"
                          bundle="messages.inspection" key="cursor.definition.check.name"

@@ -19,6 +19,7 @@ package ru.coding4fun.tsql.test
 import ru.coding4fun.tsql.inspection.codeStyle.MsRedundantQualifierInspection
 import ru.coding4fun.tsql.inspection.dml.MsDmlColumnListInspection
 import ru.coding4fun.tsql.inspection.function.string.MsImplicitlyVarcharLengthInspection
+import ru.coding4fun.tsql.inspection.function.string.MsStringToReplicateInspection
 import ru.coding4fun.tsql.inspection.function.string.MsSubstringInspection
 import ru.coding4fun.tsql.inspection.function.string.MsTrimInspection
 
@@ -41,5 +42,9 @@ class MsInspectionTest: MsFixtureTestCase() {
 
     fun testColumnList() {
         this.testInspections("codeInsight/inspection/columnList", MsDmlColumnListInspection())
+    }
+
+    fun testStringToReplicate() {
+        this.testInspections("codeInsight/inspection/stringToReplicate", MsStringToReplicateInspection())
     }
 }
