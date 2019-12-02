@@ -16,12 +16,12 @@
 
 package ru.coding4fun.tsql.intention.function
 
-import com.intellij.codeInsight.intention.BaseElementAtCaretIntentionAction
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.sql.dialects.mssql.MsDialect
+import com.intellij.sql.intentions.SqlBaseElementAtCaretIntentionAction
 import com.intellij.sql.psi.SqlElementTypes
 import com.intellij.sql.psi.SqlFunctionCallExpression
 import com.intellij.sql.psi.SqlTypeElement
@@ -31,7 +31,7 @@ import ru.coding4fun.tsql.intention.IntentionFunUtil
 import ru.coding4fun.tsql.psi.getChildOfElementType
 import ru.coding4fun.tsql.psi.getNextNotEmptySibling
 
-class MsConvertToCastIntention: BaseElementAtCaretIntentionAction() {
+class MsConvertToCastIntention : SqlBaseElementAtCaretIntentionAction() {
     override fun getFamilyName(): String = MsIntentionMessages.message("convert.to.cast.name")
     override fun getText(): String = MsIntentionMessages.message("convert.to.cast.name")
 

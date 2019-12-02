@@ -16,13 +16,13 @@
 
 package ru.coding4fun.tsql.intention
 
-import com.intellij.codeInsight.intention.BaseElementAtCaretIntentionAction
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.elementType
 import com.intellij.sql.dialects.mssql.MsDialect
+import com.intellij.sql.intentions.SqlBaseElementAtCaretIntentionAction
 import com.intellij.sql.psi.SqlBinaryExpression
 import com.intellij.sql.psi.SqlElementTypes
 import com.intellij.sql.psi.SqlExpression
@@ -30,7 +30,7 @@ import com.intellij.sql.psi.SqlFunctionCallExpression
 import com.intellij.sql.psi.impl.SqlPsiElementFactory
 import ru.coding4fun.tsql.MsIntentionMessages
 
-class MsReplaceEqualToExistsIntersectIntention : BaseElementAtCaretIntentionAction() {
+class MsReplaceEqualToExistsIntersectIntention : SqlBaseElementAtCaretIntentionAction() {
     private var myText = familyName
     override fun getFamilyName(): String = MsIntentionMessages.message("replace.equal.to.exists.intersect.name")
     override fun getText(): String = myText

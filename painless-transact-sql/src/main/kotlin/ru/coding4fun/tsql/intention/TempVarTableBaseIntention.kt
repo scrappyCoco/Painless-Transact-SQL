@@ -16,7 +16,6 @@
 
 package ru.coding4fun.tsql.intention
 
-import com.intellij.codeInsight.intention.BaseElementAtCaretIntentionAction
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.TextRange
@@ -25,12 +24,13 @@ import com.intellij.psi.search.LocalSearchScope
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.refactoring.rename.RenameUtil
 import com.intellij.sql.dialects.mssql.MsDialect
+import com.intellij.sql.intentions.SqlBaseElementAtCaretIntentionAction
 import com.intellij.sql.psi.SqlElement
 import com.intellij.sql.psi.SqlRenamePsiElementProcessor
 import com.intellij.sql.psi.SqlStatement
 import com.intellij.sql.psi.impl.SqlPsiElementFactory
 
-abstract class TempVarTableBaseIntention : BaseElementAtCaretIntentionAction() {
+abstract class TempVarTableBaseIntention : SqlBaseElementAtCaretIntentionAction() {
     final override fun isAvailable(project: Project, editor: Editor?, element: PsiElement): Boolean {
         if (element.containingFile.language != MsDialect.INSTANCE) return false
         var isAvailable = false

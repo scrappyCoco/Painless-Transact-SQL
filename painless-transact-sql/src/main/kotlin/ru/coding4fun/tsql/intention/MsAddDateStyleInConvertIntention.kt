@@ -16,7 +16,6 @@
 
 package ru.coding4fun.tsql.intention
 
-import com.intellij.codeInsight.intention.BaseElementAtCaretIntentionAction
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
@@ -24,13 +23,14 @@ import com.intellij.openapi.ui.popup.JBPopupFactory
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.sql.dialects.mssql.MsDialect
+import com.intellij.sql.intentions.SqlBaseElementAtCaretIntentionAction
 import com.intellij.sql.psi.SqlFunctionCallExpression
 import com.intellij.ui.ListCellRendererWithRightAlignedComponent
 import ru.coding4fun.tsql.MsIntentionMessages
 import ru.coding4fun.tsql.psi.addParam
 import java.awt.Color
 
-class MsAddDateStyleInConvertIntention : BaseElementAtCaretIntentionAction() {
+class MsAddDateStyleInConvertIntention : SqlBaseElementAtCaretIntentionAction() {
     override fun getFamilyName(): String = MsIntentionMessages.message("add.date.style.in.convert.name")
     override fun getText(): String = MsIntentionMessages.message("add.date.style.in.convert.name")
 

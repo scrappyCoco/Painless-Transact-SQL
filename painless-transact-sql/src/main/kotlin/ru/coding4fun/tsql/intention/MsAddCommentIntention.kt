@@ -16,7 +16,6 @@
 
 package ru.coding4fun.tsql.intention
 
-import com.intellij.codeInsight.intention.BaseElementAtCaretIntentionAction
 import com.intellij.database.model.DasNamespace
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.editor.Editor
@@ -28,12 +27,13 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.sql.dialects.mssql.MsDialect
+import com.intellij.sql.intentions.SqlBaseElementAtCaretIntentionAction
 import com.intellij.sql.psi.*
 import com.intellij.sql.psi.impl.SqlPsiElementFactory
 import ru.coding4fun.tsql.MsIntentionMessages
 import ru.coding4fun.tsql.psi.isTempOrVariable
 
-class MsAddCommentIntention : BaseElementAtCaretIntentionAction() {
+class MsAddCommentIntention : SqlBaseElementAtCaretIntentionAction() {
     override fun getFamilyName(): String = text
     override fun getText(): String = MsIntentionMessages.message("add.comment.name")
 

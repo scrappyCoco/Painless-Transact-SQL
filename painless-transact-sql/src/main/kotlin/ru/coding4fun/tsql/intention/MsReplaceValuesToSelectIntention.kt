@@ -16,18 +16,18 @@
 
 package ru.coding4fun.tsql.intention
 
-import com.intellij.codeInsight.intention.BaseElementAtCaretIntentionAction
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.elementType
 import com.intellij.sql.dialects.mssql.MsDialect
+import com.intellij.sql.intentions.SqlBaseElementAtCaretIntentionAction
 import com.intellij.sql.psi.*
 import com.intellij.sql.psi.impl.SqlPsiElementFactory
 import ru.coding4fun.tsql.MsIntentionMessages
 
-class MsReplaceValuesToSelectIntention : BaseElementAtCaretIntentionAction() {
+class MsReplaceValuesToSelectIntention : SqlBaseElementAtCaretIntentionAction() {
     override fun getFamilyName(): String = MsIntentionMessages.message("replace.values.to.select.name")
     override fun getText(): String = MsIntentionMessages.message("replace.values.to.select.name")
 

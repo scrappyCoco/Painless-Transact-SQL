@@ -16,7 +16,6 @@
 
 package ru.coding4fun.tsql.intention
 
-import com.intellij.codeInsight.intention.BaseElementAtCaretIntentionAction
 import com.intellij.database.model.DasColumn
 import com.intellij.database.model.DasObject
 import com.intellij.database.psi.DbColumn
@@ -28,6 +27,7 @@ import com.intellij.psi.util.PsiElementFilter
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.elementType
 import com.intellij.sql.dialects.mssql.MsDialect
+import com.intellij.sql.intentions.SqlBaseElementAtCaretIntentionAction
 import com.intellij.sql.psi.*
 import com.intellij.sql.psi.impl.SqlPsiElementFactory
 import com.intellij.util.castSafelyTo
@@ -36,7 +36,7 @@ import ru.coding4fun.tsql.psi.getTarget
 import java.util.*
 import kotlin.collections.ArrayList
 
-class MsConvertToMergeIntention : BaseElementAtCaretIntentionAction() {
+class MsConvertToMergeIntention : SqlBaseElementAtCaretIntentionAction() {
     override fun getText(): String = MsIntentionMessages.message("convert.to.merge.name")
     override fun getFamilyName(): String = MsIntentionMessages.message("convert.to.merge.name")
 

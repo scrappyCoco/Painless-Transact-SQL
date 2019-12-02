@@ -16,18 +16,18 @@
 
 package ru.coding4fun.tsql.intention.function
 
-import com.intellij.codeInsight.intention.BaseElementAtCaretIntentionAction
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
+import com.intellij.sql.intentions.SqlBaseElementAtCaretIntentionAction
 import com.intellij.sql.psi.SqlBinaryExpression
 import com.intellij.sql.psi.SqlFunctionCallExpression
 import ru.coding4fun.tsql.MsIntentionMessages
 import ru.coding4fun.tsql.intention.FlipUtil
 import ru.coding4fun.tsql.intention.IntentionFunUtil
 
-class MsReverseIifIntention : BaseElementAtCaretIntentionAction() {
+class MsReverseIifIntention : SqlBaseElementAtCaretIntentionAction() {
     override fun getFamilyName(): String = MsIntentionMessages.message("reverse.iif.name")
     override fun getText(): String = MsIntentionMessages.message("reverse.iif.name")
 

@@ -16,19 +16,18 @@
 
 package ru.coding4fun.tsql.intention.function.string
 
-import com.intellij.codeInsight.intention.BaseElementAtCaretIntentionAction
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.sql.dialects.mssql.MsDialect
+import com.intellij.sql.intentions.SqlBaseElementAtCaretIntentionAction
 import com.intellij.sql.psi.SqlFunctionCallExpression
-import com.intellij.sql.psi.SqlReferenceExpression
 import com.intellij.sql.psi.impl.SqlPsiElementFactory
 import ru.coding4fun.tsql.MsIntentionMessages
 import ru.coding4fun.tsql.intention.IntentionFunUtil
 
-class MsLeftToSubstringIntention : BaseElementAtCaretIntentionAction() {
+class MsLeftToSubstringIntention : SqlBaseElementAtCaretIntentionAction() {
     override fun isAvailable(project: Project, editor: Editor?, element: PsiElement): Boolean {
         return IntentionFunUtil.isAvailable(element, "LEFT", arrayListOf(2))
     }

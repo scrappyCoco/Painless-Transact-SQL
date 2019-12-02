@@ -16,19 +16,19 @@
 
 package ru.coding4fun.tsql.intention
 
-import com.intellij.codeInsight.intention.BaseElementAtCaretIntentionAction
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.sql.dialects.mssql.MsDialect
+import com.intellij.sql.intentions.SqlBaseElementAtCaretIntentionAction
 import com.intellij.sql.psi.SqlLimitClause
 import com.intellij.sql.psi.SqlOrderByClause
 import com.intellij.sql.psi.SqlQueryExpression
 import com.intellij.sql.psi.impl.SqlPsiElementFactory
 import ru.coding4fun.tsql.MsIntentionMessages
 
-class MsMoveLimitToOrderByIntention : BaseElementAtCaretIntentionAction() {
+class MsMoveLimitToOrderByIntention : SqlBaseElementAtCaretIntentionAction() {
     override fun getFamilyName(): String = MsIntentionMessages.message("move.limit.to.order.by.name")
     override fun getText(): String = MsIntentionMessages.message("move.limit.to.order.by.name")
 
