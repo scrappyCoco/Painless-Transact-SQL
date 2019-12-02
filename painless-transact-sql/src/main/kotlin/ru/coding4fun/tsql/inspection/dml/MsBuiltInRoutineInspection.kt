@@ -23,7 +23,9 @@ import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.database.model.DasTypedObject
 import com.intellij.sql.dialects.SqlLanguageDialectEx
 import com.intellij.sql.inspections.SqlInspectionBase
-import com.intellij.sql.psi.*
+import com.intellij.sql.psi.SqlFunctionCallExpression
+import com.intellij.sql.psi.SqlReferenceExpression
+import com.intellij.sql.psi.SqlStringLiteralExpression
 import ru.coding4fun.tsql.MsInspectionMessages
 
 class MsBuiltInRoutineInspection : SqlInspectionBase(), CleanupLocalInspectionTool {
@@ -57,7 +59,7 @@ class MsBuiltInRoutineInspection : SqlInspectionBase(), CleanupLocalInspectionTo
                         separatorExpression,
                         separatorExpression,
                         problemDescription,
-                        ProblemHighlightType.WARNING,
+                        ProblemHighlightType.GENERIC_ERROR_OR_WARNING,
                         onTheFly
                 )
                 addDescriptor(problem)

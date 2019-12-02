@@ -73,7 +73,7 @@ class MsSemicolonCteInspection : SqlInspectionBase(), CleanupLocalInspectionTool
                     withKeyword,
                     problemMessage,
                     true,
-                    ProblemHighlightType.WARNING,
+                    ProblemHighlightType.GENERIC_ERROR_OR_WARNING,
                     onTheFly,
                     AddSemicolonQuickFix(selectStatement)
             )

@@ -64,7 +64,7 @@ class MsSubstringInspection:  SqlInspectionBase(), CleanupLocalInspectionTool {
                         funName,
                         problemMessage,
                         true,
-                        ProblemHighlightType.WEAK_WARNING,
+                        ProblemHighlightType.GENERIC_ERROR_OR_WARNING,
                         onTheFly,
                         ReplaceSubstringToLeftQuickFix(funExpression)
                 )

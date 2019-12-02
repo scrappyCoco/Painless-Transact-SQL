@@ -23,7 +23,7 @@ plugins {
 }
 
 group 'ru.coding4fun'
-version '2019.3.3'
+version '2019.3.4'
 
 repositories {
     mavenCentral()

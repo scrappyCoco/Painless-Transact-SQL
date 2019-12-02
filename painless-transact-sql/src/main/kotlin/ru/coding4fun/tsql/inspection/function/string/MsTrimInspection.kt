@@ -62,7 +62,7 @@ class MsTrimInspection : SqlInspectionBase(), CleanupLocalInspectionTool {
                 val problemMessage = MsInspectionMessages.message("inspection.function.trim.problem")
                 val problem = myManager.createProblemDescriptor(
                         callExpr.nameElement!!, callSequenceProcessor.lastCallExpr!!.nameElement!!,
-                        problemMessage, ProblemHighlightType.WEAK_WARNING, onTheFly,
+                        problemMessage, ProblemHighlightType.GENERIC_ERROR_OR_WARNING, onTheFly,
                         SimplifyTrimQuickFix(callExpr, callSequenceProcessor.lastCallExpr!!))
                 addDescriptor(problem)
             }

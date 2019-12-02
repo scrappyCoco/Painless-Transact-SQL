@@ -83,7 +83,7 @@ class MsCaseVsChooseInspection : SqlInspectionBase(), CleanupLocalInspectionTool
                     caseKeyword,
                     problemMessage,
                     true,
-                    ProblemHighlightType.WEAK_WARNING,
+                    ProblemHighlightType.GENERIC_ERROR_OR_WARNING,
                     onTheFly,
                     ReplaceCaseToChooseQuickFix(caseKeyword, sequenceValues.first.text, sequenceValues.second)
             )
@@ -159,7 +159,7 @@ class MsCaseVsChooseInspection : SqlInspectionBase(), CleanupLocalInspectionTool
                     caseKeyword,
                     problemMessage,
                     true,
-                    ProblemHighlightType.WEAK_WARNING,
+                    ProblemHighlightType.GENERIC_ERROR_OR_WARNING,
                     onTheFly,
                     ReplaceChooseToCaseQuickFix(functionCallExpression)
             )

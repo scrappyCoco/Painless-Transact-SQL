@@ -70,7 +70,7 @@ class MsReadonlyParameterInspection : SqlInspectionBase(), CleanupLocalInspectio
                         parameterDefinition,
                         problemDescription,
                         true,
-                        ProblemHighlightType.ERROR,
+                        ProblemHighlightType.GENERIC_ERROR_OR_WARNING,
                         onTheFly,
                         AddReadonlyQuickFix(parameterPointer)
                 )

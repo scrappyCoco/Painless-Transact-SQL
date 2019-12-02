@@ -78,7 +78,7 @@ class MsCursorInspection : SqlInspectionBase() {
                             intersect,
                             problemDescription,
                             true,
-                            ProblemHighlightType.WARNING,
+                            ProblemHighlightType.GENERIC_ERROR_OR_WARNING,
                             onTheFly,
                             RemoveQuickFix(SmartPointerManager.createPointer(intersect))
                     )
@@ -95,7 +95,7 @@ class MsCursorInspection : SqlInspectionBase() {
                             incompatibleOption,
                             problemDescription,
                             true,
-                            ProblemHighlightType.WARNING,
+                            ProblemHighlightType.GENERIC_ERROR_OR_WARNING,
                             onTheFly,
                             RemoveQuickFix(SmartPointerManager.createPointer(incompatibleOption))
                     )
@@ -113,7 +113,7 @@ class MsCursorInspection : SqlInspectionBase() {
                             sameElement,
                             problemDescription,
                             true,
-                            ProblemHighlightType.WARNING,
+                            ProblemHighlightType.GENERIC_ERROR_OR_WARNING,
                             onTheFly,
                             RemoveQuickFix(SmartPointerManager.createPointer(sameElement))
                     )

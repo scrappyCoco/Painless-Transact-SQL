@@ -95,7 +95,7 @@ class MsReadonlyModificationInspection : SqlInspectionBase(), CleanupLocalInspec
                     highlightElements.first,
                     highlightElements.second,
                     problemDescription,
-                    ProblemHighlightType.ERROR,
+                    ProblemHighlightType.GENERIC_ERROR_OR_WARNING,
                     onTheFly
             )
 

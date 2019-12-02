@@ -38,7 +38,6 @@ import com.intellij.sql.psi.impl.SqlPsiElementFactory
 import ru.coding4fun.tsql.MsInspectionMessages
 import ru.coding4fun.tsql.psi.findFirstTableReference
 import ru.coding4fun.tsql.psi.findLeaf
-import ru.coding4fun.tsql.psi.getNextNotEmptyLeaf
 import ru.coding4fun.tsql.psi.getPrevNotEmptyLeaf
 
 class MsDmlColumnListInspection : SqlInspectionBase() {
@@ -84,10 +83,12 @@ class MsDmlColumnListInspection : SqlInspectionBase() {
             val asteriskElement = dmlStatement.findLeaf(SqlElementTypes.SQL_ASTERISK)
             if (asteriskElement != null) {
                 val prevLeaf = asteriskElement.getPrevNotEmptyLeaf()
-                val nextLeaf = asteriskElement.getNextNotEmptyLeaf()
                 if (MsTypes.MSSQL_OUTPUT == prevLeaf?.elementType ||
                         SqlElementTypes.SQL_SELECT == prevLeaf?.elementType) {
-                    val parentExpr = PsiTreeUtil.getParentOfType(asteriskElement, SqlParenthesizedExpression::class.java)
+                    val parentExpr = PsiTreeUtil.getParentOfType(asteriskElement,
+                            SqlParenthesizedExpression::class.java, // Has explicit column list
+                            SqlWithClause::class.java // In WITH clause.
+                    )
                     // Is not sub-query.
                     if (parentExpr == null) addProblem(asteriskElement)
                 }
@@ -100,7 +101,7 @@ class MsDmlColumnListInspection : SqlInspectionBase() {
                     element,
                     element,
                     problemDescription,
-                    ProblemHighlightType.WEAK_WARNING,
+                    ProblemHighlightType.GENERIC_ERROR_OR_WARNING,
                     onTheFly,
                     ExpandColumnList(SmartPointerManager.getInstance(element.project).createSmartPsiElementPointer(element))
             )

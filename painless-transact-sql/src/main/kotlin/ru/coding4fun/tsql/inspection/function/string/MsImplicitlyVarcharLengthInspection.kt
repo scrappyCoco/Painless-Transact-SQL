@@ -48,7 +48,7 @@ class MsImplicitlyVarcharLengthInspection : SqlInspectionBase(), CleanupLocalIns
                     typeElement,
                     problemMessage,
                     true,
-                    ProblemHighlightType.WARNING,
+                    ProblemHighlightType.GENERIC_ERROR_OR_WARNING,
                     onTheFly,
                     SetImplicitlyLengthQuickFix(SmartPointerManager.createPointer(typeElement))
             )

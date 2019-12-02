@@ -101,7 +101,7 @@ class MsRenamedInspection : SqlInspectionBase(), CleanupLocalInspectionTool {
                         problemReference,
                         problemMessage,
                         true,
-                        ProblemHighlightType.WARNING,
+                        ProblemHighlightType.GENERIC_ERROR_OR_WARNING,
                         onTheFly,
                         RenameRoutineQuickFix(
                                 SmartPointerManager.createPointer(problemReference),

@@ -89,7 +89,7 @@ class MsColumnAliasDefinitionInspection : SqlInspectionBase(), CleanupLocalInspe
                     aliasLeaf,
                     problemDescription,
                     true,
-                    ProblemHighlightType.WEAK_WARNING,
+                    ProblemHighlightType.GENERIC_ERROR_OR_WARNING,
                     onTheFly,
                     ColumnAliasQuickFix(asExpressionPointer, preferEqualOverAs)
             )
