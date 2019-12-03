@@ -43,7 +43,7 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <completion.contributor implementationClass="ru.coding4fun.tsql.completion.PainlessCompletionContributor"
-                                language="TSQL"/>
+                                language="SQL"/>
         <!--        <codeInsight.parameterNameHints language="TSQL" implementationClass="ru.coding4fun.tsql.PainlessInlayParameterHintProvider"/>-->
 
         <localInspection groupPath="Painless T-SQL" suppressId="MsStringToReplicate"
@@ -207,7 +207,7 @@
             <categoryKey>intention.group.name</categoryKey>
         </intentionAction>
         <intentionAction>
-            <className>ru.coding4fun.tsql.intention.function.MsIsNullToCaseIntention</className>
+            <className>ru.coding4fun.tsql.intention.function.MsIifToCaseIntention</className>
             <bundleName>messages.intention</bundleName>
             <categoryKey>intention.group.name</categoryKey>
         </intentionAction>

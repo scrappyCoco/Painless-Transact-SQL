@@ -25,6 +25,7 @@ import com.intellij.database.util.DasUtil
 import com.intellij.database.util.DdlBuilder
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.elementType
+import com.intellij.sql.dialects.mssql.MsDialect
 import com.intellij.sql.psi.SqlElementTypes
 import com.intellij.sql.psi.SqlInsertStatement
 import com.intellij.sql.psi.SqlReferenceExpression
@@ -34,6 +35,9 @@ import ru.coding4fun.tsql.psi.getPrevNotEmptyLeaf
 
 class InsertTemplateCompletionProvider : CompletionProvider<CompletionParameters>() {
     override fun addCompletions(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
+        // Strange that it presented there, but in another way is not working.
+        if (parameters.position.containingFile.language != MsDialect.INSTANCE) return
+
         val prevNotEmptyLeaf = parameters.position.getPrevNotEmptyLeaf() ?: return
         if (!PREV_TYPES.contains(prevNotEmptyLeaf.elementType)) return
         val insertDml = PsiTreeUtil.getParentOfType(parameters.position, SqlInsertStatement::class.java) ?: return
