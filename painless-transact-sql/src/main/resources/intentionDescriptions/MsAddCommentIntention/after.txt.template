@@ -4,7 +4,7 @@ CREATE TABLE dbo.MyTable
     Name VARCHAR(MAX) NOT NULL
 );
 
--- After
+<spot>
 EXEC sys.sp_addextendedproperty
   @name = N'MS_Description', @value = N'...',
   @level0type = N'SCHEMA', @level0name = N'dbo',
@@ -20,4 +20,4 @@ EXEC sys.sp_addextendedproperty
   @name = N'MS_Description', @value = N'...',
   @level0type = N'SCHEMA', @level0name = N'dbo',
   @level1type = N'TABLE', @level1name = N'MyTable',
-  @level2type = N'COLUMN', @level2name = N'Name'
+  @level2type = N'COLUMN', @level2name = N'Name'</spot>

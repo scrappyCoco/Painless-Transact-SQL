@@ -4,5 +4,5 @@ DECLARE @T TABLE
    Name VARCHAR
 );
 
-SELECT TOP (1) *
+SELECT <spot>TOP (1)</spot> *
 FROM @T;

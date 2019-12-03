@@ -18,24 +18,33 @@
     <id>ru.coding4fun.painless-transact-sql</id>
     <name>Painless Transact SQL</name>
     <vendor email="coding4fun@list.ru" url="https://github.com/scrappyCoco/Painless-Transact-SQL">Coding4fun</vendor>
-    <description>A little bit inspections for MS SQL developers. For more information please checkout
-        https://github.com/scrappyCoco/Painless-Transact-SQL.</description>
-    <change-notes>The following intentions were added:
-        1. Replace temp table to variable table and vice-versa
-        2. Add comment to objects
-        3. Convert SELECT to MERGE
-        4. Add date style for CONVERT
-        And inspections:
-        1. Check for implicit size for VARCHAR in CONVERT/CAST
-    </change-notes>
+    <description><![CDATA[
+        <p>A little bit inspections for MS SQL developers. For more information please checkout homepage in github.</p>
+    ]]></description>
+    <change-notes>
+        <![CDATA[
+        <p>New intentions:</p>
+        <ul>
+            <li>Replace string to REPLICATE</li>
+            <li>Replace ISNULL to CASE</li>
+            <li>Replace NULLIF to CASE</li>
+        </ul>
+        <p>New inspections:</p>
+        <ul>
+            <li>Replace equal sign to EXISTS-INTERSECT</li>
+            <li>Check for implicit column list in DML</li>
+        </ul>
+        <p>Also was added completion which add column list template after UNION was written in INSERT context.</p>
+    ]]></change-notes>
 
     <idea-version since-build="193.4099.12"/>
     <depends>com.intellij.modules.database</depends>
     <depends>com.intellij.modules.sql</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <completion.contributor implementationClass="ru.coding4fun.tsql.completion.PainlessCompletionContributor" language="TSQL" />
-<!--        <codeInsight.parameterNameHints language="TSQL" implementationClass="ru.coding4fun.tsql.PainlessInlayParameterHintProvider"/>-->
+        <completion.contributor implementationClass="ru.coding4fun.tsql.completion.PainlessCompletionContributor"
+                                language="TSQL"/>
+        <!--        <codeInsight.parameterNameHints language="TSQL" implementationClass="ru.coding4fun.tsql.PainlessInlayParameterHintProvider"/>-->
 
         <localInspection groupPath="Painless T-SQL" suppressId="MsStringToReplicate"
                          shortName="MsStringToReplicateInspection"

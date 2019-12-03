@@ -1,3 +1,3 @@
 DECLARE @i VARCHAR(100)
 
-SELECT ISNULL(@i, '123');
+SELECT <spot>ISNULL(@i, '123')</spot>;

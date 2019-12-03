@@ -1,2 +1,2 @@
 DECLARE @i INT;
-SELECT IIF(@i <> 0, 'Green', 'Red');
+SELECT <spot>IIF(@i <> 0, 'Green', 'Red')</spot>;

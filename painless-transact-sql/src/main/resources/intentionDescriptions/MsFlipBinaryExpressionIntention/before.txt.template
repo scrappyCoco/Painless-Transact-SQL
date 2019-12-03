@@ -1,1 +1,1 @@
-IF (1 <= @a) SELECT 2
+IF (<spot>1 <= @a</spot>) SELECT 2

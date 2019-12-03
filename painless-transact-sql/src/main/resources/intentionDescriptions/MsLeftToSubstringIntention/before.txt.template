@@ -1,1 +1,1 @@
-SELECT LEFT('ABCDEF', 2);
+SELECT <spot>LEFT('ABCDEF', 2)</spot>;

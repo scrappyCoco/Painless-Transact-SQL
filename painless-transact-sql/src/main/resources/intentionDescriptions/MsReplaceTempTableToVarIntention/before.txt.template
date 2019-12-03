@@ -1,8 +1,8 @@
-CREATE TABLE #MyTable
+<spot>CREATE TABLE #MyTable</spot>
 (
     Id   INT,
     Name VARCHAR(200)
 );
 
-INSERT INTO #MyTable (Id, Name)
+INSERT INTO <spot>#MyTable</spot> (Id, Name)
 VALUES (1, '2')
