@@ -73,6 +73,24 @@ DISTINCT is redundant in set operators: UNION, INTERSECT, EXCEPT.
 ### Check for the CURSOR definition
 ![MsCursorInspection](https://raw.githubusercontent.com/scrappyCoco/Painless-Transact-SQL/master/screenshots/MsCursorInsepction.png)
 
+### Check for implicit column list in DML
+In cases when columns list is not specified explicit some time ago can occurred problems when any columns will be added or deleted.
+```sql
+CREATE TABLE T (
+    Id INT,
+    Name VARCHAR(100)
+);
+GO
+
+-- Before
+INSERT INTO T
+VALUES (1, 'Artem');
+
+-- After
+INSERT INTO T (Id, Name)
+VALUES (1, 'Artem');
+```
+
 ## String functions
 ### SUBSTRING function check
 This inspection offer to replace SUBSTRING to LEFT.
@@ -109,6 +127,15 @@ SELECT CONVERT(VARCHAR, NEWID());
 After:
 ```sql
 SELECT CONVERT(VARCHAR(30), NEWID());
+```
+
+### Replace string to REPLICATE
+```sql
+-- Before
+SELECT '11111111'
+
+-- After
+SELECT REPLICATE('1', 8)
 ```
 
 # Intentions
@@ -294,6 +321,45 @@ EXEC sys.sp_addextendedproperty
   @level2type = N'COLUMN', @level2name = N'Name'
 ```
 
+## Replace equal sign to EXISTS-INTERSECT
+```sql
+DECLARE @source TABLE (Code CHAR(10) NOT NULL, Category INT, PRIMARY KEY (Code, Category))
+DECLARE @target TABLE (Code CHAR(10) NOT NULL, Category INT, PRIMARY KEY (Code, Category))
+
+-- Before
+SELECT *
+FROM @source AS Source
+INNER JOIN @target AS Target ON Source.Code = Target.Code
+    AND Source.Category = Target.Category
+
+-- After
+SELECT *
+FROM @source AS Source
+INNER JOIN @target AS Target ON Source.Code = Target.Code
+    AND EXISTS(SELECT Source.Category INTERSECT SELECT Target.Category)
+```
+
+## Replace ISNULL to CASE
+```sql
+DECLARE @i VARCHAR(100);
+
+-- Before
+SELECT ISNULL(@i, '123');
+
+-- After
+SELECT CASE WHEN @i IS NULL THEN '123' ELSE @i END;
+```
+
+## Replace NULLIF to CASE
+```sql
+DECLARE @i VARCHAR(100);
+
+-- Before
+SELECT NULLIF(@i, '123');
+
+-- After
+SELECT CASE WHEN @i = '123' THEN NULL ELSE @i END;
+```
 
 # Completions
 ## Column list interface in INSERT context

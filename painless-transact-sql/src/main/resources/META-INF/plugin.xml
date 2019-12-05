@@ -25,13 +25,13 @@
         <![CDATA[
         <p>New intentions:</p>
         <ul>
-            <li>Replace string to REPLICATE</li>
+            <li>Replace equal sign to EXISTS-INTERSECT</li>
             <li>Replace ISNULL to CASE</li>
             <li>Replace NULLIF to CASE</li>
         </ul>
         <p>New inspections:</p>
         <ul>
-            <li>Replace equal sign to EXISTS-INTERSECT</li>
+            <li>Replace string to REPLICATE</li>
             <li>Check for implicit column list in DML</li>
         </ul>
         <p>Also was added completion which add column list template after UNION was written in INSERT context.</p>
@@ -207,7 +207,7 @@
             <categoryKey>intention.group.name</categoryKey>
         </intentionAction>
         <intentionAction>
-            <className>ru.coding4fun.tsql.intention.function.MsIifToCaseIntention</className>
+            <className>ru.coding4fun.tsql.intention.function.MsIsNullToCaseIntention</className>
             <bundleName>messages.intention</bundleName>
             <categoryKey>intention.group.name</categoryKey>
         </intentionAction>
