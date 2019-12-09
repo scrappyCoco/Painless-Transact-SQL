@@ -40,11 +40,14 @@ dependencies {
 intellij {
     type 'IU'
     plugins 'DatabaseTools'
-    version 'LATEST-EAP-SNAPSHOT'
+    version '2019.3'
 }
 compileKotlin {
     kotlinOptions.jvmTarget = "11"
 }
 compileTestKotlin {
     kotlinOptions.jvmTarget = "11"
+}
+
+patchPluginXml {
 }

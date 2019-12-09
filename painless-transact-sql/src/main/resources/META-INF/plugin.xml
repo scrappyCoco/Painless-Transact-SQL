@@ -37,7 +37,6 @@
         <p>Also was added completion which add column list template after UNION was written in INSERT context.</p>
     ]]></change-notes>
 
-    <idea-version since-build="193.4099.12"/>
     <depends>com.intellij.modules.database</depends>
     <depends>com.intellij.modules.sql</depends>
 
