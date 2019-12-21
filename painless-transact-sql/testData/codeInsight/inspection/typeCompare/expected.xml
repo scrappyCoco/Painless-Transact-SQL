@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<problems>
+    <problem>
+        <file>binaryExpression.sql</file>
+        <line>4</line>
+        <problem_class severity="ERROR" attribute_key="ERROR_ATTRIBUTES">TRIM function check</problem_class>
+        <description>Unable to convert from INT to DATE</description>
+    </problem>
+</problems>

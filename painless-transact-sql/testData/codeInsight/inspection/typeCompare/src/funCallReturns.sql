@@ -1,0 +1,9 @@
+CREATE FUNCTION dbo.MyFun (@i INT) RETURNS UNIQUEIDENTIFIER
+AS
+    BEGIN
+        RETURN 0x1
+    END
+GO
+
+DECLARE @g INT;
+SELECT @g = dbo.MyFun(1)

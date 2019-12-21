@@ -1,0 +1,6 @@
+DECLARE @i INT;
+DECLARE @d DATE;
+
+SELECT @i, @d
+UNION ALL
+SELECT @d, @i

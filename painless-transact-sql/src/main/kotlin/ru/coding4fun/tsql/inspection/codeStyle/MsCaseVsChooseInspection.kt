@@ -102,6 +102,7 @@ class MsCaseVsChooseInspection : SqlInspectionBase(), CleanupLocalInspectionTool
                 val literalExpression = sqlWhenThenClause.whenClause?.expression as? SqlLiteralExpression
                         ?: return null
                 if (literalExpression.elementType != SqlElementTypes.SQL_NUMERIC_LITERAL) return null
+                if (literalExpression.text.any { !it.isDigit() }) return null
                 val position = Integer.parseInt(literalExpression.text)
                 val thenText = sqlWhenThenClause.thenClause?.body?.firstOrNull()?.text ?: return null
                 result.add(Triple(reference, position, thenText))

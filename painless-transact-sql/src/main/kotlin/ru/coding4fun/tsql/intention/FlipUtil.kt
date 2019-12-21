@@ -17,6 +17,7 @@
 package ru.coding4fun.tsql.intention
 
 import com.intellij.openapi.project.Project
+import com.intellij.psi.PsiElement
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.elementType
@@ -24,6 +25,7 @@ import com.intellij.sql.dialects.mssql.MsDialect
 import com.intellij.sql.psi.SqlBinaryExpression
 import com.intellij.sql.psi.SqlElementTypes
 import com.intellij.sql.psi.impl.SqlPsiElementFactory
+import ru.coding4fun.tsql.psi.PainlessPsiElementFactory
 
 object FlipUtil {
     private val operators = hashMapOf(
@@ -47,15 +49,23 @@ object FlipUtil {
     }
 
     fun reverse(project: Project, binaryExpression: SqlBinaryExpression) {
-        val opSignElement = binaryExpression.opSignElement
-        val newOperatorType = when (opSignElement.elementType!!) {
+        val opElementType = binaryExpression.opSignElement.elementType!!
+        val newOperatorType = if (binaryExpression.isNot) SqlElementTypes.SQL_IS
+        else when (opElementType) {
             SqlElementTypes.SQL_OP_EQ -> SqlElementTypes.SQL_OP_NEQ
             SqlElementTypes.SQL_OP_NEQ -> SqlElementTypes.SQL_OP_EQ
             SqlElementTypes.SQL_OP_NEQ2 -> SqlElementTypes.SQL_OP_EQ
-            else -> operators[opSignElement.elementType]!!
+            else -> operators[opElementType]
         }
-        val newOperatorElement = SqlPsiElementFactory.createLeafFromText(project, MsDialect.INSTANCE, newOperatorType.toString())
-        opSignElement.replace(newOperatorElement)
+
+        val newOperatorElement: PsiElement
+        newOperatorElement = if (newOperatorType != null) {
+            SqlPsiElementFactory.createLeafFromText(project, MsDialect.INSTANCE, newOperatorType.toString())
+        } else {
+            PainlessPsiElementFactory.createIsNotElement(project)
+        }
+
+        binaryExpression.opSignElement.replace(newOperatorElement)
     }
 
     fun flip(project: Project, binaryExpression: SqlBinaryExpression) {

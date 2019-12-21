@@ -1,5 +1,5 @@
 /*
- * Copyright [2019] Coding4fun
+ * Copyright [2020] Coding4fun
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package ru.coding4fun.tsql.test
 
+import ru.coding4fun.tsql.inspection.dml.MsTypeCompatibilityInspection
 import ru.coding4fun.tsql.inspection.codeStyle.MsRedundantQualifierInspection
 import ru.coding4fun.tsql.inspection.dml.MsDmlColumnListInspection
 import ru.coding4fun.tsql.inspection.function.string.MsImplicitlyVarcharLengthInspection
@@ -46,5 +47,9 @@ class MsInspectionTest: MsFixtureTestCase() {
 
     fun testStringToReplicate() {
         this.testInspections("codeInsight/inspection/stringToReplicate", MsStringToReplicateInspection())
+    }
+
+    fun testTypeCompare() {
+        this.testInspections("codeInsight/inspection/typeCompare", MsTypeCompatibilityInspection())
     }
 }

@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright [2019] Coding4fun
+  ~ Copyright [2020] Coding4fun
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -23,27 +23,61 @@
     ]]></description>
     <change-notes>
         <![CDATA[
-        <p>New intentions:</p>
-        <ul>
-            <li>Replace equal sign to EXISTS-INTERSECT</li>
-            <li>Replace ISNULL to CASE</li>
-            <li>Replace NULLIF to CASE</li>
-        </ul>
         <p>New inspections:</p>
         <ul>
-            <li>Replace string to REPLICATE</li>
-            <li>Check for implicit column list in DML</li>
+            <li>Check for unused columns in the temp/variable tables</li>
+            <li>Basic check for type compatibility</li>
+            <li>Check for missing NOT NULL columns in the INSERT instruction.</li>
         </ul>
-        <p>Also was added completion which add column list template after UNION was written in INSERT context.</p>
+        <p>Also was added new feature "Folding" in the context menu over DB tree.</p>
     ]]></change-notes>
 
     <depends>com.intellij.modules.database</depends>
     <depends>com.intellij.modules.sql</depends>
 
+    <actions>
+        <group id="MssqlFoldingGroup" text="Folding" popup="true">
+            <add-to-group group-id="DatabaseViewPopupMenu" />
+            <separator />
+            <action class="ru.coding4fun.tsql.action.folding.ExpandEverywhereAction"
+                    id="MssqlExpandEverywhere"
+                    popup="true" />
+            <action class="ru.coding4fun.tsql.action.folding.ExpandGroupAction"
+                    id="MssqlExpandGroup"
+                    popup="true" />
+            <action class="ru.coding4fun.tsql.action.folding.ExpandDataSourceAction"
+                    id="MssqlExpandDataSource"
+                    popup="true" />
+            <action class="ru.coding4fun.tsql.action.folding.ExpandDbAction"
+                    id="MssqlExpandDb"
+                    popup="true" />
+            <separator />
+            <action class="ru.coding4fun.tsql.action.folding.CollapseEverywhereAction"
+                    id="MssqlCollapseEverywhere"
+                    popup="true" />
+            <action class="ru.coding4fun.tsql.action.folding.CollapseGroupAction"
+                    id="MssqlCollapseGroup"
+                    popup="true" />
+            <action class="ru.coding4fun.tsql.action.folding.CollapseDataSourceAction"
+                    id="MssqlCollapseDataSource"
+                    popup="true" />
+            <action class="ru.coding4fun.tsql.action.folding.CollapseDbAction"
+                    id="MssqlCollapseDb"
+                    popup="true" />
+        </group>
+    </actions>
+
     <extensions defaultExtensionNs="com.intellij">
         <completion.contributor implementationClass="ru.coding4fun.tsql.completion.PainlessCompletionContributor"
                                 language="SQL"/>
         <!--        <codeInsight.parameterNameHints language="TSQL" implementationClass="ru.coding4fun.tsql.PainlessInlayParameterHintProvider"/>-->
+
+        <localInspection groupPath="Painless T-SQL" suppressId="MsTypeCompatibility"
+                         shortName="MsTypeCompatibilityInspection"
+                         bundle="messages.inspection" key="type.compatibility.name"
+                         groupBundle="messages.inspection" groupKey="inspection.dml.group"
+                         enabledByDefault="true" level="WEAK WARNING" language="TSQL" cleanupTool="false"
+                         implementationClass="ru.coding4fun.tsql.inspection.dml.MsTypeCompatibilityInspection"/>
 
         <localInspection groupPath="Painless T-SQL" suppressId="MsStringToReplicate"
                          shortName="MsStringToReplicateInspection"
@@ -143,8 +177,18 @@
                          groupBundle="messages.inspection" groupKey="inspection.function.string.group"
                          enabledByDefault="true" level="WEAK WARNING" language="TSQL"
                          implementationClass="ru.coding4fun.tsql.inspection.function.string.MsTrimInspection"/>
-
-
+        <localInspection groupPath="Painless T-SQL" suppressId="MsMissingColumn"
+                         shortName="MsMissingColumnInspection"
+                         bundle="messages.inspection" key="missing.column.name"
+                         groupBundle="messages.inspection" groupKey="inspection.dml.group"
+                         enabledByDefault="true" level="WARNING" language="TSQL"
+                         implementationClass="ru.coding4fun.tsql.inspection.dml.MsMissingColumnInspection"/>
+        <localInspection groupPath="Painless T-SQL" suppressId="MsUnusedColumn"
+                         shortName="MsUnusedColumnInspection"
+                         bundle="messages.inspection" key="unused.column.name"
+                         groupBundle="messages.inspection" groupKey="inspection.dml.group"
+                         enabledByDefault="true" level="WARNING" language="TSQL"
+                         implementationClass="ru.coding4fun.tsql.inspection.dml.MsUnusedColumnInspection"/>
         <intentionAction>
             <className>ru.coding4fun.tsql.intention.MsAddDateStyleInConvertIntention</className>
             <bundleName>messages.intention</bundleName>

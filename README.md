@@ -73,6 +73,15 @@ DISTINCT is redundant in set operators: UNION, INTERSECT, EXCEPT.
 ### Check for the CURSOR definition
 ![MsCursorInspection](https://raw.githubusercontent.com/scrappyCoco/Painless-Transact-SQL/master/screenshots/MsCursorInsepction.png)
 
+### Check for type compatibility
+![MsTypeCompatibilityInspection](https://raw.githubusercontent.com/scrappyCoco/Painless-Transact-SQL/master/screenshots/TypeCompatibility.png)
+
+### Unused columns
+![MsUnusedColumnInspection](https://raw.githubusercontent.com/scrappyCoco/Painless-Transact-SQL/master/screenshots/UnusedColumnInTempTable.png)
+
+### Missing columns
+![MsMissingColumnInspection](https://raw.githubusercontent.com/scrappyCoco/Painless-Transact-SQL/master/screenshots/MissingColumn.png)
+
 ### Check for implicit column list in DML
 In cases when columns list is not specified explicit some time ago can occurred problems when any columns will be added or deleted.
 ```sql
@@ -364,3 +373,8 @@ SELECT CASE WHEN @i = '123' THEN NULL ELSE @i END;
 # Completions
 ## Column list interface in INSERT context
 ![Insert Template Completion](https://raw.githubusercontent.com/scrappyCoco/Painless-Transact-SQL/master/screenshots/InsertTemplateCompletion.gif)
+
+# DB Tree
+## Folding
+In some cases can be useful to open in the DB tree all objects of single type in some scopes. For example: open all columns in some database.
+![Folding](https://raw.githubusercontent.com/scrappyCoco/Painless-Transact-SQL/master/screenshots/Folding.png)

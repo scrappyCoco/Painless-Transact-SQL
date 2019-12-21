@@ -1,0 +1,10 @@
+CREATE FUNCTION dbo.MyScalarFun(@i INT, @d DATE)
+    RETURNS UNIQUEIDENTIFIER
+AS
+BEGIN
+    RETURN 0x0
+END
+GO
+
+DECLARE @i INT;
+SELECT dbo.MyScalarFun(@i, @i);
