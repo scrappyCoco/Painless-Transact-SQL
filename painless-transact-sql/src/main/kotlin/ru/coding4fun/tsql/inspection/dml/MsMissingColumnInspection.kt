@@ -63,6 +63,8 @@ class MsMissingColumnInspection : SqlInspectionBase() {
         }
 
         fun visitSqlTableColumnListImpl(highlightElement: SqlElement, targetType: SqlTableType, referenceList: SqlReferenceList){
+            if (PsiTreeUtil.getParentOfType(highlightElement, SqlStatement::class.java) is SqlDdlStatement) return
+
             val requiredColumns = hashSetOf<DasColumn>()
 
             for (columnNumber in 0 until targetType.columnCount) {
