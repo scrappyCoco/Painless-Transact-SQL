@@ -13,3 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+package ru.coding4fun.tsql.lang;
+
+import com.intellij.lang.parser.GeneratedParserUtilBase;
+
+public class ContainsParserUtil extends GeneratedParserUtilBase {
+}

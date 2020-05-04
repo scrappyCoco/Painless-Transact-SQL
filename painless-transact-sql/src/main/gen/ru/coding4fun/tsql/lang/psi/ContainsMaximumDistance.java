@@ -13,3 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+// This is a generated file. Not intended for manual editing.
+package ru.coding4fun.tsql.lang.psi;
+
+import com.intellij.psi.PsiElement;
+import org.jetbrains.annotations.Nullable;
+
+public interface ContainsMaximumDistance extends PsiElement {
+
+  @Nullable
+  PsiElement getMax();
+
+  @Nullable
+  PsiElement getInteger();
+
+}

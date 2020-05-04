@@ -13,3 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+// This is a generated file. Not intended for manual editing.
+package ru.coding4fun.tsql.lang.psi;
+
+import com.intellij.psi.PsiElement;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+public interface ContainsWeightOption extends PsiElement {
+
+  @Nullable
+  ContainsGenerationTerm getGenerationTerm();
+
+  @Nullable
+  ContainsSimpleTerm getSimpleTerm();
+
+  @NotNull
+  PsiElement getWeight();
+
+  @NotNull
+  PsiElement getDecimal();
+
+}
