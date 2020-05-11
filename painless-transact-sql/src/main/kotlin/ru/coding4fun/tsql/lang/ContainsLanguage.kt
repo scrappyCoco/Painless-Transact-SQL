@@ -43,15 +43,11 @@ object ContainsLanguage : Language("Contains") {
     override fun isCaseSensitive(): Boolean = false
 }
 
-object ContainsIcons {
-    var FILE: Icon = AllIcons.Ide.Readonly
-}
-
 object ContainsFileType : LanguageFileType(ContainsLanguage) {
-    override fun getIcon(): Icon? = ContainsIcons.FILE
+    override fun getIcon(): Icon? = AllIcons.Actions.Replace
     override fun getName(): String = "Contains File"
     override fun getDefaultExtension(): String = "contains"
-    override fun getDescription(): String = "Contains language file for T-SQL"
+    override fun getDescription(): String = "Contains search for T-SQL"
 }
 
 class ContainsTokenType(debugName: String) : IElementType(debugName, ContainsLanguage) {

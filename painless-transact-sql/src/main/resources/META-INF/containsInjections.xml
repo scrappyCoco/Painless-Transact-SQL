@@ -16,7 +16,7 @@
   -->
 
 <component name="LanguageInjectionConfiguration">
-    <injection language="Contains" injector-id="painless">
+    <injection language="Contains" injector-id="sql">
         <display-name>SQL Server Contains</display-name>
         <place><![CDATA[
             sqlStringLiteral().forDialects("TSQL").withParent(sqlExpression().withFirstChild(leafTokens("contains")))
