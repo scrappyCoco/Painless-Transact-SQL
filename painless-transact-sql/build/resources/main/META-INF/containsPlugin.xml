@@ -1,0 +1,30 @@
+<idea-plugin>
+    <extensions defaultExtensionNs="com.intellij">
+        <fileType name="Contains File" implementationClass="ru.coding4fun.tsql.contains.ContainsFileType"
+                  fieldName="INSTANCE" language="Contains" extensions="contains"/>
+
+        <lang.parserDefinition language="Contains"
+                               implementationClass="ru.coding4fun.tsql.contains.ContainsParserDefinition"/>
+
+        <lang.syntaxHighlighterFactory language="Contains"
+                                       implementationClass="ru.coding4fun.tsql.contains.ContainsSyntaxHighlighterFactory"/>
+
+        <localInspection groupPath="Painless T-SQL" suppressId="ContainsWeight"
+                         shortName="ContainsWeightInspection"
+                         bundle="messages.containsInspection" key="contains.weight"
+                         groupBundle="messages.containsInspection" groupKey="contains.group"
+                         enabledByDefault="true" level="ERROR" language="Contains" cleanupTool="false"
+                         implementationClass="ru.coding4fun.tsql.contains.inspection.ContainsWeightInspection" />
+
+        <intentionAction>
+            <className>ru.coding4fun.tsql.contains.intention.ContainsReplaceToInflectional</className>
+            <bundleName>messages.containsIntention</bundleName>
+            <categoryKey>contains.group</categoryKey>
+        </intentionAction>
+        <intentionAction>
+            <className>ru.coding4fun.tsql.contains.intention.ContainsReplaceToThesaurus</className>
+            <bundleName>messages.containsIntention</bundleName>
+            <categoryKey>contains.group</categoryKey>
+        </intentionAction>
+    </extensions>
+</idea-plugin>

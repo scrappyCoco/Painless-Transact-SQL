@@ -1,41 +1,3 @@
-buildscript {
-    ext.kotlin_version = '1.3.72'
-
-    repositories {
-        jcenter()
-        //maven { url "https://kotlin.bintray.com/kotlinx" }
-        maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
-        mavenCentral()
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
-        maven { url "https://dl.bintray.com/jetbrains/intellij-plugin-service" }
-    }
-
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "org.jetbrains.intellij.plugins:gradle-intellij-plugin:0.5.0-SNAPSHOT"
-    }
-}
-
-plugins {
-    id 'java'
-    id 'org.jetbrains.intellij' version '0.4.10'
-    id 'org.jetbrains.kotlin.jvm' version '1.3.60'
-}
-
-group 'ru.coding4fun'
-version '2020.1.1'
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.50"
-    compile group: 'org.jetbrains.kotlin', name: 'kotlin-reflect', version: "1.3.50"
-    compile group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: "1.3.50"
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-}
-
 /*
  * Copyright [2020] Coding4fun
  *
@@ -52,6 +14,43 @@ dependencies {
  * limitations under the License.
  */
 
+buildscript {
+    ext.kotlin_version = '1.3.72'
+
+    repositories {
+        jcenter()
+        mavenCentral()
+        maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+        maven { url "https://dl.bintray.com/jetbrains/intellij-plugin-service" }
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.intellij.plugins:gradle-intellij-plugin:0.5.0-SNAPSHOT"
+    }
+}
+
+plugins {
+    id 'java'
+    id 'org.jetbrains.intellij' version '0.4.10'
+    id 'org.jetbrains.kotlin.jvm' version '1.3.72'
+}
+
+group 'ru.coding4fun'
+version '2020.1.1'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    testCompile "junit:junit:4.12"
+}
+
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
     type 'IU'
@@ -65,13 +64,22 @@ compileTestKotlin {
     kotlinOptions.jvmTarget = "11"
 }
 
+runIde {
+    ideDirectory "$idePath"
+}
+
 patchPluginXml {
+    sinceBuild '201.*'
+    untilBuild '202.*'
+    changeNotes 'Support for CONTAINS syntax was added.'
 }
 
 sourceSets {
-    main {
-        java {
-            srcDirs += ["src/main/gen"]
-        }
-    }
+    main.java.srcDirs = []
+    main.java.srcDirs += "src/main/java"
+    main.java.srcDirs += "../contains-language/src/main/gen"
+    main.java.srcDirs += "../contains-language/src/main/java"
+
+    main.kotlin.srcDirs += "../contains-language/src/main/kotlin"
+    main.resources.srcDirs += "../contains-language/src/main/resources"
 }

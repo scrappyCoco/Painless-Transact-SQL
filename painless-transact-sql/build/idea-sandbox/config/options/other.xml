@@ -1,0 +1,14 @@
+<application>
+  <component name="PropertiesComponent">
+    <property name="DBE.Init.Cfg.1" value="true" />
+    <property name="DBE.Init.DialogShown.Ide" value="true" />
+    <property name="UITheme.relaunch" value="true" />
+    <property name="evlsprt3.DB-202.5103.3" value="11" />
+    <property name="file.gist.reindex.count" value="1" />
+    <property name="fileTypeChangedCounter" value="4" />
+    <property name="ide.memory.adjusted" value="true" />
+    <property name="lastSeenTip" value="neue-tips_db_DBTerminal.html" />
+    <property name="lastTimeTipsWereShown" value="1592041462495" />
+    <property name="seenTips" value="neue-tips_db_DBTerminal.html" />
+  </component>
+</application>

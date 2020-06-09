@@ -1,0 +1,12 @@
+<html>
+<body>
+Replacement AS column alias to equals and vice-versa.
+<br/>
+DECLARE @A TABLE (bsp;SourceId INT);<br/>
+<br/>
+-- Equals<br/>
+SELECT MyId <strong>=</strong> SourceId FROM @A;<br/>
+-- AS<br/>
+SELECT SourceId <strong>AS</strong> MyId FROM @A;<br/>
+</body>
+</html>

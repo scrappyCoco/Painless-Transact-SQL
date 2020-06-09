@@ -1,0 +1,17 @@
+<html>
+<body>
+Replacing CASE with CHOOSE and vice-versa.<br/>
+<br/>
+Before:<br/>
+DECLARE @a INT = 1;<br/>
+SELECT CASE @a<br/>
+WHEN 1 THEN 'A'<br/>
+WHEN 2 THEN 'B'<br/>
+WHEN 3 THEN 'C'<br/>
+END<br/>
+<br/>
+After:<br/>
+DECLARE @a INT = 1;<br/>
+SELECT CHOOSE(@a, 'A', 'B', 'C')<br/>
+</body>
+</html>

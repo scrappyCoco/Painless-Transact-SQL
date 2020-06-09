@@ -1,0 +1,42 @@
+<application>
+  <component name="ActionsLocalSummary">
+    <data>
+      <entry key="$Undo">
+        <ActionSummary times="5" last="1592068240114" />
+      </entry>
+      <entry key="DatabaseView.PropertiesAction">
+        <ActionSummary times="1" last="1592066752115" />
+      </entry>
+      <entry key="EditorBackSpace">
+        <ActionSummary times="11" last="1592045876876" />
+      </entry>
+      <entry key="EditorEnter">
+        <ActionSummary times="6" last="1592041585394" />
+      </entry>
+      <entry key="EditorEscape">
+        <ActionSummary times="3" last="1592041534982" />
+      </entry>
+      <entry key="EditorLeft">
+        <ActionSummary times="5" last="1592043165458" />
+      </entry>
+      <entry key="EditorMoveToPageTop">
+        <ActionSummary times="1" last="1592041517162" />
+      </entry>
+      <entry key="EditorTextEnd">
+        <ActionSummary times="1" last="1592041519644" />
+      </entry>
+      <entry key="EditorTextStart">
+        <ActionSummary times="1" last="1592041517147" />
+      </entry>
+      <entry key="EditorUp">
+        <ActionSummary times="2" last="1592041518788" />
+      </entry>
+      <entry key="NewScratchFile">
+        <ActionSummary times="1" last="1592041502426" />
+      </entry>
+      <entry key="ShowIntentionActions">
+        <ActionSummary times="4" last="1592068235643" />
+      </entry>
+    </data>
+  </component>
+</application>

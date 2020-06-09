@@ -1,0 +1,8 @@
+<spot>DECLARE @MyTable TABLE</spot>
+(
+    Id   INT,
+    Name VARCHAR(200)
+);
+
+INSERT INTO <spot>@MyTable</spot> (Id, Name)
+VALUES (1, '2')

@@ -1,0 +1,1 @@
+SELECT <spot>SUBSTRING('ABCDEF', 1, 2)</spot>;

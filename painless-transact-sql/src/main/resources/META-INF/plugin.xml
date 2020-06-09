@@ -14,34 +14,26 @@
   ~ limitations under the License.
   -->
 
-<idea-plugin>
+<idea-plugin xmlns:xi="http://www.w3.org/2001/XInclude">
     <id>ru.coding4fun.painless-transact-sql</id>
     <name>Painless Transact SQL</name>
     <vendor email="coding4fun@list.ru" url="https://github.com/scrappyCoco/Painless-Transact-SQL">Coding4fun</vendor>
     <description><![CDATA[
         <p>A little bit inspections for MS SQL developers. For more information please checkout homepage in github.</p>
     ]]></description>
-    <change-notes>
-        <![CDATA[
-        <p>New inspections:</p>
-        <ul>
-            <li>Check for unused columns in the temp/variable tables</li>
-            <li>Basic check for type compatibility</li>
-            <li>Check for missing NOT NULL columns in the INSERT instruction.</li>
-        </ul>
-        <p>Also was added new feature "Folding" in the context menu over DB tree.</p>
-    ]]></change-notes>
 
     <depends>com.intellij.modules.database</depends>
     <depends>com.intellij.modules.sql</depends>
 
+    <xi:include href="/META-INF/containsPlugin.xml" xpointer="xpointer(/idea-plugin/*)"/>
+
     <actions>
         <group id="MssqlFoldingGroup" text="Folding" popup="true">
-            <add-to-group group-id="DatabaseViewPopupMenu" />
-            <separator />
+            <add-to-group group-id="DatabaseViewPopupMenu"/>
+            <separator/>
             <action class="ru.coding4fun.tsql.action.folding.ExpandEverywhereAction"
                     id="MssqlExpandEverywhere"
-                    popup="true" />
+                    popup="true"/>
             <action class="ru.coding4fun.tsql.action.folding.ExpandGroupAction"
                     id="MssqlExpandGroup"
                     popup="true" />
@@ -72,13 +64,6 @@
     </extensions>
 
     <extensions defaultExtensionNs="com.intellij">
-        <fileType name="Contains File" implementationClass="ru.coding4fun.tsql.lang.ContainsFileType"
-                  fieldName="INSTANCE" language="Contains" extensions="contains"/>
-        <lang.parserDefinition language="Contains"
-                               implementationClass="ru.coding4fun.tsql.lang.ContainsParserDefinition"/>
-        <lang.syntaxHighlighterFactory language="Contains"
-                                       implementationClass="ru.coding4fun.tsql.lang.ContainsSyntaxHighlighterFactory"/>
-
         <completion.contributor implementationClass="ru.coding4fun.tsql.completion.PainlessCompletionContributor"
                                 language="SQL"/>
         <!--        <codeInsight.parameterNameHints language="TSQL" implementationClass="ru.coding4fun.tsql.PainlessInlayParameterHintProvider"/>-->
