@@ -1,0 +1,121 @@
+/*
+ * Copyright [2020] Coding4fun
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+{
+  parserImports=[
+    "static com.intellij.lang.parser.GeneratedParserUtilBase.*"
+  ]
+  parserClass="ru.coding4fun.tsql.contains.ContainsParser"
+
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+  psiClassPrefix="Contains"
+  psiImplClassSuffix="Impl"
+  psiPackage="ru.coding4fun.tsql.contains.psi"
+  psiImplPackage="ru.coding4fun.tsql.contains.psi.impl"
+  psiImplUtilClass="ru.coding4fun.tsql.contains.psi.impl.ContainsPsiImplUtil"
+
+  elementTypeHolderClass="ru.coding4fun.tsql.contains.psi.ContainsTypes"
+  elementTypeClass="ru.coding4fun.tsql.contains.ContainsElementType"
+  tokenTypeClass="ru.coding4fun.tsql.contains.ContainsTokenType"
+
+  psiImplUtilClass="ru.coding4fun.tsql.contains.psi.impl.ContainsPsiImplUtil"
+
+  tokens=[
+      COMMA=','
+      LPAREN="("
+      RPAREN=")"
+      ASTERISK='*'
+      OR_OP='|'
+      AND_OP='&'
+      AMP_NOT_OP='&!'
+      TILDA='~'
+      QUOTE='"'
+
+      OR='OR'
+      AND='AND'
+      NOT='NOT'
+      AND_NOT='AND_NOT'
+      NEAR='NEAR'
+      FORMS_OF='FORMSOF'
+      INFLECTIONAL='INFLECTIONAL'
+      THESAURUS='THESAURUS'
+      TRUE='TRUE'
+      FALSE='FALSE'
+      WEIGHT='WEIGHT'
+      MAX='MAX'
+      IS_ABOUT='ISABOUT'
+
+      word='regexp:[\p{L}0-9]+'
+      string='regexp:"([^"]+)"'
+      decimal='regexp:\d?[.]\d'
+      integer='regexp:\d+'
+      space='regexp:\s+'
+  ]
+}
+
+contains_search_condition ::= item { bool_operator item }*
+
+item ::= custom_proximity_term | weighted_term | generation_term | generic_proximity_term | simple_term
+
+simple_term ::= { word | string } { extends = term_literal }
+generation_term ::= FORMS_OF LPAREN generation_form COMMA simple_term+ RPAREN { extends = term_expression }
+generation_form ::= INFLECTIONAL | THESAURUS
+generic_proximity_term ::= simple_term { { NEAR | TILDA } simple_term }* { extends = term_expression }
+
+custom_proximity_term ::=
+  NEAR LPAREN {
+    <<comma_separated_list simple_term>> |
+    { LPAREN <<comma_separated_list simple_term>> RPAREN } [ COMMA maximum_distance [COMMA match_order ] ]
+  } RPAREN { extends = term_expression }
+
+maximum_distance ::= { integer_literal | MAX }
+
+match_order ::= bool_literal
+
+weighted_term ::= IS_ABOUT LPAREN { <<comma_separated_list weight_option>> } RPAREN { extends = term_expression }
+
+weight_option ::= weight_term [ WEIGHT LPAREN decimal_literal RPAREN ] {
+  methods = [
+    getWeightValue
+    weightLiteral="element[1]"
+  ]
+  extends = expression
+}
+
+weight_term ::= { simple_term | generation_term } { extends = term_expression }
+
+// Boolean operators.
+bool_operator ::= and_operator | and_not_operator | or_operator {
+  methods = [getOperatorElementType]
+  extends = element
+}
+
+private and_operator ::= AND_OP | AND
+private and_not_operator ::= AMP_NOT_OP | AND_NOT
+private or_operator ::= OR_OP | OR
+
+decimal_literal ::= decimal { extends = literal }
+integer_literal ::= integer { extends = literal }
+bool_literal ::= { TRUE | FALSE } { methods = [isTrue] extends = literal }
+
+fake element ::=
+fake expression ::= { extends = element }
+fake literal ::= { extends = element }
+fake term_literal ::= { extends = literal }
+fake term_expression ::= { extends = expression }
+
+private meta comma_separated_list ::= <<param>> { COMMA <<param>> }*

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/contains-language.iml" filepath="$PROJECT_DIR$/.idea/modules/contains-language.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Painless-Transact-SQL.iml" filepath="$PROJECT_DIR$/.idea/Painless-Transact-SQL.iml" />
     </modules>
   </component>
 </project>

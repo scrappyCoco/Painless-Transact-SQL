@@ -1,0 +1,6 @@
+<application>
+  <component name="UpdatesConfigurable">
+    <option name="CHECK_NEEDED" value="false"/>
+    <option name="UPDATE_CHANNEL_TYPE" value="eap"/>
+  </component>
+</application>
