@@ -67,6 +67,10 @@ public class ContainsVisitor extends PsiElementVisitor {
     visitTermLiteral(o);
   }
 
+  public void visitStringLiteral(@NotNull ContainsStringLiteral o) {
+    visitLiteral(o);
+  }
+
   public void visitTermExpression(@NotNull ContainsTermExpression o) {
     visitExpression(o);
   }
@@ -85,6 +89,10 @@ public class ContainsVisitor extends PsiElementVisitor {
 
   public void visitWeightedTerm(@NotNull ContainsWeightedTerm o) {
     visitTermExpression(o);
+  }
+
+  public void visitWordLiteral(@NotNull ContainsWordLiteral o) {
+    visitLiteral(o);
   }
 
   public void visitPsiElement(@NotNull PsiElement o) {

@@ -59,7 +59,7 @@
       MAX='MAX'
       IS_ABOUT='ISABOUT'
 
-      word='regexp:[\p{L}0-9]+'
+      word='regexp:[\p{L}]+'
       string='regexp:"([^"]+)"'
       decimal='regexp:\d?[.]\d'
       integer='regexp:\d+'
@@ -71,7 +71,7 @@ contains_search_condition ::= item { bool_operator item }*
 
 item ::= custom_proximity_term | weighted_term | generation_term | generic_proximity_term | simple_term
 
-simple_term ::= { word | string } { extends = term_literal }
+simple_term ::= { word_literal | string_literal | integer_literal } { extends = term_literal }
 generation_term ::= FORMS_OF LPAREN generation_form COMMA simple_term+ RPAREN { extends = term_expression }
 generation_form ::= INFLECTIONAL | THESAURUS
 generic_proximity_term ::= simple_term { { NEAR | TILDA } simple_term }* { extends = term_expression }
@@ -82,7 +82,7 @@ custom_proximity_term ::=
     { LPAREN <<comma_separated_list simple_term>> RPAREN } [ COMMA maximum_distance [COMMA match_order ] ]
   } RPAREN { extends = term_expression }
 
-maximum_distance ::= { integer_literal | MAX }
+maximum_distance ::= MAX | integer_literal
 
 match_order ::= bool_literal
 
@@ -110,6 +110,8 @@ private or_operator ::= OR_OP | OR
 
 decimal_literal ::= decimal { extends = literal }
 integer_literal ::= integer { extends = literal }
+word_literal ::= word { extends = literal }
+string_literal ::= string { extends = literal }
 bool_literal ::= { TRUE | FALSE } { methods = [isTrue] extends = literal }
 
 fake element ::=
