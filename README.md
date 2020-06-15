@@ -380,4 +380,4 @@ In some cases can be useful to open in the DB tree all objects of single type in
 ![Folding](https://raw.githubusercontent.com/scrappyCoco/Painless-Transact-SQL/master/screenshots/Folding.png)
 
 # Contains syntax highlighting
-![Folding](https://raw.githubusercontent.com/scrappyCoco/Painless-Transact-SQL/master/screenshots/Contains.png)
+![Folding](https://raw.githubusercontent.com/scrappyCoco/Painless-Transact-SQL/master/screenshots/Contains.PNG)
