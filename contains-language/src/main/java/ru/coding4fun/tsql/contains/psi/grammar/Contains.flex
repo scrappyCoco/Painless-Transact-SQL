@@ -38,7 +38,7 @@ FALSE=[Ff][Aa][Ll][Ss][Ee]
 WEIGHT=[Ww][Ee][Ii][Gg][Hh][Tt]
 MAX=[Mm][Aa][Xx]
 IS_ABOUT=[Ii][Ss][Aa][Bb][Oo][Uu][Tt]
-WORD=[\p{L}0-9]+
+WORD=[\p{L}]+
 STRING=\"([^\"]+)\"
 DECIMAL=[0-9]?[.][0-9]
 INTEGER=[0-9]+
@@ -60,7 +60,6 @@ SPACE=[ \t\n\x0B\f\r]+
   "&!"                { return AMP_NOT_OP; }
   "~"                 { return TILDA; }
   "\""                { return QUOTE; }
-  "AND_NOT_OP"        { return AND_NOT_OP; }
 
   {OR}                { return OR; }
   {AND}               { return AND; }

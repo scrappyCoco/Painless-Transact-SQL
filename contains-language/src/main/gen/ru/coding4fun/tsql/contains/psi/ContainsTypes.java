@@ -22,14 +22,15 @@ public interface ContainsTypes {
   IElementType MATCH_ORDER = new ContainsElementType("MATCH_ORDER");
   IElementType MAXIMUM_DISTANCE = new ContainsElementType("MAXIMUM_DISTANCE");
   IElementType SIMPLE_TERM = new ContainsElementType("SIMPLE_TERM");
+  IElementType STRING_LITERAL = new ContainsElementType("STRING_LITERAL");
   IElementType WEIGHTED_TERM = new ContainsElementType("WEIGHTED_TERM");
   IElementType WEIGHT_OPTION = new ContainsElementType("WEIGHT_OPTION");
   IElementType WEIGHT_TERM = new ContainsElementType("WEIGHT_TERM");
+  IElementType WORD_LITERAL = new ContainsElementType("WORD_LITERAL");
 
   IElementType AMP_NOT_OP = new ContainsTokenType("&!");
   IElementType AND = new ContainsTokenType("AND");
   IElementType AND_NOT = new ContainsTokenType("AND_NOT");
-  IElementType AND_NOT_OP = new ContainsTokenType("AND_NOT_OP");
   IElementType AND_OP = new ContainsTokenType("&");
   IElementType ASTERISK = new ContainsTokenType("*");
   IElementType COMMA = new ContainsTokenType(",");
@@ -89,15 +90,14 @@ public interface ContainsTypes {
       }
       else if (type == MAXIMUM_DISTANCE) {
         return new ContainsMaximumDistanceImpl(node);
-      }
-      else if (type == SIMPLE_TERM) {
-        return new ContainsSimpleTermImpl(node);
-      }
-      else if (type == WEIGHTED_TERM) {
+      } else if (type == STRING_LITERAL) {
+        return new ContainsStringLiteralImpl(node);
+      } else if (type == WEIGHTED_TERM) {
         return new ContainsWeightedTermImpl(node);
-      }
-      else if (type == WEIGHT_OPTION) {
+      } else if (type == WEIGHT_OPTION) {
         return new ContainsWeightOptionImpl(node);
+      } else if (type == WORD_LITERAL) {
+        return new ContainsWordLiteralImpl(node);
       }
       throw new AssertionError("Unknown element type: " + type);
     }
