@@ -4,14 +4,26 @@
       <entry key="$Undo">
         <ActionSummary times="5" last="1592068240114" />
       </entry>
+      <entry key="DatabaseView.AddActionGroupPopup">
+        <ActionSummary times="1" last="1592940535535" />
+      </entry>
       <entry key="DatabaseView.PropertiesAction">
         <ActionSummary times="1" last="1592066752115" />
       </entry>
       <entry key="EditorBackSpace">
-        <ActionSummary times="11" last="1592045876876" />
+        <ActionSummary times="23" last="1598031329537" />
+      </entry>
+      <entry key="EditorChooseLookupItem">
+        <ActionSummary times="1" last="1592946184614" />
+      </entry>
+      <entry key="EditorCopy">
+        <ActionSummary times="1" last="1592945172803" />
+      </entry>
+      <entry key="EditorDown">
+        <ActionSummary times="1" last="1592946194312" />
       </entry>
       <entry key="EditorEnter">
-        <ActionSummary times="6" last="1592041585394" />
+        <ActionSummary times="11" last="1592946197058" />
       </entry>
       <entry key="EditorEscape">
         <ActionSummary times="3" last="1592041534982" />
@@ -22,6 +34,12 @@
       <entry key="EditorMoveToPageTop">
         <ActionSummary times="1" last="1592041517162" />
       </entry>
+      <entry key="EditorPaste">
+        <ActionSummary times="1" last="1592945174833" />
+      </entry>
+      <entry key="EditorPreviousWordWithSelection">
+        <ActionSummary times="1" last="1598031322531" />
+      </entry>
       <entry key="EditorTextEnd">
         <ActionSummary times="1" last="1592041519644" />
       </entry>
@@ -31,11 +49,77 @@
       <entry key="EditorUp">
         <ActionSummary times="2" last="1592041518788" />
       </entry>
+      <entry key="FindOutgoingUsagesAction">
+        <ActionSummary times="7" last="1592997191880" />
+      </entry>
+      <entry key="FindUsages">
+        <ActionSummary times="8" last="1592987016900" />
+      </entry>
       <entry key="NewScratchFile">
         <ActionSummary times="1" last="1592041502426" />
       </entry>
+      <entry key="PsiViewer">
+        <ActionSummary times="1" last="1597951354522" />
+      </entry>
+      <entry key="PsiViewerForContext">
+        <ActionSummary times="1" last="1597951363906" />
+      </entry>
+      <entry key="SearchEverywhere">
+        <ActionSummary times="39" last="1598032571232" />
+      </entry>
       <entry key="ShowIntentionActions">
         <ActionSummary times="4" last="1592068235643" />
+      </entry>
+      <entry key="UsageGrouping.Directory">
+        <ActionSummary times="2" last="1597950974193" />
+      </entry>
+      <entry key="UsageGrouping.DirectoryStructure">
+        <ActionSummary times="2" last="1597951234852" />
+      </entry>
+      <entry key="UsageGrouping.FileStructure">
+        <ActionSummary times="2" last="1597951238804" />
+      </entry>
+      <entry key="UsageView.Rerun">
+        <ActionSummary times="14" last="1592997447398" />
+      </entry>
+      <entry key="WelcomeScreen.Plugins">
+        <ActionSummary times="1" last="1592991398008" />
+      </entry>
+      <entry key="com.intellij.database.dataSource.LocalDataSourceManager$2">
+        <ActionSummary times="1" last="1592940538364" />
+      </entry>
+      <entry key="com.intellij.database.editor.DatabaseEditorHelper$12">
+        <ActionSummary times="4" last="1592946198772" />
+      </entry>
+      <entry key="com.intellij.openapi.actionSystem.DefaultActionGroup">
+        <ActionSummary times="36" last="1597951232858" />
+      </entry>
+      <entry key="com.intellij.openapi.project.DumbAwareAction$SimpleDumbAwareAction">
+        <ActionSummary times="16" last="1598032579404" />
+      </entry>
+      <entry key="com.intellij.openapi.wm.impl.ToolWindowHeader$HideAction">
+        <ActionSummary times="2" last="1592940618309" />
+      </entry>
+      <entry key="com.intellij.usages.impl.PreviewUsageAction">
+        <ActionSummary times="2" last="1592994642616" />
+      </entry>
+      <entry key="com.intellij.usages.impl.UsageGroupingRuleProviderImpl$GroupByDirectoryStructureAction">
+        <ActionSummary times="2" last="1592941446515" />
+      </entry>
+      <entry key="com.intellij.usages.impl.UsageGroupingRuleProviderImpl$GroupByFileStructureAction">
+        <ActionSummary times="6" last="1592997816086" />
+      </entry>
+      <entry key="com.intellij.usages.impl.UsageGroupingRuleProviderImpl$GroupByPackageAction">
+        <ActionSummary times="1" last="1592941449767" />
+      </entry>
+      <entry key="com.intellij.usages.impl.UsageGroupingRuleProviderImpl$GroupByUsageTypeAction">
+        <ActionSummary times="2" last="1592942579899" />
+      </entry>
+      <entry key="com.intellij.usages.impl.UsageViewImpl$MergeDupLines">
+        <ActionSummary times="8" last="1597950997918" />
+      </entry>
+      <entry key="com.intellij.usages.impl.UsageViewImpl$ShowSettings">
+        <ActionSummary times="8" last="1597950946625" />
       </entry>
     </data>
   </component>

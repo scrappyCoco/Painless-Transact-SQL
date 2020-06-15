@@ -14,7 +14,7 @@
                          bundle="messages.containsInspection" key="contains.weight"
                          groupBundle="messages.containsInspection" groupKey="contains.group"
                          enabledByDefault="true" level="ERROR" language="Contains" cleanupTool="false"
-                         implementationClass="ru.coding4fun.tsql.contains.inspection.ContainsWeightInspection" />
+                         implementationClass="ru.coding4fun.tsql.contains.inspection.ContainsWeightInspection"/>
 
         <intentionAction>
             <className>ru.coding4fun.tsql.contains.intention.ContainsReplaceToInflectional</className>

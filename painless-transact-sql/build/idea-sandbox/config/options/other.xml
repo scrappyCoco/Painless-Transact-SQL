@@ -2,13 +2,22 @@
   <component name="PropertiesComponent">
     <property name="DBE.Init.Cfg.1" value="true" />
     <property name="DBE.Init.DialogShown.Ide" value="true" />
+    <property name="PluginConfigurable.selectionTab" value="1" />
+    <property name="SqlStructureView.filterD.file.structure.state" value="true" />
     <property name="UITheme.relaunch" value="true" />
+    <property name="com.intellij.database.view.ui.DatabasePreviewDialog.previewExpanded" value="true" />
+    <property name="evlsprt.DB-202.5103.3" value="1730ec3304f" />
+    <property name="evlsprt2.DB-202.5103.3" value="172e2a89d70" />
     <property name="evlsprt3.DB-202.5103.3" value="11" />
-    <property name="file.gist.reindex.count" value="1" />
-    <property name="fileTypeChangedCounter" value="4" />
+    <property name="file.gist.reindex.count" value="60" />
+    <property name="fileTypeChangedCounter" value="21" />
     <property name="ide.memory.adjusted" value="true" />
-    <property name="lastSeenTip" value="neue-tips_db_DBTerminal.html" />
-    <property name="lastTimeTipsWereShown" value="1592041462495" />
-    <property name="seenTips" value="neue-tips_db_DBTerminal.html" />
+    <property name="lastSeenTip" value="neue-db_tip_code_completion_in_code_editor.html" />
+    <property name="lastTimeTipsWereShown" value="1597950909753" />
+    <property name="seenTips" value="neue-tips_db_DBTerminal.html,neue-tips_db_DBGoToSymbolFQN.html,neue-db_tip_code_completion_in_code_editor.html" />
+  </component>
+  <component name="PsiViewerSettings">
+    <option name="type" value="SQL file" />
+    <option name="dialect" value="Language: TSQL" />
   </component>
 </application>

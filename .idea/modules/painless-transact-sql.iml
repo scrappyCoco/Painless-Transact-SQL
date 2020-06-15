@@ -1,12 +1,2 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module external.linked.project.id="painless-transact-sql" external.linked.project.path="$MODULE_DIR$/../../painless-transact-sql" external.root.project.path="$MODULE_DIR$/../../painless-transact-sql" external.system.id="GRADLE" external.system.module.group="ru.coding4fun" external.system.module.version="2020.1.1" type="JAVA_MODULE" version="4">
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_11" inherit-compiler-output="true">
-    <exclude-output />
-    <content url="file://$MODULE_DIR$/../../painless-transact-sql">
-      <excludeFolder url="file://$MODULE_DIR$/../../painless-transact-sql/.gradle" />
-      <excludeFolder url="file://$MODULE_DIR$/../../painless-transact-sql/build" />
-    </content>
-    <orderEntry type="inheritedJdk" />
-    <orderEntry type="sourceFolder" forTests="false" />
-  </component>
-</module>
+<module external.linked.project.id="painless-transact-sql" external.linked.project.path="$MODULE_DIR$/../../painless-transact-sql" external.root.project.path="$MODULE_DIR$/../../painless-transact-sql" external.system.id="GRADLE" external.system.module.group="ru.coding4fun" external.system.module.version="2020.1.1" type="JAVA_MODULE" version="4" />

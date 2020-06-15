@@ -28,6 +28,12 @@
     <xi:include href="/META-INF/containsPlugin.xml" xpointer="xpointer(/idea-plugin/*)"/>
 
     <actions>
+        <action class="ru.coding4fun.tsql.action.FindOutgoingUsagesAction"
+                id="FindOutgoingUsagesAction"
+                text="Find Outgoing Usages"
+                popup="true">
+        </action>
+
         <group id="MssqlFoldingGroup" text="Folding" popup="true">
             <add-to-group group-id="DatabaseViewPopupMenu"/>
             <separator/>
@@ -36,7 +42,7 @@
                     popup="true"/>
             <action class="ru.coding4fun.tsql.action.folding.ExpandGroupAction"
                     id="MssqlExpandGroup"
-                    popup="true" />
+                    popup="true"/>
             <action class="ru.coding4fun.tsql.action.folding.ExpandDataSourceAction"
                     id="MssqlExpandDataSource"
                     popup="true" />
@@ -64,6 +70,9 @@
     </extensions>
 
     <extensions defaultExtensionNs="com.intellij">
+        <fileStructureGroupRuleProvider implementation="ru.coding4fun.tsql.usages.MsTreeGroupRuleProvider"/>
+
+
         <completion.contributor implementationClass="ru.coding4fun.tsql.completion.PainlessCompletionContributor"
                                 language="SQL"/>
         <!--        <codeInsight.parameterNameHints language="TSQL" implementationClass="ru.coding4fun.tsql.PainlessInlayParameterHintProvider"/>-->

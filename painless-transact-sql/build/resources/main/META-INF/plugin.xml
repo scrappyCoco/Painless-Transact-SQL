@@ -12,6 +12,7 @@
   <depends>com.intellij.modules.sql</depends>
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="/META-INF/containsPlugin.xml" xpointer="xpointer(/idea-plugin/*)"/>
   <actions>
+    <action class="ru.coding4fun.tsql.action.FindOutgoingUsagesAction" id="FindOutgoingUsagesAction" text="Find Outgoing Usages" popup="true"/>
     <group id="MssqlFoldingGroup" text="Folding" popup="true">
       <add-to-group group-id="DatabaseViewPopupMenu"/>
       <separator/>
@@ -30,6 +31,7 @@
     <injectionConfig config="META-INF/containsInjections.xml"/>
   </extensions>
   <extensions defaultExtensionNs="com.intellij">
+    <fileStructureGroupRuleProvider implementation="ru.coding4fun.tsql.usages.MsTreeGroupRuleProvider"/>
     <completion.contributor implementationClass="ru.coding4fun.tsql.completion.PainlessCompletionContributor" language="SQL"/>
     <localInspection groupPath="Painless T-SQL" suppressId="MsTypeCompatibility" shortName="MsTypeCompatibilityInspection" bundle="messages.inspection" key="type.compatibility.name" groupBundle="messages.inspection" groupKey="inspection.dml.group" enabledByDefault="true" level="WEAK WARNING" language="TSQL" cleanupTool="false" implementationClass="ru.coding4fun.tsql.inspection.dml.MsTypeCompatibilityInspection"/>
     <localInspection groupPath="Painless T-SQL" suppressId="MsStringToReplicate" shortName="MsStringToReplicateInspection" bundle="messages.inspection" key="string.to.replicate.name" groupBundle="messages.inspection" groupKey="inspection.function.string.group" enabledByDefault="true" level="WEAK WARNING" language="TSQL" cleanupTool="true" implementationClass="ru.coding4fun.tsql.inspection.function.string.MsStringToReplicateInspection"/>
