@@ -90,13 +90,17 @@ public interface ContainsTypes {
       }
       else if (type == MAXIMUM_DISTANCE) {
         return new ContainsMaximumDistanceImpl(node);
-      } else if (type == STRING_LITERAL) {
+      }
+      else if (type == STRING_LITERAL) {
         return new ContainsStringLiteralImpl(node);
-      } else if (type == WEIGHTED_TERM) {
+      }
+      else if (type == WEIGHTED_TERM) {
         return new ContainsWeightedTermImpl(node);
-      } else if (type == WEIGHT_OPTION) {
+      }
+      else if (type == WEIGHT_OPTION) {
         return new ContainsWeightOptionImpl(node);
-      } else if (type == WORD_LITERAL) {
+      }
+      else if (type == WORD_LITERAL) {
         return new ContainsWordLiteralImpl(node);
       }
       throw new AssertionError("Unknown element type: " + type);

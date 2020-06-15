@@ -18,7 +18,7 @@ public class ContainsTermLiteralImpl extends ContainsLiteralImpl implements Cont
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
-    if (visitor instanceof ContainsVisitor) accept((ContainsVisitor) visitor);
+    if (visitor instanceof ContainsVisitor) accept((ContainsVisitor)visitor);
     else super.accept(visitor);
   }
 

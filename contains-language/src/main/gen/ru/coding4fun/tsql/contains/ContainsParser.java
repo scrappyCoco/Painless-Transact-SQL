@@ -20,12 +20,13 @@ public class ContainsParser implements PsiParser, LightPsiParser {
     return b.getTreeBuilt();
   }
 
-  public static final TokenSet[] EXTENDS_SETS_ = new TokenSet[] {
-          create_token_set_(BOOL_LITERAL, BOOL_OPERATOR, CUSTOM_PROXIMITY_TERM, DECIMAL_LITERAL,
-                  GENERATION_TERM, GENERIC_PROXIMITY_TERM, INTEGER_LITERAL, SIMPLE_TERM,
-                  STRING_LITERAL, WEIGHTED_TERM, WEIGHT_OPTION, WEIGHT_TERM,
-                  WORD_LITERAL),
-  };
+  public void parseLight(IElementType t, PsiBuilder b) {
+    boolean r;
+    b = adapt_builder_(t, b, this, EXTENDS_SETS_);
+    Marker m = enter_section_(b, 0, _COLLAPSE_, null);
+    r = parse_root_(t, b);
+    exit_section_(b, 0, m, t, r, true, TRUE_CONDITION);
+  }
 
   protected boolean parse_root_(IElementType t, PsiBuilder b) {
     return parse_root_(t, b, 0);
@@ -35,6 +36,13 @@ public class ContainsParser implements PsiParser, LightPsiParser {
     return contains_search_condition(b, l + 1);
   }
 
+  public static final TokenSet[] EXTENDS_SETS_ = new TokenSet[] {
+    create_token_set_(BOOL_LITERAL, BOOL_OPERATOR, CUSTOM_PROXIMITY_TERM, DECIMAL_LITERAL,
+      GENERATION_TERM, GENERIC_PROXIMITY_TERM, INTEGER_LITERAL, SIMPLE_TERM,
+      STRING_LITERAL, WEIGHTED_TERM, WEIGHT_OPTION, WEIGHT_TERM,
+      WORD_LITERAL),
+  };
+
   /* ********************************************************** */
   // AMP_NOT_OP | AND_NOT
   static boolean and_not_operator(PsiBuilder b, int l) {
@@ -43,23 +51,6 @@ public class ContainsParser implements PsiParser, LightPsiParser {
     boolean r;
     r = consumeToken(b, AMP_NOT_OP);
     if (!r) r = consumeToken(b, AND_NOT);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // NEAR LPAREN {
-  //     <<comma_separated_list simple_term>> |
-  //     { LPAREN <<comma_separated_list simple_term>> RPAREN } [ COMMA maximum_distance [COMMA match_order ] ]
-  //   } RPAREN
-  public static boolean custom_proximity_term(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "custom_proximity_term")) return false;
-    if (!nextTokenIs(b, NEAR)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, NEAR, LPAREN);
-    r = r && custom_proximity_term_2(b, l + 1);
-    r = r && consumeToken(b, RPAREN);
-    exit_section_(b, m, CUSTOM_PROXIMITY_TERM, r);
     return r;
   }
 
@@ -168,6 +159,23 @@ public class ContainsParser implements PsiParser, LightPsiParser {
     return r;
   }
 
+  /* ********************************************************** */
+  // NEAR LPAREN {
+  //     <<comma_separated_list simple_term>> |
+  //     { LPAREN <<comma_separated_list simple_term>> RPAREN } [ COMMA maximum_distance [COMMA match_order ] ]
+  //   } RPAREN
+  public static boolean custom_proximity_term(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "custom_proximity_term")) return false;
+    if (!nextTokenIs(b, NEAR)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, NEAR, LPAREN);
+    r = r && custom_proximity_term_2(b, l + 1);
+    r = r && consumeToken(b, RPAREN);
+    exit_section_(b, m, CUSTOM_PROXIMITY_TERM, r);
+    return r;
+  }
+
   // <<comma_separated_list simple_term>> |
   //     { LPAREN <<comma_separated_list simple_term>> RPAREN } [ COMMA maximum_distance [COMMA match_order ] ]
   private static boolean custom_proximity_term_2(PsiBuilder b, int l) {
@@ -188,18 +196,6 @@ public class ContainsParser implements PsiParser, LightPsiParser {
     r = custom_proximity_term_2_1_0(b, l + 1);
     r = r && custom_proximity_term_2_1_1(b, l + 1);
     exit_section_(b, m, null, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // decimal
-  public static boolean decimal_literal(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "decimal_literal")) return false;
-    if (!nextTokenIs(b, DECIMAL)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, DECIMAL);
-    exit_section_(b, m, DECIMAL_LITERAL, r);
     return r;
   }
 
@@ -253,14 +249,14 @@ public class ContainsParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // simple_term { { NEAR | TILDA } simple_term }*
-  public static boolean generic_proximity_term(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "generic_proximity_term")) return false;
+  // decimal
+  public static boolean decimal_literal(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "decimal_literal")) return false;
+    if (!nextTokenIs(b, DECIMAL)) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _COLLAPSE_, GENERIC_PROXIMITY_TERM, "<generic proximity term>");
-    r = simple_term(b, l + 1);
-    r = r && generic_proximity_term_1(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
+    Marker m = enter_section_(b);
+    r = consumeToken(b, DECIMAL);
+    exit_section_(b, m, DECIMAL_LITERAL, r);
     return r;
   }
 
@@ -309,14 +305,14 @@ public class ContainsParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // integer
-  public static boolean integer_literal(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "integer_literal")) return false;
-    if (!nextTokenIs(b, INTEGER)) return false;
+  // simple_term { { NEAR | TILDA } simple_term }*
+  public static boolean generic_proximity_term(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "generic_proximity_term")) return false;
     boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, INTEGER);
-    exit_section_(b, m, INTEGER_LITERAL, r);
+    Marker m = enter_section_(b, l, _COLLAPSE_, GENERIC_PROXIMITY_TERM, "<generic proximity term>");
+    r = simple_term(b, l + 1);
+    r = r && generic_proximity_term_1(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
@@ -352,15 +348,14 @@ public class ContainsParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // MAX | integer_literal
-  public static boolean maximum_distance(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "maximum_distance")) return false;
-    if (!nextTokenIs(b, "<maximum distance>", INTEGER, MAX)) return false;
+  // integer
+  public static boolean integer_literal(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "integer_literal")) return false;
+    if (!nextTokenIs(b, INTEGER)) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, MAXIMUM_DISTANCE, "<maximum distance>");
-    r = consumeToken(b, MAX);
-    if (!r) r = integer_literal(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
+    Marker m = enter_section_(b);
+    r = consumeToken(b, INTEGER);
+    exit_section_(b, m, INTEGER_LITERAL, r);
     return r;
   }
 
@@ -392,13 +387,13 @@ public class ContainsParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // word_literal | string_literal | integer_literal
-  public static boolean simple_term(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "simple_term")) return false;
+  // MAX | integer_literal
+  public static boolean maximum_distance(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "maximum_distance")) return false;
+    if (!nextTokenIs(b, "<maximum distance>", INTEGER, MAX)) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _COLLAPSE_, SIMPLE_TERM, "<simple term>");
-    r = word_literal(b, l + 1);
-    if (!r) r = string_literal(b, l + 1);
+    Marker m = enter_section_(b, l, _NONE_, MAXIMUM_DISTANCE, "<maximum distance>");
+    r = consumeToken(b, MAX);
     if (!r) r = integer_literal(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
@@ -412,6 +407,19 @@ public class ContainsParser implements PsiParser, LightPsiParser {
     boolean r;
     r = consumeToken(b, OR_OP);
     if (!r) r = consumeToken(b, OR);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // word_literal | string_literal | integer_literal
+  public static boolean simple_term(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "simple_term")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _COLLAPSE_, SIMPLE_TERM, "<simple term>");
+    r = word_literal(b, l + 1);
+    if (!r) r = string_literal(b, l + 1);
+    if (!r) r = integer_literal(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
@@ -436,18 +444,6 @@ public class ContainsParser implements PsiParser, LightPsiParser {
     r = weight_term(b, l + 1);
     r = r && weight_option_1(b, l + 1);
     exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // word
-  public static boolean word_literal(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "word_literal")) return false;
-    if (!nextTokenIs(b, WORD)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, WORD);
-    exit_section_(b, m, WORD_LITERAL, r);
     return r;
   }
 
@@ -501,12 +497,16 @@ public class ContainsParser implements PsiParser, LightPsiParser {
     return comma_separated_list(b, l + 1, weight_option_parser_);
   }
 
-  public void parseLight(IElementType t, PsiBuilder b) {
+  /* ********************************************************** */
+  // word
+  public static boolean word_literal(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "word_literal")) return false;
+    if (!nextTokenIs(b, WORD)) return false;
     boolean r;
-    b = adapt_builder_(t, b, this, EXTENDS_SETS_);
-    Marker m = enter_section_(b, 0, _COLLAPSE_, null);
-    r = parse_root_(t, b);
-    exit_section_(b, 0, m, t, r, true, TRUE_CONDITION);
+    Marker m = enter_section_(b);
+    r = consumeToken(b, WORD);
+    exit_section_(b, m, WORD_LITERAL, r);
+    return r;
   }
 
   static final Parser simple_term_parser_ = new Parser() {

@@ -18,7 +18,7 @@ public class ContainsTermExpressionImpl extends ContainsExpressionImpl implement
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
-    if (visitor instanceof ContainsVisitor) accept((ContainsVisitor) visitor);
+    if (visitor instanceof ContainsVisitor) accept((ContainsVisitor)visitor);
     else super.accept(visitor);
   }
 

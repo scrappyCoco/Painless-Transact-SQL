@@ -38,7 +38,7 @@ plugins {
 }
 
 group 'ru.coding4fun'
-version '2020.1.1'
+version '2020.2.1'
 
 repositories {
     mavenCentral()
@@ -57,9 +57,11 @@ intellij {
     plugins 'DatabaseTools'
     version '2020.1.1'
 }
+
 compileKotlin {
     kotlinOptions.jvmTarget = "11"
 }
+
 compileTestKotlin {
     kotlinOptions.jvmTarget = "11"
 }
