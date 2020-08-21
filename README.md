@@ -378,3 +378,6 @@ SELECT CASE WHEN @i = '123' THEN NULL ELSE @i END;
 ## Folding
 In some cases can be useful to open in the DB tree all objects of single type in some scopes. For example: open all columns in some database.
 ![Folding](https://raw.githubusercontent.com/scrappyCoco/Painless-Transact-SQL/master/screenshots/Folding.png)
+
+# Contains syntax highlighting
+![Folding](https://raw.githubusercontent.com/scrappyCoco/Painless-Transact-SQL/master/screenshots/Contains.PNG)

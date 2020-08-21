@@ -60,7 +60,11 @@ abstract class FoldingBaseAction(
     }.queue()
 
     override fun update(event: AnActionEvent) {
-        val dbTree = event.getData(DatabaseView.DATABASE_VIEW_KEY)!!.tree
+        val dbTree = event.getData(DatabaseView.DATABASE_VIEW_KEY)?.tree
+        if (dbTree == null) {
+            event.presentation.isVisible = false
+            return
+        }
         val selectionPath = dbTree.selectionPath!!
         topPath = getPathToTop.invoke(selectionPath)
         val topComponent = topPath?.lastPathComponent

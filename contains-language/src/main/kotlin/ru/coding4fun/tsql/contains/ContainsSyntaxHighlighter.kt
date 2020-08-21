@@ -36,8 +36,14 @@ class ContainsSyntaxHighlighter : SyntaxHighlighterBase() {
     private val operatorKeys = arrayOf(createTextAttributesKey("CONTAINS_OPERATOR", DefaultLanguageHighlighterColors.OPERATION_SIGN))
     private val keywordKeys = arrayOf(createTextAttributesKey("CONTAINS_KEYWORD", DefaultLanguageHighlighterColors.KEYWORD))
     private val valueKeys = arrayOf(createTextAttributesKey("CONTAINS_VALUE", DefaultLanguageHighlighterColors.STRING))
+    private val braceKeys = arrayOf(createTextAttributesKey("CONTAINS_BRACE", DefaultLanguageHighlighterColors.BRACES))
+    private val numberKeys = arrayOf(createTextAttributesKey("CONTAINS_NUMBER", DefaultLanguageHighlighterColors.NUMBER))
     private val emptyKeys = emptyArray<TextAttributesKey>()
     //@formatter:on
+
+    private val braceTypes = setOf(ContainsTypes.LPAREN, ContainsTypes.RPAREN)
+    private val numberTypes = setOf(ContainsTypes.INTEGER, ContainsTypes.DECIMAL)
+    private val valueTypes = setOf(ContainsTypes.STRING, ContainsTypes.WORD)
 
     private val keywordTypes = setOf(
             ContainsTypes.OR,
@@ -57,8 +63,6 @@ class ContainsSyntaxHighlighter : SyntaxHighlighterBase() {
 
     private val operationSignTypes = setOf(
             ContainsTypes.COMMA,
-            ContainsTypes.LPAREN,
-            ContainsTypes.RPAREN,
             ContainsTypes.ASTERISK,
             ContainsTypes.OR_OP,
             ContainsTypes.AND_OP,
@@ -67,15 +71,12 @@ class ContainsSyntaxHighlighter : SyntaxHighlighterBase() {
             ContainsTypes.QUOTE
     )
 
-    private val valueTypes = setOf(
-            ContainsTypes.STRING, ContainsTypes.WORD, ContainsTypes.DECIMAL, ContainsTypes.INTEGER
-    )
-
-
     override fun getTokenHighlights(tokenType: IElementType?): Array<TextAttributesKey> {
         if (keywordTypes.contains(tokenType)) return keywordKeys
         if (operationSignTypes.contains(tokenType)) return operatorKeys
         if (valueTypes.contains(tokenType)) return valueKeys
+        if (braceTypes.contains(tokenType)) return braceKeys
+        if (numberTypes.contains(tokenType)) return numberKeys
         return emptyKeys
     }
 

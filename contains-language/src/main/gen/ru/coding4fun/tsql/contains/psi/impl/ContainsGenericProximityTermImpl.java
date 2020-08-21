@@ -6,7 +6,7 @@ import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import org.jetbrains.annotations.NotNull;
 import ru.coding4fun.tsql.contains.psi.ContainsGenericProximityTerm;
-import ru.coding4fun.tsql.contains.psi.ContainsSimpleTerm;
+import ru.coding4fun.tsql.contains.psi.ContainsLiteral;
 import ru.coding4fun.tsql.contains.psi.ContainsVisitor;
 
 import java.util.List;
@@ -28,8 +28,8 @@ public class ContainsGenericProximityTermImpl extends ContainsTermExpressionImpl
 
   @Override
   @NotNull
-  public List<ContainsSimpleTerm> getSimpleTermList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ContainsSimpleTerm.class);
+  public List<ContainsLiteral> getLiteralList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ContainsLiteral.class);
   }
 
 }

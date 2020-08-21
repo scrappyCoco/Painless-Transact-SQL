@@ -11,6 +11,6 @@ public interface ContainsGenerationTerm extends ContainsTermExpression {
   ContainsGenerationForm getGenerationForm();
 
   @NotNull
-  List<ContainsSimpleTerm> getSimpleTermList();
+  List<ContainsLiteral> getLiteralList();
 
 }

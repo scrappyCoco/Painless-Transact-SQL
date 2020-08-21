@@ -26,6 +26,12 @@ public class ContainsCustomProximityTermImpl extends ContainsTermExpressionImpl 
   }
 
   @Override
+  @NotNull
+  public List<ContainsLiteral> getLiteralList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ContainsLiteral.class);
+  }
+
+  @Override
   @Nullable
   public ContainsMatchOrder getMatchOrder() {
     return findChildByClass(ContainsMatchOrder.class);
@@ -35,12 +41,6 @@ public class ContainsCustomProximityTermImpl extends ContainsTermExpressionImpl 
   @Nullable
   public ContainsMaximumDistance getMaximumDistance() {
     return findChildByClass(ContainsMaximumDistance.class);
-  }
-
-  @Override
-  @NotNull
-  public List<ContainsSimpleTerm> getSimpleTermList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ContainsSimpleTerm.class);
   }
 
 }

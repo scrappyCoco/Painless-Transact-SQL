@@ -8,13 +8,13 @@ import java.util.List;
 
 public interface ContainsCustomProximityTerm extends ContainsTermExpression {
 
+  @NotNull
+  List<ContainsLiteral> getLiteralList();
+
   @Nullable
   ContainsMatchOrder getMatchOrder();
 
   @Nullable
   ContainsMaximumDistance getMaximumDistance();
-
-  @NotNull
-  List<ContainsSimpleTerm> getSimpleTermList();
 
 }

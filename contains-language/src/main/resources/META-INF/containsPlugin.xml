@@ -9,6 +9,8 @@
         <lang.syntaxHighlighterFactory language="Contains"
                                        implementationClass="ru.coding4fun.tsql.contains.ContainsSyntaxHighlighterFactory"/>
 
+        <lang.braceMatcher language="Contains" implementationClass="ru.coding4fun.tsql.contains.ContainsBraceMatcher" />
+
         <localInspection groupPath="Painless T-SQL" suppressId="ContainsWeight"
                          shortName="ContainsWeightInspection"
                          bundle="messages.containsInspection" key="contains.weight"

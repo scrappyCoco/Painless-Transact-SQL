@@ -2,24 +2,33 @@
 package ru.coding4fun.tsql.contains.psi.impl;
 
 import com.intellij.lang.ASTNode;
+import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import org.jetbrains.annotations.NotNull;
-import ru.coding4fun.tsql.contains.psi.ContainsSimpleTerm;
 import ru.coding4fun.tsql.contains.psi.ContainsVisitor;
+import ru.coding4fun.tsql.contains.psi.ContainsWordLiteral;
 
-public abstract class ContainsSimpleTermImpl extends ContainsTermLiteralImpl implements ContainsSimpleTerm {
+import static ru.coding4fun.tsql.contains.psi.ContainsTypes.WORD;
 
-  public ContainsSimpleTermImpl(@NotNull ASTNode node) {
+public class ContainsWordLiteralImpl extends ContainsLiteralImpl implements ContainsWordLiteral {
+
+  public ContainsWordLiteralImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ContainsVisitor visitor) {
-    visitor.visitSimpleTerm(this);
+    visitor.visitWordLiteral(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof ContainsVisitor) accept((ContainsVisitor)visitor);
     else super.accept(visitor);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getWord() {
+    return findNotNullChildByType(WORD);
   }
 
 }
