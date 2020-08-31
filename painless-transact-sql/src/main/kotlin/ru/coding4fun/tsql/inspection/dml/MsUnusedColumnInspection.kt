@@ -31,9 +31,9 @@ import com.intellij.sql.inspections.SqlInspectionBase
 import com.intellij.sql.psi.SqlColumnDefinition
 import com.intellij.sql.psi.SqlElementTypes
 import ru.coding4fun.tsql.MsInspectionMessages
-import ru.coding4fun.tsql.nullIf
 import ru.coding4fun.tsql.psi.getNextNotEmptyLeaf
 import ru.coding4fun.tsql.psi.getPrevNotEmptyLeaf
+import ru.coding4fun.tsql.utils.nullIf
 
 class MsUnusedColumnInspection : SqlInspectionBase(), CleanupLocalInspectionTool {
     override fun getGroupDisplayName(): String = MsInspectionMessages.message("inspection.dml.group")

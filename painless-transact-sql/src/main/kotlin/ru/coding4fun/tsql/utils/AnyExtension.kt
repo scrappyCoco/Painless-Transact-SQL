@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package ru.coding4fun.tsql
+package ru.coding4fun.tsql.utils
 
 fun <T: Any?> T.nullIf(predicate: ((T?) -> Boolean)): T? {
     return if (predicate(this)) null else this

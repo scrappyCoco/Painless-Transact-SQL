@@ -33,12 +33,12 @@ buildscript {
 
 plugins {
     id 'java'
-    id 'org.jetbrains.intellij' version '0.4.10'
-    id 'org.jetbrains.kotlin.jvm' version '1.3.72'
+    id 'org.jetbrains.intellij' version '0.4.21'
+    id 'org.jetbrains.kotlin.jvm' version '1.4.0'
 }
 
 group 'ru.coding4fun'
-version '2020.2.1'
+version '2020.2.2'
 
 repositories {
     mavenCentral()
@@ -55,7 +55,7 @@ dependencies {
 intellij {
     type 'IU'
     plugins 'DatabaseTools'
-    version '2020.1.1'
+    version 'IU-2020.2'
 }
 
 compileKotlin {
@@ -66,14 +66,14 @@ compileTestKotlin {
     kotlinOptions.jvmTarget = "11"
 }
 
-runIde {
-    ideDirectory "$idePath"
-}
+//runIde {
+//    ideDirectory "$idePath"
+//}
 
 patchPluginXml {
-    sinceBuild '201.*'
-    untilBuild '202.*'
-    changeNotes 'Support for CONTAINS syntax was added.'
+    sinceBuild '202'
+    untilBuild '203.*'
+    changeNotes '"Path to Caller" and "Used References" have been added.'
 }
 
 sourceSets {

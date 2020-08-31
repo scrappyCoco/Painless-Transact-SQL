@@ -6,7 +6,6 @@ import com.intellij.navigation.NavigationItem
 import com.intellij.openapi.project.Project
 import com.intellij.psi.NavigatablePsiElement
 import com.intellij.sql.psi.SqlReferenceExpression
-import com.intellij.sql.slicer.SqlSliceUsage
 import com.intellij.usages.PsiElementUsageGroupBase
 import com.intellij.usages.Usage
 import com.intellij.usages.UsageGroup
@@ -15,14 +14,15 @@ import com.intellij.usages.impl.FileStructureGroupRuleProvider
 import com.intellij.usages.rules.UsageGroupingRule
 import ru.coding4fun.tsql.psi.firstNotEmpty
 
-class MsTreeGroupRuleProvider : FileStructureGroupRuleProvider {
+class MsDbTreeGroupRuleProvider : FileStructureGroupRuleProvider {
     override fun getUsageGroupingRule(project: Project): UsageGroupingRule? = object : UsageGroupingRule {
         override fun getParentGroupsFor(usage: Usage, targets: Array<out UsageTarget>): MutableList<UsageGroup> {
-            val sqlSliceUsage = usage as? SqlSliceUsage ?: return arrayListOf()
-            val target = (targets[0] as PsiElement2UsageTargetAdapter).element.children.firstNotEmpty()
+            val sqlSliceUsage = usage as? MsBdTreeSliceUsage ?: return arrayListOf()
+            val target = targets.filterIsInstance<PsiElement2UsageTargetAdapter>().firstOrNull()
+                    ?.element?.children?.firstNotEmpty() ?: return arrayListOf()
 
             val parents = arrayListOf<UsageGroup>()
-            var element: NavigationItem? = sqlSliceUsage.element.navigationElement as NavigationItem
+            var element: NavigationItem? = sqlSliceUsage.element?.navigationElement as NavigationItem
             while (element != null) {
                 if (element is SqlReferenceExpression) element = element.resolve() as? NavigationItem
                 if (element == null || element == target) return mutableListOf()
