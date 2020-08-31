@@ -16,8 +16,7 @@
 
 package ru.coding4fun.tsql.psi
 
-import com.intellij.psi.search.PsiElementProcessor
-import com.intellij.psi.util.PsiElementFilter
+import com.intellij.psi.SyntaxTraverser
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.elementType
 import com.intellij.sql.psi.SqlElement
@@ -26,11 +25,13 @@ import com.intellij.sql.psi.SqlReferenceExpression
 import com.intellij.sql.psi.SqlType
 
 fun SqlElement.findFirstTableReference(): SqlReferenceExpression? {
-    val filter = PsiElementFilter { element ->
-        SqlType.Category.TABLE.`is`((element as? SqlReferenceExpression)?.sqlType) &&
-                PsiTreeUtil.getDeepestFirst(element).elementType != SqlElementTypes.SQL_ASTERISK
-    }
-    val findTableRefProc = PsiElementProcessor.FindFilteredElement<SqlReferenceExpression>(filter)
-    PsiTreeUtil.processElements(findTableRefProc, this)
-    return findTableRefProc.foundElement
+    return SyntaxTraverser.psiTraverser(this)
+            .filterIsInstance<SqlReferenceExpression>().firstOrNull {
+                SqlType.Category.TABLE.`is`(it.sqlType) &&
+                        PsiTreeUtil.getDeepestFirst(it).elementType != SqlElementTypes.SQL_ASTERISK
+            }
 }
+
+private val tv = arrayOf('#', '@')
+
+fun SqlElement.isTempOrVariable(): Boolean = tv.contains(this.text[0])

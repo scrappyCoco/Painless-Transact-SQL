@@ -28,9 +28,14 @@
     <xi:include href="/META-INF/containsPlugin.xml" xpointer="xpointer(/idea-plugin/*)"/>
 
     <actions>
-        <action class="ru.coding4fun.tsql.action.FindOutgoingUsagesAction"
-                id="FindOutgoingUsagesAction"
-                text="Find Outgoing Usages"
+        <action class="ru.coding4fun.tsql.action.ShowUsedReferencesAction"
+                id="ShowUsedReferencesAction"
+                text="Show Used References"
+                popup="true">
+        </action>
+        <action class="ru.coding4fun.tsql.action.FindPathToCallerAction"
+                id="FindPathToCallerAction"
+                text="Find Path to Caller"
                 popup="true">
         </action>
 
@@ -70,7 +75,8 @@
     </extensions>
 
     <extensions defaultExtensionNs="com.intellij">
-        <fileStructureGroupRuleProvider implementation="ru.coding4fun.tsql.usages.MsTreeGroupRuleProvider"/>
+        <fileStructureGroupRuleProvider implementation="ru.coding4fun.tsql.usages.MsDbTreeGroupRuleProvider"/>
+        <fileStructureGroupRuleProvider implementation="ru.coding4fun.tsql.usages.MsPathToCallerGroupRuleProvider"/>
 
 
         <completion.contributor implementationClass="ru.coding4fun.tsql.completion.PainlessCompletionContributor"

@@ -32,31 +32,33 @@ class ObjectKindTreeVisitor(
         private val targetKind: ObjectKind,
         private val isCanceled: (() -> Boolean),
         private val isCollapsed: ((treePath: TreePath) -> Boolean)
-        //private val getFirstAction: ((threePath: TreePath) -> Action?)
 ) : TreeVisitor {
     val toHandleSet = HashSet<TreePath>()
     override fun visit(path: TreePath): Action {
         if (isCanceled()) return Action.INTERRUPT
+        val samePath = topPath != null && TreePathUtil.findCommonAncestor(path, topPath).pathCount == path.pathCount.coerceAtMost(topPath.pathCount)
         val searchEverywhere = topPath == null
-        val samePath = !searchEverywhere && topPath != null && TreePathUtil.findCommonAncestor(path, topPath).pathCount == path.pathCount.coerceAtMost(topPath.pathCount)
         val containsInTop = searchEverywhere || samePath
-        if (!containsInTop)
-            return Action.SKIP_CHILDREN
+        if (!containsInTop) return Action.SKIP_CHILDREN
 
         val dasObject = path.lastPathComponent as? DasObject ?: return Action.CONTINUE
         if (dasObject is DbDataSource && !dasObject.dbms.isMicrosoft) return Action.SKIP_CHILDREN
-        if (dasObject.kind == targetKind) {
+        if (dasObject.kind == SCHEMA && sysSchemas.contains(dasObject.name)) return Action.SKIP_CHILDREN
+        if (dasObject.kind == targetKind && !isCollapsed(path.parentPath)) {
             toHandleSet.add(path.parentPath)
-            return if (isCollapsed(path)) Action.SKIP_SIBLINGS else Action.SKIP_CHILDREN
+            return Action.SKIP_CHILDREN
         }
 
-        if (isAchievable(dasObject.kind, targetKind))
-            return Action.CONTINUE
-        else return Action.SKIP_CHILDREN
+        return if (isAchievable(dasObject.kind, targetKind)) Action.CONTINUE else Action.SKIP_CHILDREN
     }
 
     companion object {
         private val ascendingTypes: Map<ObjectKind, HashSet<ObjectKind>>
+
+        private val sysSchemas: Set<String> = TreeSet<String>(String.CASE_INSENSITIVE_ORDER).also {
+            it.add("sys")
+            it.add("INFORMATION_SCHEMA")
+        }
 
         init {
             val kindHierarchy = arrayOf(

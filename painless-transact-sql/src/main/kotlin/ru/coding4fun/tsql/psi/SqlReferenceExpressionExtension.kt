@@ -20,6 +20,7 @@ import com.intellij.database.model.DasColumn
 import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.psi.util.PsiTreeUtil
+import com.intellij.psi.util.elementType
 import com.intellij.sql.psi.*
 
 fun SqlReferenceExpression.getAlias(): SqlIdentifier? {
@@ -54,12 +55,13 @@ fun SqlReferenceExpression.getDmlHighlightRangeElements(): Pair<PsiElement, PsiE
     return null
 }
 
-private val tv = arrayOf('#', '@')
-
-fun SqlReferenceExpression.isTempOrVariable(): Boolean = tv.contains(this.text[0])
-
 fun SqlReferenceExpression.resolveColumn(): DasColumn? {
     return this.multiResolve(false)
             .mapNotNull { ((it as? SqlResolveResult)?.element ?: it) as? DasColumn }
             .firstOrNull()
+}
+
+fun SqlReferenceExpression.isAsteriskColumn(): Boolean {
+    return this.elementType == SqlElementTypes.SQL_COLUMN_REFERENCE &&
+            this.text == "*"
 }

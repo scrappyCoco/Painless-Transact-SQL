@@ -1,5 +1,5 @@
 /*
- * Copyright [2020] Coding4fun
+ * Copyright [2019] Coding4fun
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,3 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+package ru.coding4fun.tsql.utils
+
+fun <T: Any?> T.nullIf(predicate: ((T?) -> Boolean)): T? {
+    return if (predicate(this)) null else this
+}

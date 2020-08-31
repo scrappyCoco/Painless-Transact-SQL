@@ -43,7 +43,7 @@ abstract class FoldingBaseAction(
 
     override fun actionPerformed(event: AnActionEvent) = object : Task.Modal(event.project, "Folding tree", true) {
         override fun run(indicator: ProgressIndicator) {
-            val lath = CountDownLatch(1)
+            val latch = CountDownLatch(1)
             val dbTree = event.getData(DatabaseView.DATABASE_VIEW_KEY)!!.tree
             val myVisitor = ObjectKindTreeVisitor(topPath, targetKind, indicator::isCanceled) { selectedPath ->
                 isHideMode && dbTree.isCollapsed(selectedPath) && !dbTree.model.isLeaf(selectedPath.lastPathComponent)
@@ -54,8 +54,8 @@ abstract class FoldingBaseAction(
                     if (indicator.isCanceled) break
                     if (isHideMode) dbTree.collapsePath(path) else dbTree.expandPath(path)
                 }
-            }.then { lath.countDown() }
-            lath.await()
+            }.then { latch.countDown() }
+            latch.await()
         }
     }.queue()
 
@@ -133,12 +133,17 @@ abstract class CollapseBaseAction(
         hideIfObjectNull: Boolean
 ) : FoldingBaseAction(getParentObject, getParentText, hideIfObjectNull, true, "Hide")
 
-class ExpandEverywhereAction : ExpandBaseAction(Companion::getEverywhereObject, Companion::getEverywhereText, false)
-class ExpandGroupAction : ExpandBaseAction(Companion::getGroupObject, Companion::getGroupText, true)
-class ExpandDataSourceAction : ExpandBaseAction(Companion::getDataSourceObject, Companion::getDasText, true)
-class ExpandDbAction : ExpandBaseAction(Companion::getDbObject, Companion::getDasText, true)
+/*
+    Using lambda instead of ::get
+    https://youtrack.jetbrains.com/issue/KT-39389
+ */
 
-class CollapseEverywhereAction : CollapseBaseAction(Companion::getEverywhereObject, Companion::getEverywhereText, false)
-class CollapseGroupAction : CollapseBaseAction(Companion::getGroupObject, Companion::getGroupText, true)
-class CollapseDataSourceAction : CollapseBaseAction(Companion::getDataSourceObject, Companion::getDasText, true)
-class CollapseDbAction : CollapseBaseAction(Companion::getDbObject, Companion::getDasText, true)
+class ExpandEverywhereAction : ExpandBaseAction({ getEverywhereObject(it) }, { getEverywhereText(it) }, false)
+class ExpandGroupAction : ExpandBaseAction({ getGroupObject(it) }, { getGroupText(it) }, true)
+class ExpandDataSourceAction : ExpandBaseAction({ getDataSourceObject(it) }, { getDasText(it) }, true)
+class ExpandDbAction : ExpandBaseAction({ getDbObject(it) }, { getDasText(it) }, true)
+
+class CollapseEverywhereAction : CollapseBaseAction({ getEverywhereObject(it) }, { getEverywhereText(it) }, false)
+class CollapseGroupAction : CollapseBaseAction({ getGroupObject(it) }, { getGroupText(it) }, true)
+class CollapseDataSourceAction : CollapseBaseAction({ getDataSourceObject(it) }, { getDasText(it) }, true)
+class CollapseDbAction : CollapseBaseAction({ getDbObject(it) }, { getDasText(it) }, true)

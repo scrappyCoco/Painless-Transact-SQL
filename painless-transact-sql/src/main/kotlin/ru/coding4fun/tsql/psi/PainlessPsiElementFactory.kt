@@ -17,8 +17,7 @@
 package ru.coding4fun.tsql.psi
 
 import com.intellij.openapi.project.Project
-import com.intellij.psi.search.PsiElementProcessor
-import com.intellij.psi.util.PsiTreeUtil
+import com.intellij.psi.SyntaxTraverser
 import com.intellij.sql.dialects.mssql.MsDialect
 import com.intellij.sql.psi.SqlCompositeElement
 import com.intellij.sql.psi.impl.SqlPsiElementFactory
@@ -26,8 +25,9 @@ import com.intellij.sql.psi.impl.SqlPsiElementFactory
 object PainlessPsiElementFactory {
     fun createIsNotElement(project: Project): SqlCompositeElement {
         val stmt = SqlPsiElementFactory.createStatementFromText("SELECT 1 IS NOT NULL", MsDialect.INSTANCE, project, null)
-        val elementProcessor = PsiElementProcessor.FindFilteredElement<SqlCompositeElement> { it.text == "IS NOT" }
-        PsiTreeUtil.processElements(stmt, elementProcessor)
-        return elementProcessor.foundElement!!
+        return SyntaxTraverser.psiTraverser(stmt)
+                .filter(SqlCompositeElement::class.java)
+                .filter { it.text == "IS NOT" }
+                .first()!!
     }
 }
