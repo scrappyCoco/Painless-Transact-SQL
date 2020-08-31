@@ -43,7 +43,7 @@ abstract class FoldingBaseAction(
 
     override fun actionPerformed(event: AnActionEvent) = object : Task.Modal(event.project, "Folding tree", true) {
         override fun run(indicator: ProgressIndicator) {
-            val lath = CountDownLatch(1)
+            val latch = CountDownLatch(1)
             val dbTree = event.getData(DatabaseView.DATABASE_VIEW_KEY)!!.tree
             val myVisitor = ObjectKindTreeVisitor(topPath, targetKind, indicator::isCanceled) { selectedPath ->
                 isHideMode && dbTree.isCollapsed(selectedPath) && !dbTree.model.isLeaf(selectedPath.lastPathComponent)
@@ -54,8 +54,8 @@ abstract class FoldingBaseAction(
                     if (indicator.isCanceled) break
                     if (isHideMode) dbTree.collapsePath(path) else dbTree.expandPath(path)
                 }
-            }.then { lath.countDown() }
-            lath.await()
+            }.then { latch.countDown() }
+            latch.await()
         }
     }.queue()
 
