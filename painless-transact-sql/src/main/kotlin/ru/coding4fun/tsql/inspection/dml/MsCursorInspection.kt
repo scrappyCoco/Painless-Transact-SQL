@@ -18,8 +18,8 @@ import com.intellij.sql.psi.SqlClause
 import com.intellij.sql.psi.SqlElementTypes
 import com.intellij.sql.psi.SqlQueryExpression
 import com.intellij.sql.psi.SqlVariableDefinition
-import com.intellij.sql.psi.impl.SqlCursorDefinitionImpl
 import ru.coding4fun.tsql.MsInspectionMessages
+import ru.coding4fun.tsql.psi.findLeaf
 import ru.coding4fun.tsql.psi.getChildOfElementType
 import ru.coding4fun.tsql.psi.getLeafChildrenByAst
 import java.util.*
@@ -55,7 +55,7 @@ class MsCursorInspection : SqlInspectionBase() {
             private val onTheFly: Boolean
     ) : SqlAnnotationVisitor(manager, dialect, problems) {
         override fun visitSqlVariableDefinition(varDef: SqlVariableDefinition?) {
-            val cursorDef = varDef as? SqlCursorDefinitionImpl ?: return
+            val cursorDef = varDef?.findLeaf(SqlElementTypes.SQL_CURSOR)?.parent ?: return
             val queryExprEnd = cursorDef.children.asSequence()
                     .filterIsInstance<SqlQueryExpression>()
                     .firstOrNull()

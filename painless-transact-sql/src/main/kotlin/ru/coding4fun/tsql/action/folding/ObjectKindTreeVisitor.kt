@@ -44,9 +44,9 @@ class ObjectKindTreeVisitor(
         val dasObject = path.lastPathComponent as? DasObject ?: return Action.CONTINUE
         if (dasObject is DbDataSource && !dasObject.dbms.isMicrosoft) return Action.SKIP_CHILDREN
         if (dasObject.kind == SCHEMA && sysSchemas.contains(dasObject.name)) return Action.SKIP_CHILDREN
-        if (dasObject.kind == targetKind) {
+        if (dasObject.kind == targetKind && !isCollapsed(path.parentPath)) {
             toHandleSet.add(path.parentPath)
-            return if (isCollapsed(path)) Action.SKIP_SIBLINGS else Action.SKIP_CHILDREN
+            return Action.SKIP_CHILDREN
         }
 
         return if (isAchievable(dasObject.kind, targetKind)) Action.CONTINUE else Action.SKIP_CHILDREN

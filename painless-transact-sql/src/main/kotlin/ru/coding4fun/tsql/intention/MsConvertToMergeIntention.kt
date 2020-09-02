@@ -32,6 +32,7 @@ import com.intellij.sql.psi.*
 import com.intellij.sql.psi.impl.SqlPsiElementFactory
 import com.intellij.util.castSafelyTo
 import ru.coding4fun.tsql.MsIntentionMessages
+import ru.coding4fun.tsql.psi.getChildrenOfType
 import ru.coding4fun.tsql.psi.getTarget
 import java.util.*
 import kotlin.collections.ArrayList
@@ -117,8 +118,7 @@ class MsConvertToMergeIntention : SqlBaseElementAtCaretIntentionAction() {
 
         private fun getTargetToSources(joinClause: SqlJoinConditionClause, target: DasObject): Map<PsiElement, PsiElement> {
             val targetsToSource = hashMapOf<PsiElement, PsiElement>()
-            val binaryExpressions = PsiTreeUtil.getChildrenOfType(joinClause, SqlBinaryExpression::class.java)
-                    ?: return targetsToSource
+            val binaryExpressions = joinClause.getChildrenOfType<SqlBinaryExpression>().filterNotNull()
             for (binExpr in binaryExpressions) {
                 val cols = arrayOf(
                         (binExpr.lOperand to binExpr.rOperand),

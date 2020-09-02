@@ -119,7 +119,7 @@ fun getObjectReference(objectPath: String, createStatement: SqlCreateStatement):
         else -> "SELECT * FROM $objectPath"
     }
     val expression = SqlPsiElementFactory.createStatementFromText(sql, MsDialect.INSTANCE, createStatement.project, null)!!
-    return PsiTreeUtil.findChildrenOfType(expression, SqlReferenceExpression::class.java).maxBy { it.textRange.endOffset }!!
+    return PsiTreeUtil.findChildrenOfType(expression, SqlReferenceExpression::class.java).maxByOrNull { it.textRange.endOffset }!!
 }
 
 fun PsiElement.getLeafChildrenByAst(textRange: TextRange): ArrayList<LeafPsiElement> {
@@ -132,4 +132,22 @@ fun PsiElement.getLeafChildrenByAst(textRange: TextRange): ArrayList<LeafPsiElem
         children.add(leafPsiElement)
     }
     return children
+}
+
+inline fun <reified T : PsiElement> PsiElement?.hasParentOfType(): Boolean {
+    return this != null && PsiTreeUtil.getParentOfType(this, T::class.java) != null
+}
+
+inline fun <reified T : PsiElement> PsiElement?.getParentOfType(): T? {
+    return if (this == null) null else PsiTreeUtil.getParentOfType(this, T::class.java)
+}
+
+inline fun <reified T : PsiElement> PsiElement?.getChildrenOfType(): List<T> {
+    return if (this == null) emptyList()
+    else PsiTreeUtil.getChildrenOfType(this, T::class.java)?.filterNotNull()?.toList() ?: emptyList()
+}
+
+inline fun <reified T : PsiElement> PsiElement?.findChildrenOfType(): List<T> {
+    return if (this == null) emptyList()
+    else PsiTreeUtil.findChildrenOfType(this, T::class.java).filterNotNull().toList()
 }
