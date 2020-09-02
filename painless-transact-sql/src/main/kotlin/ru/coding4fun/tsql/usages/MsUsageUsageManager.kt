@@ -14,7 +14,7 @@ import com.intellij.usages.UsageViewManager
 import com.intellij.usages.UsageViewPresentation
 import ru.coding4fun.tsql.psi.findChildrenOfType
 import ru.coding4fun.tsql.psi.getParentOfType
-import ru.coding4fun.tsql.psi.hasParentOfType
+import ru.coding4fun.tsql.psi.isAsteriskColumn
 import ru.coding4fun.tsql.psi.isTempOrVariable
 
 object MsUsageUsageManager {
@@ -97,11 +97,21 @@ object MsUsageUsageManager {
                             .mapNotNull { getTopMostReference(it) }
 
                     for (reference in references) {
+                        // Ignore for: SELECT * FROM ...
+                        //                    ^
+                        if (reference.isAsteriskColumn()) continue
+
                         val resolvedElement = reference.resolve() ?: continue
 
-                        if (resolvedElement.hasParentOfType<SqlWithClause>()) continue
-                        if (resolvedElement.hasParentOfType<SqlDeclareStatement>()) continue
-                        if (resolvedElement.hasParentOfType<SqlAsExpression>()) continue
+                        // Ignore for CREATE PRORCEDURE dbo.MyProc @T dbo.MyTableType
+                        //                                         ^
+                        if (resolvedElement is SqlParameterDefinition) continue
+
+                        // Ignore for aliases
+                        // SELECT t.c FROM (SELECT c = 1) AS t
+                        //                         ^         ^
+                        if (resolvedElement is SqlAsExpression) continue
+
                         val usage = MsBdTreeSliceUsage(reference)
                         processor.process(usage)
                     }
@@ -120,24 +130,19 @@ object MsUsageUsageManager {
     }
 
     private fun getTopMostReference(reference: SqlReferenceExpression): SqlReferenceExpression? {
-        var element: PsiElement? = reference.parent
-        while (element != null) {
-            if (element !is SqlIdentifier) break
-            if (element is SqlReference) {
-                val resolvedElement = element.resolve()
-                if (resolvedElement is SqlCreateTableStatement && resolvedElement.nameElement?.isTempOrVariable() == true) return null
-            } else break
-            element = element.parent
+        var topMostRefExpr: SqlReferenceExpression? = reference
+        var resolvedElement: PsiElement? = null
+        while (topMostRefExpr != null) {
+            resolvedElement = topMostRefExpr.resolve()
+            if (resolvedElement is SqlCreateTableStatement && resolvedElement.nameElement?.isTempOrVariable() == true) return null
+            val parentRefExpr = topMostRefExpr.parent as? SqlReferenceExpression ?: break
+            topMostRefExpr = parentRefExpr
         }
 
-        if (element is SqlReferenceExpression) {
-            val resolvedElement = element.resolve()
-            if (resolvedElement is DasObject) {
-                if (resolvedElement.kind == ObjectKind.SCHEMA) return null
-                if (resolvedElement.kind == ObjectKind.DATABASE) return null
-            }
-            return element
+        if (resolvedElement is DasObject) {
+            if (resolvedElement.kind == ObjectKind.SCHEMA) return null
+            if (resolvedElement.kind == ObjectKind.DATABASE) return null
         }
-        return null
+        return topMostRefExpr
     }
 }
