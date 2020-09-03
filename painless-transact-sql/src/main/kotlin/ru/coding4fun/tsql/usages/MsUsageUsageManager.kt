@@ -2,6 +2,7 @@ package ru.coding4fun.tsql.usages
 
 import com.intellij.database.model.DasObject
 import com.intellij.database.model.ObjectKind
+import com.intellij.database.psi.DbElement
 import com.intellij.find.findUsages.PsiElement2UsageTargetAdapter
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.util.Factory
@@ -97,20 +98,48 @@ object MsUsageUsageManager {
                             .mapNotNull { getTopMostReference(it) }
 
                     for (reference in references) {
-                        // Ignore for: SELECT * FROM ...
-                        //                    ^
+                        // SELECT * FROM ...
+                        //        ^
                         if (reference.isAsteriskColumn()) continue
 
-                        val resolvedElement = reference.resolve() ?: continue
+                        val resolvedElement: PsiElement? = reference.resolve()
 
-                        // Ignore for CREATE PRORCEDURE dbo.MyProc @T dbo.MyTableType
-                        //                                         ^
+                        // Skip for objects, that is not introspected and has not reference to a database.
+                        if (resolvedElement == null) {
+                            val dbRefs = reference.originalElement.findChildrenOfType<SqlReferenceExpression>()
+
+                            val hasDb = dbRefs.asSequence()
+                                    .map { it.resolve() }
+                                    .filterIsInstance<DbElement>()
+                                    .firstOrNull { it.kind == ObjectKind.DATABASE } != null
+
+                            if (!hasDb) continue
+                        }
+
+                        if (resolvedElement == reference) continue
+
+                        // SELECT Id FROM (SELECT Id FROM MyTable) AS T
+                        //        ^
+                        if (resolvedElement is SqlReferenceExpression) continue
+
+                        // CREATE PRORCEDURE dbo.MyProc @T dbo.MyTableType
+                        //                              ^
                         if (resolvedElement is SqlParameterDefinition) continue
 
-                        // Ignore for aliases
                         // SELECT t.c FROM (SELECT c = 1) AS t
                         //                         ^         ^
                         if (resolvedElement is SqlAsExpression) continue
+
+                        // SELECT c FROM (VALUES(1)) AS t (c)
+                        //        ^
+                        if (resolvedElement is SqlColumnAliasDefinition) continue
+
+
+                        // CREATE FUNCTION dbo.MyTableFun() RETURNS @t TABLE (Id INT) ...
+                        // SELECT Id FROM dbo.MyTableFun()
+                        //        ^
+                        // It's look like a little bit strange.
+                        if (resolvedElement is DasObject && resolvedElement.kind == ObjectKind.ARGUMENT) continue
 
                         val usage = MsBdTreeSliceUsage(reference)
                         processor.process(usage)
@@ -130,14 +159,11 @@ object MsUsageUsageManager {
     }
 
     private fun getTopMostReference(reference: SqlReferenceExpression): SqlReferenceExpression? {
-        var topMostRefExpr: SqlReferenceExpression? = reference
-        var resolvedElement: PsiElement? = null
-        while (topMostRefExpr != null) {
-            resolvedElement = topMostRefExpr.resolve()
-            if (resolvedElement is SqlCreateTableStatement && resolvedElement.nameElement?.isTempOrVariable() == true) return null
-            val parentRefExpr = topMostRefExpr.parent as? SqlReferenceExpression ?: break
-            topMostRefExpr = parentRefExpr
-        }
+        val topMostRefExpr: SqlReferenceExpression? = reference
+        val resolvedElement: PsiElement? = reference.resolve() ?: return reference
+
+        val parentOfResolvedElement = resolvedElement!!.parent
+        if (parentOfResolvedElement is SqlCreateTableStatement && parentOfResolvedElement.nameElement?.isTempOrVariable() == true) return null
 
         if (resolvedElement is DasObject) {
             if (resolvedElement.kind == ObjectKind.SCHEMA) return null
