@@ -381,11 +381,11 @@ In some cases can be useful to open in the DB tree all objects of single type in
 
 # Usages
 ## Find Path to Caller
-This action allow to find the root of caller. To try it let press double SHIFT | "Find Path to Caller"
+This action allow to find the root of caller. To try it let press ```double SHIFT | "Find Path to Caller"```
 ![Find Path to Caller](https://raw.githubusercontent.com/scrappyCoco/Painless-Transact-SQL/master/screenshots/PathToCaller.png)
 
 ## Show Used References
-For the complex scripts could be very useful an ability to see all used objects in the tree. To try it let press double SHIFT | "Show Used References"
+For the complex scripts could be very useful an ability to see all used objects in the tree. To try it let press ```double SHIFT | "Show Used References"```
 ![Show Used References](https://raw.githubusercontent.com/scrappyCoco/Painless-Transact-SQL/master/screenshots/UsedReferences.png)
 
 # Contains syntax highlighting
