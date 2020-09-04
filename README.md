@@ -379,5 +379,14 @@ SELECT CASE WHEN @i = '123' THEN NULL ELSE @i END;
 In some cases can be useful to open in the DB tree all objects of single type in some scopes. For example: open all columns in some database.
 ![Folding](https://raw.githubusercontent.com/scrappyCoco/Painless-Transact-SQL/master/screenshots/Folding.png)
 
+# Usages
+## Find Path to Caller
+This action allow to find the root of caller. To try it let press double SHIFT | "Find Path to Caller"
+![Find Path to Caller](https://raw.githubusercontent.com/scrappyCoco/Painless-Transact-SQL/master/screenshots/PathToCaller.png)
+
+## Show Used References
+For the complex scripts could be very useful an ability to see all used objects in the tree. To try it let press double SHIFT | "Show Used References"
+![Show Used References](https://raw.githubusercontent.com/scrappyCoco/Painless-Transact-SQL/master/screenshots/UsedReferences.png)
+
 # Contains syntax highlighting
 ![Folding](https://raw.githubusercontent.com/scrappyCoco/Painless-Transact-SQL/master/screenshots/Contains.PNG)

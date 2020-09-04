@@ -55,10 +55,6 @@ fun SqlReferenceExpression.getDmlHighlightRangeElements(): Pair<PsiElement, PsiE
     return null
 }
 
-private val tv = arrayOf('#', '@')
-
-fun SqlReferenceExpression.isTempOrVariable(): Boolean = tv.contains(this.text[0])
-
 fun SqlReferenceExpression.resolveColumn(): DasColumn? {
     return this.multiResolve(false)
             .mapNotNull { ((it as? SqlResolveResult)?.element ?: it) as? DasColumn }

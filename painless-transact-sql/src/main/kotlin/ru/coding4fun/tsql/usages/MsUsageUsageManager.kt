@@ -159,16 +159,21 @@ object MsUsageUsageManager {
     }
 
     private fun getTopMostReference(reference: SqlReferenceExpression): SqlReferenceExpression? {
-        val topMostRefExpr: SqlReferenceExpression? = reference
-        val resolvedElement: PsiElement? = reference.resolve() ?: return reference
+        // DECLARE @T TABLE (...)
+        //         ^
+        if (reference.isTempOrVariable()) return null
 
+        val resolvedElement: PsiElement? = reference.resolve() ?: return reference
         val parentOfResolvedElement = resolvedElement!!.parent
+
+        // CREATE TABLE #T ...
+        //              ^
         if (parentOfResolvedElement is SqlCreateTableStatement && parentOfResolvedElement.nameElement?.isTempOrVariable() == true) return null
 
         if (resolvedElement is DasObject) {
             if (resolvedElement.kind == ObjectKind.SCHEMA) return null
             if (resolvedElement.kind == ObjectKind.DATABASE) return null
         }
-        return topMostRefExpr
+        return reference
     }
 }
