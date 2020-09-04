@@ -29,6 +29,7 @@ class MsUsageElement(val createStatement: SqlCreateStatement, val refElement: Ps
         return true
     }
 
+
     override fun hashCode(): Int {
         if (dbCreateStatement != null) return dbCreateStatement.hashCode()
         return createStatement.hashCode()

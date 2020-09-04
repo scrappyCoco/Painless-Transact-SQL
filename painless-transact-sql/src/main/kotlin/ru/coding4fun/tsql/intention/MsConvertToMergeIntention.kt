@@ -22,6 +22,7 @@ import com.intellij.database.psi.DbColumn
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
+import com.intellij.psi.SyntaxTraverser
 import com.intellij.psi.search.PsiElementProcessor
 import com.intellij.psi.util.PsiElementFilter
 import com.intellij.psi.util.PsiTreeUtil
@@ -152,9 +153,11 @@ class MsConvertToMergeIntention : SqlBaseElementAtCaretIntentionAction() {
     }
 
     private fun getJoinColumns(joinCondition: SqlJoinConditionClause, target: DasObject): Set<DasObject> {
-        val filter = PsiElementFilter { fElement -> (fElement as? SqlReferenceExpression)?.elementType == SqlElementTypes.SQL_COLUMN_REFERENCE }
-        val columns = ArrayList<PsiElement>()
-        PsiTreeUtil.processElements(PsiElementProcessor.CollectFilteredElements(filter, columns), joinCondition)
+        val columns = SyntaxTraverser.psiTraverser(joinCondition)
+                .filter(SqlReferenceExpression::class.java)
+                .filter { it.elementType == SqlElementTypes.SQL_COLUMN_REFERENCE }
+                .toList()
+
         return columns.mapNotNull { filterColumnOfTarget(it, target) }.toSet()
     }
 
