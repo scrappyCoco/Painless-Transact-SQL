@@ -35,7 +35,7 @@ import ru.coding4fun.tsql.psi.getParams
 import kotlin.math.min
 
 class MsTypeCompareInspection : SqlInspectionBase() {
-    override fun getGroupDisplayName(): String = MsInspectionMessages.message("type.compare.name")
+    override fun getGroupDisplayName(): String = MsInspectionMessages.message("type.compatibility.name")
     override fun isDialectIgnored(dialect: SqlLanguageDialectEx?): Boolean = !(dialect?.dbms?.isMicrosoft ?: false)
 
     override fun createAnnotationVisitor(

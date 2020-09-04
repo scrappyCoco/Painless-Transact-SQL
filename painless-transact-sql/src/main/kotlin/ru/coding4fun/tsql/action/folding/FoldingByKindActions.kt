@@ -45,7 +45,7 @@ abstract class FoldingBaseAction(
         override fun run(indicator: ProgressIndicator) {
             val latch = CountDownLatch(1)
             val dbTree = event.getData(DatabaseView.DATABASE_VIEW_KEY)!!.tree
-            val myVisitor = ObjectKindTreeVisitor(topPath, targetKind, indicator::isCanceled) { selectedPath ->
+            val myVisitor = ObjectKindTreeVisitor(topPath, targetKind, { indicator.isCanceled }) { selectedPath ->
                 isHideMode && dbTree.isCollapsed(selectedPath) && !dbTree.model.isLeaf(selectedPath.lastPathComponent)
             }
             TreeUtil.promiseVisit(dbTree, myVisitor).onSuccess {
