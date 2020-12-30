@@ -15,7 +15,7 @@
  */
 
 buildscript {
-    ext.kotlin_version = '1.4.0'
+    ext.kotlin_version = '1.4.21'
 
     repositories {
         jcenter()
@@ -27,14 +27,14 @@ buildscript {
 
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "org.jetbrains.intellij.plugins:gradle-intellij-plugin:0.5.0-SNAPSHOT"
+        classpath "org.jetbrains.intellij.plugins:gradle-intellij-plugin:0.6.5"
     }
 }
 
 plugins {
     id 'java'
     id 'org.jetbrains.intellij' version '0.4.21'
-    id 'org.jetbrains.kotlin.jvm' version '1.4.0'
+    id 'org.jetbrains.kotlin.jvm' version '1.4.21'
 }
 
 group 'ru.coding4fun'
@@ -45,6 +45,7 @@ repositories {
 }
 
 dependencies {
+    implementation project(":contains-language")
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -55,7 +56,7 @@ dependencies {
 intellij {
     type 'IU'
     plugins 'DatabaseTools'
-    version 'IU-2020.2'
+    version 'IU-2020.3'
 }
 
 compileKotlin {
@@ -74,14 +75,4 @@ patchPluginXml {
     sinceBuild '202'
     untilBuild '203.*'
     changeNotes '"Path to Caller" and "Used References" have been added.'
-}
-
-sourceSets {
-    main.java.srcDirs = []
-    main.java.srcDirs += "src/main/java"
-    main.java.srcDirs += "../contains-language/src/main/gen"
-    main.java.srcDirs += "../contains-language/src/main/java"
-
-    main.kotlin.srcDirs += "../contains-language/src/main/kotlin"
-    main.resources.srcDirs += "../contains-language/src/main/resources"
 }

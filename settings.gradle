@@ -1,0 +1,2 @@
+rootProject.name = 'painless-transact-sql'
+include 'contains-language', 'painless-transact-sql'
