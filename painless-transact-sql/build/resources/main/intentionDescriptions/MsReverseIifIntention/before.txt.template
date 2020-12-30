@@ -1,2 +1,0 @@
-DECLARE @i INT;
-SELECT <spot>IIF(@i <> 0, 'Green', 'Red')</spot>;

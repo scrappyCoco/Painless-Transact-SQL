@@ -1,8 +1,0 @@
-DECLARE @T TABLE
-(
-   Id   INT NOT NULL PRIMARY KEY,
-   Name VARCHAR
-);
-
-SELECT <spot>TOP (1)</spot> *
-FROM @T;

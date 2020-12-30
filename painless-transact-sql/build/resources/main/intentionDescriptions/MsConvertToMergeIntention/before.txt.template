@@ -1,3 +1,0 @@
-SELECT *
-FROM dbo.MySource AS Source
-INNER JOIN dbo.MyTarget AS Target ON Source.Id = Target.Id;

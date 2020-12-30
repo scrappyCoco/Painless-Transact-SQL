@@ -1,7 +1,0 @@
-DECLARE @source TABLE (Code CHAR(10) NOT NULL, Category INT, PRIMARY KEY (Code, Category))
-DECLARE @target TABLE (Code CHAR(10) NOT NULL, Category INT, PRIMARY KEY (Code, Category))
-
-SELECT *
-FROM @source AS Source
-INNER JOIN @target AS Target ON Source.Code = Target.Code
-    AND <spot>Source.Category = Target.Category</spot>

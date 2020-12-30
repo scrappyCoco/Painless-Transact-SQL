@@ -1,1 +1,0 @@
-SELECT CONVERT(VARCHAR(20), GETDATE(), <spot>104</spot>);

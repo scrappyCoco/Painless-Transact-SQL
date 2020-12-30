@@ -1,3 +1,0 @@
-DECLARE @i VARCHAR(100) = '123'
-
-SELECT <spot>NULLIF(@i, '123')</spot>;
