@@ -26,10 +26,7 @@ import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.elementType
 import com.intellij.sql.children
 import com.intellij.sql.dialects.mssql.MsDialect
-import com.intellij.sql.psi.SqlCreateStatement
-import com.intellij.sql.psi.SqlElementTypes
-import com.intellij.sql.psi.SqlInfoElementType
-import com.intellij.sql.psi.SqlReferenceExpression
+import com.intellij.sql.psi.*
 import com.intellij.sql.psi.impl.SqlPsiElementFactory
 import com.intellij.util.castSafelyTo
 
@@ -150,4 +147,29 @@ inline fun <reified T : PsiElement> PsiElement?.getChildrenOfType(): List<T> {
 inline fun <reified T : PsiElement> PsiElement?.findChildrenOfType(): List<T> {
     return if (this == null) emptyList()
     else PsiTreeUtil.findChildrenOfType(this, T::class.java).filterNotNull().toList()
+}
+
+fun PsiElement?.getTopParent(): PsiElement? {
+    var parent: PsiElement? = this?.parent
+    while (parent?.parent != null) parent = parent.parent
+    return parent
+}
+
+fun PsiElement?.getLeafSqlFiles(): List<PsiElement> {
+    val leafElements = arrayListOf<PsiElement>()
+    var currentElements: MutableList<PsiElement> = this?.children?.toMutableList() ?: return leafElements
+    var nextElements: MutableList<PsiElement> = arrayListOf()
+
+    while (currentElements.any()) {
+        for (element in currentElements) {
+            if (element is SqlFile) leafElements.add(element)
+            else if (element.children.any()) nextElements.addAll(element.children)
+        }
+        val temp = currentElements
+        currentElements = nextElements
+        nextElements = temp
+        nextElements.clear()
+    }
+
+    return leafElements
 }

@@ -28,6 +28,11 @@
     <xi:include href="/META-INF/containsPlugin.xml" xpointer="xpointer(/idea-plugin/*)"/>
 
     <actions>
+        <action class="ru.coding4fun.tsql.action.Test"
+                id="TestAction"
+                text="Test Test"
+                popup="true">
+        </action>
         <action class="ru.coding4fun.tsql.action.ShowUsedReferencesAction"
                 id="ShowUsedReferencesAction"
                 text="Show Used References"
