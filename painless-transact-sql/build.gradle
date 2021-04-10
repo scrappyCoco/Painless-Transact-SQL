@@ -38,14 +38,14 @@ plugins {
 }
 
 group 'ru.coding4fun'
-version '2020.2.2'
+version '2021.1.1'
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation project(":contains-language")
+    compile project(":contains-language")
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -56,7 +56,7 @@ dependencies {
 intellij {
     type 'IU'
     plugins 'DatabaseTools'
-    version 'IU-2020.3'
+    version 'IU-2021.1'
 }
 
 compileKotlin {
@@ -73,6 +73,17 @@ compileTestKotlin {
 
 patchPluginXml {
     sinceBuild '202'
-    untilBuild '203.*'
-    changeNotes '"Path to Caller" and "Used References" have been added.'
+    untilBuild '213.*'
+    changeNotes 'Supported version of IDE has been increased.'
+}
+
+sourceSets {
+    main.java.srcDirs = []
+    main.java.srcDirs += "src/main/java"
+    main.java.srcDirs += "../contains-language/src/main/gen"
+    main.java.srcDirs += "../contains-language/src/main/java"
+
+    main.kotlin.srcDirs += "../contains-language/src/main/kotlin"
+
+    main.resources.srcDirs +=  "../contains-language/src/main/resources"
 }
