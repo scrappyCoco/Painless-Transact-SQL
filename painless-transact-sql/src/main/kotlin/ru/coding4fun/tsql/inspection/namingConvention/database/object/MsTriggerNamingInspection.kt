@@ -15,8 +15,8 @@ class MsTriggerNamingInspection : MsNamingInspectionBase(
     "db",
     "schema",
     "table",
-    "action",
-    "time"
+    "action", // INSERT, UPDATE, DELETE
+    "time" // AFTER, INSTEAD OF, FOR
 ) {
     override fun createAnnotationVisitor(
         dialect: SqlLanguageDialectEx,
@@ -40,12 +40,15 @@ class MsTriggerNamingInspection : MsNamingInspectionBase(
             val dbName: String = DasUtil.getCatalog(createTriggerStatement)
             val schemaName: String = DasUtil.getSchema(createTriggerStatement)
             val tableName: String = createTriggerStatement.table!!.name
-            val time =
-                createTriggerStatement.children.firstOrNull { it.elementType == SqlElementTypes.SQL_TRIGGER_TIME_CLAUSE }?.text
-                    ?: return
 
-            val action = createTriggerStatement.children.firstOrNull { it.elementType == SqlElementTypes.SQL_TRIGGER_EVENT_CLAUSE }?.text
-                ?: return
+            val time = createTriggerStatement.children
+                .filter { it.elementType == SqlElementTypes.SQL_TRIGGER_TIME_CLAUSE }
+                .joinToString(separator = " ") { it.text }
+
+            val action =
+                createTriggerStatement.children
+                    .filter { it.elementType == SqlElementTypes.SQL_TRIGGER_EVENT_CLAUSE }
+                    .joinToString(separator = " ") { it.text }
 
             val names = listOf(dbName, schemaName, tableName, action, time, createTriggerStatement.name)
 

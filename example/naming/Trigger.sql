@@ -1,0 +1,14 @@
+CREATE TABLE SampleTable
+(
+    ID INT PRIMARY KEY
+);
+GO
+
+CREATE TRIGGER TR_SampleTable_iud
+    ON SampleTable AFTER INSERT,
+UPDATE,
+DELETE
+    AS
+BEGIN
+SELECT 1
+END

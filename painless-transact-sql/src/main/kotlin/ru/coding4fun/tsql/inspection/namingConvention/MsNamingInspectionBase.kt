@@ -22,24 +22,24 @@ abstract class MsNamingInspectionBase(
     @PropertyKey(resourceBundle = "messages.inspection") defaultDescriptionPropertyKey: String,
     vararg availableContexts: String
 ) : SqlInspectionBase() {
-    private val separator = " "
+    private val separator = " _ "
     private val regexPrefix: String
     private val availableContextVariables: List<String> = availableContexts.asList()
 
     init {
-        val regexPrefixSb = StringBuilder(512)
+        val regexPrefixSb = StringBuilder(1024)
         for (context in availableContexts) {
             regexPrefixSb
                 .append("(?<")
                 .append(context)
-                .append(">(\\S+|.{0}))")
+                .append(">.*?)")
                 .append(separator)
         }
         regexPrefix = regexPrefixSb.toString()
     }
 
     private fun formatName(names: List<String>): String {
-        val sb = StringBuilder(512)
+        val sb = StringBuilder(1024)
         for ((number, name) in names.withIndex()) {
             if (number > 0) sb.append(separator)
             sb.append(MsNameUtils.unquote(name))
