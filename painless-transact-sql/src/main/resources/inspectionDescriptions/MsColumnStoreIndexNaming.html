@@ -1,0 +1,43 @@
+<html>
+<body>
+<p>Check for column name.</p>
+<p>Available context:</p>
+<ul>
+    <li><b>db</b> - database name</li>
+    <li><b>schema</b> - schema name</li>
+    <li><b>table</b> - table name</li>
+    <li><b>clustered</b> - keywords: clustered/nonclustered</li>
+</ul>
+<p>Context variables could be added as named groups (see examples).</p>
+<p>Examples:</p>
+<ul>
+    <li><b>UPPER_CASE</b>: <code>[A-Z]+([_][A-Z]+)*</code></li>
+    <li><b>snake_case</b>: <code>[a-z]+([_][a-z]+)*</code></li>
+    <li><b>kebab-case</b>: <code>[a-z]+([-][a-z]+)*</code></li>
+    <li><b>PascalCase</b>: <code>([A-Z][a-z]+)+</code></li>
+    <li><b>camelCase</b>: <code>[a-z]+([A-Z][a-z]+)+</code></li>
+    <li><b>CCS_MyTableName_MyColumnName</b>:
+        <code>(((?&lt;=\bclustered\b.{1,500})C)|((?&lt;=\bnonclustered\b).{0}))CS_\k&lt;table&gt;_([A-Z][a-z]+)+</code>
+        <br />
+        Description:
+        <ul>
+            <li>
+                <code>(?&lt;=\bclustered\b.{1,500})C)</code> - for clustered index char <b>C</b> must be added
+            </li>
+            <li>
+                <code>((?&lt;=\bnonclustered\b).{0})</code> - for nonclustered index prefix must not be added
+            </li>
+            <li>
+                <code>CS_</code> - constant prefix from <b>C</b>olumn<b>S</b>tore
+            </li>
+            <li>
+                <code>\k&lt;table&gt;</code> - table name
+            </li>
+            <li>
+                <code>([A-Z][a-z]+)+</code> - name in PascalCase
+            </li>
+        </ul>
+    </li>
+</ul>
+</body>
+</html>

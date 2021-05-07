@@ -147,6 +147,13 @@ SELECT '11111111'
 SELECT REPLICATE('1', 8)
 ```
 
+## Naming Convention
+| Inspection | Default Regex | Default Description | Available Contexts |
+| :--- | :--- | :--- | :--- |
+| Database naming convention | \[A-Z\]\[A-Z0-9\_\]\* | Database names should be in UPPER\_CASE | - |
+| Schema naming convention | \[a-z\]\[a-z\_0-9\]\* | Schema names should be in lower\_case | - database |
+
+
 # Intentions
 ## Replace LEFT to SUBSTRING
 Before:

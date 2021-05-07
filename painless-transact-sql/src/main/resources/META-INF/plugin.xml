@@ -50,14 +50,14 @@
                     popup="true"/>
             <action class="ru.coding4fun.tsql.action.folding.ExpandDataSourceAction"
                     id="MssqlExpandDataSource"
-                    popup="true" />
+                    popup="true"/>
             <action class="ru.coding4fun.tsql.action.folding.ExpandDbAction"
                     id="MssqlExpandDb"
-                    popup="true" />
-            <separator />
+                    popup="true"/>
+            <separator/>
             <action class="ru.coding4fun.tsql.action.folding.CollapseEverywhereAction"
                     id="MssqlCollapseEverywhere"
-                    popup="true" />
+                    popup="true"/>
             <action class="ru.coding4fun.tsql.action.folding.CollapseGroupAction"
                     id="MssqlCollapseGroup"
                     popup="true"/>
@@ -200,6 +200,102 @@
                          groupBundle="messages.inspection" groupKey="inspection.dml.group"
                          enabledByDefault="true" level="WARNING" language="TSQL"
                          implementationClass="ru.coding4fun.tsql.inspection.dml.MsUnusedColumnInspection"/>
+        <localInspection suppressId="MsDatabaseNaming"
+                         shortName="MsDatabaseNamingInspection"
+                         bundle="messages.inspection" key="name.convention.db.name"
+                         groupBundle="messages.inspection"
+                         groupKey="inspection.code.naming.convention.database.object.group"
+                         groupPath="Painless T-SQL,Naming convention,Database"
+                         enabledByDefault="false" level="SERVER PROBLEM" language="TSQL"
+                         implementationClass="ru.coding4fun.tsql.inspection.namingConvention.database.MsDatabaseNamingInspection"/>
+        <localInspection suppressId="MsTableNaming"
+                         shortName="MsTableNamingInspection"
+                         bundle="messages.inspection" key="name.convention.table.name"
+                         groupBundle="messages.inspection"
+                         groupKey="inspection.code.naming.convention.database.object.group"
+                         groupPath="Painless T-SQL,Naming convention,Database"
+                         enabledByDefault="false" level="SERVER PROBLEM" language="TSQL"
+                         implementationClass="ru.coding4fun.tsql.inspection.namingConvention.database.object.MsTableNamingInspection"/>
+        <localInspection suppressId="MsColumnNaming"
+                         shortName="MsColumnNamingInspection"
+                         bundle="messages.inspection" key="name.convention.column.name"
+                         groupBundle="messages.inspection"
+                         groupKey="inspection.code.naming.convention.database.object.group"
+                         groupPath="Painless T-SQL,Naming convention,Database"
+                         enabledByDefault="false" level="SERVER PROBLEM" language="TSQL"
+                         implementationClass="ru.coding4fun.tsql.inspection.namingConvention.database.object.MsColumnNamingInspection"/>
+        <localInspection suppressId="MsColumnStoreIndexNaming"
+                         shortName="MsColumnStoreIndexNamingInspection"
+                         bundle="messages.inspection" key="name.convention.column.store.index.name"
+                         groupBundle="messages.inspection"
+                         groupKey="inspection.code.naming.convention.database.object.group"
+                         groupPath="Painless T-SQL,Naming convention,Database"
+                         enabledByDefault="false" level="SERVER PROBLEM" language="TSQL"
+                         implementationClass="ru.coding4fun.tsql.inspection.namingConvention.database.object.MsColumnStoreIndexNamingInspection"/>
+        <localInspection suppressId="MsDefaultNaming"
+                         shortName="MsDefaultNamingInspection"
+                         bundle="messages.inspection" key="name.convention.default.constraint.name"
+                         groupBundle="messages.inspection"
+                         groupKey="inspection.code.naming.convention.database.object.group"
+                         groupPath="Painless T-SQL,Naming convention,Database"
+                         enabledByDefault="false" level="SERVER PROBLEM" language="TSQL"
+                         implementationClass="ru.coding4fun.tsql.inspection.namingConvention.database.object.MsDefaultNamingInspection"/>
+        <localInspection suppressId="MsIndexNaming"
+                         shortName="MsIndexNamingInspection"
+                         bundle="messages.inspection" key="name.convention.index.name"
+                         groupBundle="messages.inspection"
+                         groupKey="inspection.code.naming.convention.database.object.group"
+                         groupPath="Painless T-SQL,Naming convention,Database"
+                         enabledByDefault="false" level="SERVER PROBLEM" language="TSQL"
+                         implementationClass="ru.coding4fun.tsql.inspection.namingConvention.database.object.MsIndexNamingInspection"/>
+        <localInspection suppressId="MsPartitionFunctionNaming"
+                         shortName="MsPartitionFunctionNamingInspection"
+                         bundle="messages.inspection" key="name.convention.partition.function.name"
+                         groupBundle="messages.inspection"
+                         groupKey="inspection.code.naming.convention.database.object.group"
+                         groupPath="Painless T-SQL,Naming convention,Database"
+                         enabledByDefault="false" level="SERVER PROBLEM" language="TSQL"
+                         implementationClass="ru.coding4fun.tsql.inspection.namingConvention.database.object.MsPartitionFunctionNamingInspection"/>
+        <localInspection suppressId="MsPartitionSchemaNaming"
+                         shortName="MsPartitionSchemaNamingInspection"
+                         bundle="messages.inspection" key="name.convention.partition.schema.name"
+                         groupBundle="messages.inspection"
+                         groupKey="inspection.code.naming.convention.database.object.group"
+                         groupPath="Painless T-SQL,Naming convention,Database"
+                         enabledByDefault="false" level="SERVER PROBLEM" language="TSQL"
+                         implementationClass="ru.coding4fun.tsql.inspection.namingConvention.database.object.MsPartitionSchemaNamingInspection"/>
+        <localInspection suppressId="MsProcedureNaming"
+                         shortName="MsProcedureNamingInspection"
+                         bundle="messages.inspection" key="name.convention.procedure.name"
+                         groupBundle="messages.inspection"
+                         groupKey="inspection.code.naming.convention.database.object.group"
+                         groupPath="Painless T-SQL,Naming convention,Database"
+                         enabledByDefault="false" level="SERVER PROBLEM" language="TSQL"
+                         implementationClass="ru.coding4fun.tsql.inspection.namingConvention.database.object.MsProcedureNamingInspection"/>
+        <localInspection suppressId="MsSchemaNaming"
+                         shortName="MsSchemaNamingInspection"
+                         bundle="messages.inspection" key="name.convention.schema.name"
+                         groupBundle="messages.inspection"
+                         groupKey="inspection.code.naming.convention.database.object.group"
+                         groupPath="Painless T-SQL,Naming convention,Database"
+                         enabledByDefault="false" level="SERVER PROBLEM" language="TSQL"
+                         implementationClass="ru.coding4fun.tsql.inspection.namingConvention.database.object.MsSchemaNamingInspection"/>
+        <localInspection suppressId="MsSequenceNaming"
+                         shortName="MsSequenceNamingInspection"
+                         bundle="messages.inspection" key="name.convention.sequence.name"
+                         groupBundle="messages.inspection"
+                         groupKey="inspection.code.naming.convention.database.object.group"
+                         groupPath="Painless T-SQL,Naming convention,Database"
+                         enabledByDefault="false" level="SERVER PROBLEM" language="TSQL"
+                         implementationClass="ru.coding4fun.tsql.inspection.namingConvention.database.object.MsSequenceNamingInspection"/>
+        <localInspection suppressId="MsTriggerNaming"
+                         shortName="MsTriggerNamingInspection"
+                         bundle="messages.inspection" key="name.convention.trigger.name"
+                         groupBundle="messages.inspection"
+                         groupKey="inspection.code.naming.convention.database.object.group"
+                         groupPath="Painless T-SQL,Naming convention,Database"
+                         enabledByDefault="false" level="SERVER PROBLEM" language="TSQL"
+                         implementationClass="ru.coding4fun.tsql.inspection.namingConvention.database.object.MsTriggerNamingInspection"/>
         <intentionAction>
             <className>ru.coding4fun.tsql.intention.MsAddDateStyleInConvertIntention</className>
             <bundleName>messages.intention</bundleName>

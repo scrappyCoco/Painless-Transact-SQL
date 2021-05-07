@@ -1,11 +1,10 @@
 <html>
 <body>
-<p>Check for column name.</p>
+<p>Check for table name.</p>
 <p>Available context:</p>
 <ul>
     <li><b>db</b> - database name</li>
     <li><b>schema</b> - schema name</li>
-    <li><b>table</b> - table name</li>
 </ul>
 <p>Context variables could be added as named groups (see examples).</p>
 <p>Examples:</p>
@@ -15,7 +14,7 @@
     <li><b>kebab-case</b>: <code>[a-z]+([-][a-z]+)*</code></li>
     <li><b>PascalCase</b>: <code>([A-Z][a-z]+)+</code></li>
     <li><b>camelCase</b>: <code>[a-z]+([A-Z][a-z]+)+</code></li>
-    <li><b>DATABASE_NAME_my_schema_MyTableName_MyColumnName</b>: <code>\k&lt;db&gt;_\k&lt;schema&gt;_\k&lt;table&gt;_[A-Z]+([_][A-Z]+)*</code></li>
+    <li><b>DATABASE_NAME_my_schema_MyTableName</b>: <code>(?&lt;db&gt;.+)_(?&lt;schema&gt;.+)_[A-Z]+([_][A-Z]+)*</code></li>
 </ul>
 </body>
 </html>

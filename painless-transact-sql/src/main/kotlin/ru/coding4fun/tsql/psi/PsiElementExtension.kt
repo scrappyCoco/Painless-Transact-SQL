@@ -59,13 +59,14 @@ fun PsiElement.getPrevNotEmptyLeaf(): PsiElement? {
     return currentElement
 }
 
-fun PsiElement.findLeaf(elementType: IElementType): LeafPsiElement? {
-    val endOffset = this.textRange.endOffset
+fun PsiElement.findLeaf(vararg searchTypes: IElementType): LeafPsiElement? {
+    val searchTypeSet = if (searchTypes.size == 1) null else searchTypes.toSet()
     var curElement = PsiTreeUtil.getDeepestFirst(this)
     while (true) {
-        if (curElement.elementType == elementType) return curElement.castSafelyTo<LeafPsiElement>()
+        if (searchTypeSet?.contains(curElement.elementType) ?: curElement.elementType == elementType)
+            return curElement.castSafelyTo<LeafPsiElement>()
         curElement = curElement.getNextNotEmptyLeaf() ?: break
-        if (curElement.textRange.endOffset > endOffset) break
+        if (this.textRange.contains(curElement.textRange)) break
     }
     return null
 }
@@ -76,6 +77,18 @@ fun PsiElement.getNextNotEmptyLeaf(): PsiElement? {
         currentElement = PsiTreeUtil.nextVisibleLeaf(currentElement)
     }
     return currentElement
+}
+
+fun PsiElement.getFirstLeaves(count: Int): List<PsiElement> {
+    var curElement = PsiTreeUtil.getDeepestFirst(this)
+    val foundLeaves = ArrayList<PsiElement>()
+    do {
+        if (!this.textRange.contains(curElement.textRange)) break
+        if (curElement.isEmpty()) continue
+        foundLeaves.add(curElement)
+        curElement = PsiTreeUtil.nextVisibleLeaf(curElement) ?: continue
+    } while (foundLeaves.size < count)
+    return foundLeaves
 }
 
 fun PsiElement.isEmpty(): Boolean {
