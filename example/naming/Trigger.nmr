@@ -1,0 +1,9 @@
+"TR_"
++ schema() + "_"
++ table() + "_"
++   (if (has("FOR") || has("AFTER")) "AFTER" else "INSTEAD")
++   (if (has("INSERT")) "I"
+else if (has("UPDATE")) "U"
+else if (has("DELETE")) "D"
+else "") + "_"
++ pascalCase()

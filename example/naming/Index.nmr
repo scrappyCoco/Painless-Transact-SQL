@@ -1,0 +1,9 @@
+if (startsWith(name(), "PK_")) anything()
+else (
+    if (has("CLUSTERED"))                   "CL_"      else ""
+  + if (has("COLUMNSTORE"))                 "CS_"      else ""
+  + if (has("XML"))                         "XML_"     else ""
+  + if (!has("XML") && !has("COLUMNSTORE")) "IX_"      else ""
+  + if (has("WHERE"))                       "FILTER_"  else ""
+  + if (has("INCLUDE"))                     "INCLUDE_" else ""
+)

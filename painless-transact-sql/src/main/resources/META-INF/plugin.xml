@@ -26,6 +26,7 @@
     <depends>com.intellij.modules.sql</depends>
 
     <xi:include href="/META-INF/containsPlugin.xml" xpointer="xpointer(/idea-plugin/*)"/>
+    <xi:include href="/META-INF/namingRulePlugin.xml" xpointer="xpointer(/idea-plugin/*)"/>
 
     <actions>
         <action class="ru.coding4fun.tsql.action.ShowUsedReferencesAction"

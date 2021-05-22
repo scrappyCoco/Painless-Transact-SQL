@@ -1,0 +1,81 @@
+
+{
+  parserImports=[
+    "static com.intellij.lang.parser.GeneratedParserUtilBase.*"
+  ]
+  parserClass="ru.coding4fun.tsql.naming.rule.NamingRuleParser"
+  parserUtilClass="ru.coding4fun.tsql.naming.rule.NamingRuleParserUtil"
+//  parserUtilClass="ru.coding4fun.tsql.naming.rule.NamingRuleParserUtil"
+
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+  psiClassPrefix="NamingRule"
+  psiImplClassSuffix="Impl"
+  psiPackage="ru.coding4fun.tsql.naming.rule.psi"
+  psiImplPackage="ru.coding4fun.tsql.naming.rule.psi.impl"
+  psiImplUtilClass="ru.coding4fun.tsql.naming.rule.psi.impl.NamingRulePsiImplUtil"
+
+  elementTypeHolderClass="ru.coding4fun.tsql.naming.rule.psi.NamingRuleTypes"
+  elementTypeClass="ru.coding4fun.tsql.naming.rule.NamingRuleElementType"
+  tokenTypeClass="ru.coding4fun.tsql.naming.rule.NamingRuleTokenType"
+
+  psiImplUtilClass="ru.coding4fun.tsql.naming.rule.psi.impl.NamingRulePsiImplUtil"
+
+  extends(".*_expr")=expr
+  tokens=[
+    OP_ADD='+'
+    OP_OR='||'
+    OP_AND='&&'
+    OP_EQ_EQ='=='
+    OP_NOT_EQ='!='
+    OP_GT='>'
+    OP_GTE='>='
+    OP_LT='<'
+    OP_LTE='<='
+    LBRACE='('
+    RBRACE=')'
+    NOT='!'
+    IF='if'
+    ELSE='else'
+
+    space='regexp:\s+'
+    line_comment='regexp://.*'
+    integer='regexp:\d+'
+    id='regexp:\p{Alpha}\w*'
+    string="regexp:(\"[^\"]*\")"
+  ]
+}
+
+root ::= element *
+private element ::= expr
+expr ::= conditional_expr
+  | call_expr
+  | plus_expr
+  | or_expr
+  | and_expr
+  | not_expr
+  | compare_expr
+  | paren_expr
+  | primary_group_expr
+
+private primary_group_expr ::= literal_expr
+
+paren_expr ::= '(' + expr + ')'
+
+literal_expr ::= string_literal_expr | integer_literal_expr
+
+identifier ::= id
+string_literal_expr ::= string
+integer_literal_expr ::= integer
+
+plus_expr ::= expr '+' expr
+or_expr ::= expr '||' expr
+and_expr ::= expr '&&' expr
+not_expr ::= '!' expr
+
+compare_expr ::= expr compare_operator expr
+compare_operator ::= '==' | '!=' | '>' | '>=' | '<' | '<='
+
+conditional_expr ::= 'if' '(' (expr) ')' expr 'else' expr
+call_expr ::= identifier arg_list
+arg_list ::= '(' [ !')' expr?  (',' expr) * ] ')' {pin(".*")=1}

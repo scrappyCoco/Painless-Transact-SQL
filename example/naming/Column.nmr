@@ -1,0 +1,2 @@
+table() + "_" + pascalCase()
++ if (has("SPARSE")) "_SPR" else ""

@@ -1,2 +1,4 @@
 rootProject.name = 'Painless-Transact-SQL'
 include 'contains-language', 'painless-transact-sql'
+include 'naming-rule'
+

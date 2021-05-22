@@ -1,0 +1,4 @@
+"FK_"
++ schema() + "_" + table() + "_"
++ parentSchema() + "_" + parentTable() +
++ join(columns(), "_

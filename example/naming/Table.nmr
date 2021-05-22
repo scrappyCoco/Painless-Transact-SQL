@@ -1,0 +1,6 @@
+if (startsWith(name(), "##")) "##" + pascalCase()       // Global Temporary Table
+else if (startsWith(name(), "#")) "#" + pascalCase()    // Local Temporary Table
+else if (startsWith(name(), "@")) "@" + lowerCase()     // Table Variable
+else if (has("MEMORY_OPTIMIZED")) "MT_" + pascalCase()  // Memory-optimized Table
+else if (has("FILETABLE")) "FT_" + pascalCase()         // File Table
+else schema() + "_" + pascalCase()                      // Disk-Based Table

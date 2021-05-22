@@ -46,6 +46,7 @@ repositories {
 
 dependencies {
     compile project(":contains-language")
+    compile project(":naming-rule")
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -80,10 +81,16 @@ patchPluginXml {
 sourceSets {
     main.java.srcDirs = []
     main.java.srcDirs += "src/main/java"
+
     main.java.srcDirs += "../contains-language/src/main/gen"
+    main.java.srcDirs += "../naming-rule/src/main/gen"
+
     main.java.srcDirs += "../contains-language/src/main/java"
+    main.java.srcDirs += "../naming-rule/src/main/java"
 
     main.kotlin.srcDirs += "../contains-language/src/main/kotlin"
+    main.kotlin.srcDirs += "../naming-rule/src/main/kotlin"
 
     main.resources.srcDirs +=  "../contains-language/src/main/resources"
+    main.resources.srcDirs +=  "../naming-rule/src/main/resources"
 }

@@ -1,0 +1,15 @@
+<idea-plugin>
+    <extensions defaultExtensionNs="com.intellij">
+        <fileType name="Naming Rule File" implementationClass="ru.coding4fun.tsql.naming.rule.NamingRuleFileType"
+                  fieldName="INSTANCE" language="Naming Rule" extensions="nmr"/>
+
+        <lang.parserDefinition language="Naming Rule"
+                               implementationClass="ru.coding4fun.tsql.naming.rule.NamingRuleParserDefinition"/>
+
+        <lang.syntaxHighlighterFactory language="Naming Rule"
+                                       implementationClass="ru.coding4fun.tsql.naming.rule.NamingRuleSyntaxHighlighterFactory"/>
+
+        <lang.braceMatcher language="Naming Rule" implementationClass="ru.coding4fun.tsql.naming.rule.NamingRulePairedBraceMatcher" />
+    <lang.commenter language="Naming Rule" implementationClass="ru.coding4fun.tsql.naming.rule.NamingRuleCommenter" />
+    </extensions>
+</idea-plugin>
