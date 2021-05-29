@@ -77,6 +77,8 @@
     <extensions defaultExtensionNs="com.intellij">
         <fileStructureGroupRuleProvider implementation="ru.coding4fun.tsql.usages.MsDbTreeGroupRuleProvider"/>
         <fileStructureGroupRuleProvider implementation="ru.coding4fun.tsql.usages.MsPathToCallerGroupRuleProvider"/>
+        <codeInsight.lineMarkerProvider language="SQL"
+                                        implementationClass="ru.coding4fun.tsql.gutter.DmlLineMarkerProvider"/>
 
 
         <completion.contributor implementationClass="ru.coding4fun.tsql.completion.PainlessCompletionContributor"

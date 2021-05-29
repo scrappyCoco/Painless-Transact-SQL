@@ -31,7 +31,3 @@ fun SqlElement.findFirstTableReference(): SqlReferenceExpression? {
                         PsiTreeUtil.getDeepestFirst(it).elementType != SqlElementTypes.SQL_ASTERISK
             }
 }
-
-private val tv = arrayOf('#', '@')
-
-fun SqlElement.isTempOrVariable(): Boolean = tv.contains(this.text[0])
