@@ -28,7 +28,10 @@ class DmlLineMarkerProvider : RelatedItemLineMarkerProvider() {
             // INSERT INTO ...
             // ... OUTPUT ... INTO ...
             element is SqlTableColumnsList -> {
-                tableReference = element.tableReference
+                // Skip for CREATE INDEX IX ON MyTable (...)
+                tableReference =
+                    if (PsiTreeUtil.getParentOfType(element, SqlCreateIndexStatement::class.java) != null) null
+                    else element.tableReference
             }
             // UPDATE/DELETE/MERGE
             element is SqlDmlStatement && element !is SqlInsertStatement -> {
