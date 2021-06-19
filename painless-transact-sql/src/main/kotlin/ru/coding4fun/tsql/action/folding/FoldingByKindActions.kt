@@ -73,7 +73,7 @@ abstract class FoldingBaseAction(
             event.presentation.isVisible = false
         } else {
             targetKind = when (val selectedComponent = selectionPath.lastPathComponent) {
-                is DatabaseStructure.FamilyGroup -> selectedComponent.childrenKind
+                is DatabaseStructure.FamilyGroup -> selectedComponent.getChildrenKind()
                 is DasObject -> selectedComponent.kind
                 else -> ObjectKind.DATABASE
             }

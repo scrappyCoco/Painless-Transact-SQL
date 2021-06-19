@@ -20,7 +20,7 @@ dependencies {
 intellij {
     type 'IU'
     plugins 'DatabaseTools'
-    version 'IU-211.7442.40'
+    version 'IU-212.4037.50-EAP-SNAPSHOT'
 }
 
 compileKotlin {

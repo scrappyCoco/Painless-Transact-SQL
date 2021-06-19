@@ -51,10 +51,11 @@ dependencies {
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 // https://www.jetbrains.com/intellij-repository/releases
+// https://www.jetbrains.com/intellij-repository/snapshots/
 intellij {
     type 'IU'
     plugins 'DatabaseTools'
-    version 'IU-211.7442.40'
+    version 'IU-212.4037.50-EAP-SNAPSHOT'
 }
 
 runIde {
