@@ -71,7 +71,7 @@ object MsUsageUsageManager {
         usageViewPresentation.searchString = title
 
         val usageViewManager = UsageViewManager.getInstance(createStatement.project)
-        val usageTarget = PsiElement2UsageTargetAdapter(createStatement)
+        val usageTarget = PsiElement2UsageTargetAdapter(createStatement, true)
         usageViewManager.searchAndShowUsages(
                 arrayOf(usageTarget),
                 usageSearcher,
@@ -89,7 +89,7 @@ object MsUsageUsageManager {
         usageViewPresentation.searchString = title
 
         val usageViewManager = UsageViewManager.getInstance(file.project)
-        val usageTarget = PsiElement2UsageTargetAdapter(file)
+        val usageTarget = PsiElement2UsageTargetAdapter(file, true)
 
         val usageSearcher = Factory {
             UsageSearcher { processor ->

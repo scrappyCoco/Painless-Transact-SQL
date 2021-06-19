@@ -35,7 +35,7 @@ plugins {
 }
 
 group 'ru.coding4fun'
-version '2021.1.1'
+version '2021.2.1'
 
 repositories {
     mavenCentral()
@@ -50,10 +50,11 @@ dependencies {
 }
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
+// https://www.jetbrains.com/intellij-repository/releases
 intellij {
     type 'IU'
     plugins 'DatabaseTools'
-    version 'IU-211.7142.45'
+    version 'IU-211.7442.40'
 }
 
 runIde {
@@ -73,7 +74,7 @@ compileTestKotlin {
 //}
 
 patchPluginXml {
-    sinceBuild '202'
+    sinceBuild '212'
     untilBuild '213.*'
     changeNotes 'Supported version of IDE has been increased.'
 }
