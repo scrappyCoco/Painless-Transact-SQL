@@ -4,8 +4,8 @@ import com.intellij.util.ResourceUtil
 import com.intellij.util.io.URLUtil;
 
 object PainlessResourceUtil {
-    fun readQuery(resourcePath: String): String {
-        val resourceUrl = ResourceUtil.getResource(PainlessResourceUtil::class.java.classLoader, "", resourcePath)
+    fun readContent(resourcePath: String): String {
+        val resourceUrl = PainlessResourceUtil::class.java.classLoader.getResource(resourcePath)!!
         return ResourceUtil.loadText(URLUtil.openStream(resourceUrl))
     }
 }
