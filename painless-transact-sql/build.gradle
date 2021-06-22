@@ -18,11 +18,8 @@ buildscript {
     ext.kotlin_version = '1.4.21'
 
     repositories {
-        jcenter()
         mavenCentral()
-        maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
         maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
-        maven { url "https://dl.bintray.com/jetbrains/intellij-plugin-service" }
     }
 
     dependencies {
@@ -33,19 +30,19 @@ buildscript {
 
 plugins {
     id 'java'
-    id 'org.jetbrains.intellij' version '0.4.21'
-    id 'org.jetbrains.kotlin.jvm' version '1.4.21'
+    id 'org.jetbrains.intellij' version '0.7.3'
+    id 'org.jetbrains.kotlin.jvm' version '1.5.0'
 }
 
 group 'ru.coding4fun'
-version '2020.2.2'
+version '2021.2.1'
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation project(":contains-language")
+    compile project(":contains-language")
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -53,10 +50,16 @@ dependencies {
 }
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
+// https://www.jetbrains.com/intellij-repository/releases
+// https://www.jetbrains.com/intellij-repository/snapshots/
 intellij {
     type 'IU'
     plugins 'DatabaseTools'
-    version 'IU-2020.3'
+    version 'IU-212.4037.50-EAP-SNAPSHOT'
+}
+
+runIde {
+    maxHeapSize = "2g"
 }
 
 compileKotlin {
@@ -72,7 +75,18 @@ compileTestKotlin {
 //}
 
 patchPluginXml {
-    sinceBuild '202'
-    untilBuild '203.*'
-    changeNotes '"Path to Caller" and "Used References" have been added.'
+    sinceBuild '212'
+    untilBuild '213.*'
+    changeNotes 'Supported version of IDE has been increased.'
+}
+
+sourceSets {
+    main.java.srcDirs = []
+    main.java.srcDirs += "src/main/java"
+    main.java.srcDirs += "../contains-language/src/main/gen"
+    main.java.srcDirs += "../contains-language/src/main/java"
+
+    main.kotlin.srcDirs += "../contains-language/src/main/kotlin"
+
+    main.resources.srcDirs +=  "../contains-language/src/main/resources"
 }

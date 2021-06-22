@@ -19,7 +19,7 @@
     <name>Painless Transact SQL</name>
     <vendor email="coding4fun@list.ru" url="https://github.com/scrappyCoco/Painless-Transact-SQL">Coding4fun</vendor>
     <description><![CDATA[
-        <p>A little bit inspections for MS SQL developers. For more information please checkout homepage in github.</p>
+        <p>Some tools for MS SQL developers. For more information please check out homepage in GitHub.</p>
     ]]></description>
 
     <depends>com.intellij.modules.database</depends>
@@ -31,12 +31,16 @@
         <action class="ru.coding4fun.tsql.action.ShowUsedReferencesAction"
                 id="ShowUsedReferencesAction"
                 text="Show Used References"
+                icon="AllIcons.Actions.ShowAsTree"
                 popup="true">
+            <add-to-group group-id="DDL.Editor.Specific.StorageFile" anchor="last"/>
         </action>
         <action class="ru.coding4fun.tsql.action.FindPathToCallerAction"
                 id="FindPathToCallerAction"
                 text="Find Path to Caller"
+                icon="AllIcons.Hierarchy.Supertypes"
                 popup="true">
+            <add-to-group group-id="DDL.Editor.Specific.StorageFile" anchor="last"/>
         </action>
 
         <group id="MssqlFoldingGroup" text="Folding" popup="true">
@@ -50,14 +54,14 @@
                     popup="true"/>
             <action class="ru.coding4fun.tsql.action.folding.ExpandDataSourceAction"
                     id="MssqlExpandDataSource"
-                    popup="true" />
+                    popup="true"/>
             <action class="ru.coding4fun.tsql.action.folding.ExpandDbAction"
                     id="MssqlExpandDb"
-                    popup="true" />
-            <separator />
+                    popup="true"/>
+            <separator/>
             <action class="ru.coding4fun.tsql.action.folding.CollapseEverywhereAction"
                     id="MssqlCollapseEverywhere"
-                    popup="true" />
+                    popup="true"/>
             <action class="ru.coding4fun.tsql.action.folding.CollapseGroupAction"
                     id="MssqlCollapseGroup"
                     popup="true"/>
@@ -77,6 +81,8 @@
     <extensions defaultExtensionNs="com.intellij">
         <fileStructureGroupRuleProvider implementation="ru.coding4fun.tsql.usages.MsDbTreeGroupRuleProvider"/>
         <fileStructureGroupRuleProvider implementation="ru.coding4fun.tsql.usages.MsPathToCallerGroupRuleProvider"/>
+        <codeInsight.lineMarkerProvider language="SQL"
+                                        implementationClass="ru.coding4fun.tsql.gutter.DmlLineMarkerProvider"/>
 
 
         <completion.contributor implementationClass="ru.coding4fun.tsql.completion.PainlessCompletionContributor"
@@ -202,11 +208,6 @@
                          implementationClass="ru.coding4fun.tsql.inspection.dml.MsUnusedColumnInspection"/>
         <intentionAction>
             <className>ru.coding4fun.tsql.intention.MsAddDateStyleInConvertIntention</className>
-            <bundleName>messages.intention</bundleName>
-            <categoryKey>intention.group.name</categoryKey>
-        </intentionAction>
-        <intentionAction>
-            <className>ru.coding4fun.tsql.intention.MsFlipBinaryExpressionIntention</className>
             <bundleName>messages.intention</bundleName>
             <categoryKey>intention.group.name</categoryKey>
         </intentionAction>

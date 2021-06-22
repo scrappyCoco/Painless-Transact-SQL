@@ -312,7 +312,7 @@ class MsTypeCompareInspection : SqlInspectionBase() {
             val separator = ";"
             val rowOffset = 2
 
-            val mapDescription = PainlessResourceUtil.readQuery("painless/convert.txt")
+            val mapDescription = PainlessResourceUtil.readContent("painless/convert.txt")
             val stringReader = mapDescription.reader()
             val lines = stringReader.readLines()
             val typeNames = lines[1].split(separator)

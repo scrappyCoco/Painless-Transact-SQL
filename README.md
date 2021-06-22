@@ -176,6 +176,11 @@ Before:
 SELECT CONVERT(INT, '123');
 ```
 
+After:
+```sql
+SELECT CAST('123' AS INT);
+```
+
 ## Replace temp table to variable and vice-versa
 ```sql
 -- Before
@@ -197,11 +202,6 @@ CREATE TABLE #MyTable
 
 INSERT INTO #MyTable (Id, Name)
 VALUES (1, '2')
-```
-
-After:
-```sql
-SELECT CAST('123' AS INT);
 ```
 
 ## Reverse IIF expression and arguments
@@ -369,6 +369,12 @@ SELECT NULLIF(@i, '123');
 -- After
 SELECT CASE WHEN @i = '123' THEN NULL ELSE @i END;
 ```
+
+# Gutters
+## DML
+In some cases when we are scrolling code from up to down could be useful to see only instructions, that changes data in the tables (not variables and temp table)
+![DML Gutter](https://raw.githubusercontent.com/scrappyCoco/Painless-Transact-SQL/master/screenshots/DmlGutter.png)
+
 
 # Completions
 ## Column list interface in INSERT context

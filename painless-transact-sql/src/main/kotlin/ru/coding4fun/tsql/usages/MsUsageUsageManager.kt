@@ -2,6 +2,7 @@ package ru.coding4fun.tsql.usages
 
 import com.intellij.database.model.DasObject
 import com.intellij.database.model.ObjectKind
+import com.intellij.database.model.PsiColumn
 import com.intellij.database.psi.DbElement
 import com.intellij.find.findUsages.PsiElement2UsageTargetAdapter
 import com.intellij.openapi.application.ApplicationManager
@@ -9,6 +10,8 @@ import com.intellij.openapi.util.Factory
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.search.searches.ReferencesSearch
+import com.intellij.psi.util.PsiTreeUtil
+import com.intellij.psi.util.elementType
 import com.intellij.sql.psi.*
 import com.intellij.usages.UsageSearcher
 import com.intellij.usages.UsageViewManager
@@ -71,7 +74,7 @@ object MsUsageUsageManager {
         usageViewPresentation.searchString = title
 
         val usageViewManager = UsageViewManager.getInstance(createStatement.project)
-        val usageTarget = PsiElement2UsageTargetAdapter(createStatement)
+        val usageTarget = PsiElement2UsageTargetAdapter(createStatement, true)
         usageViewManager.searchAndShowUsages(
                 arrayOf(usageTarget),
                 usageSearcher,
@@ -89,7 +92,7 @@ object MsUsageUsageManager {
         usageViewPresentation.searchString = title
 
         val usageViewManager = UsageViewManager.getInstance(file.project)
-        val usageTarget = PsiElement2UsageTargetAdapter(file)
+        val usageTarget = PsiElement2UsageTargetAdapter(file, true)
 
         val usageSearcher = Factory {
             UsageSearcher { processor ->
@@ -104,7 +107,7 @@ object MsUsageUsageManager {
 
                         val resolvedElement: PsiElement? = reference.resolve()
 
-                        // Skip for objects, that is not introspected and has not reference to a database.
+                        // Skip for objects, that is not introspected and have not reference to a database.
                         if (resolvedElement == null) {
                             val dbRefs = reference.originalElement.findChildrenOfType<SqlReferenceExpression>()
 
@@ -122,7 +125,7 @@ object MsUsageUsageManager {
                         //        ^
                         if (resolvedElement is SqlReferenceExpression) continue
 
-                        // CREATE PRORCEDURE dbo.MyProc @T dbo.MyTableType
+                        // CREATE PROCEDURE dbo.MyProc @T dbo.MyTableType
                         //                              ^
                         if (resolvedElement is SqlParameterDefinition) continue
 
@@ -134,11 +137,40 @@ object MsUsageUsageManager {
                         //        ^
                         if (resolvedElement is SqlColumnAliasDefinition) continue
 
+                        // CREATE TABLE #T (MY_COLUMN INT);
+                        // SELECT MY_COLUMN FROM #T;
+                        //        ^
+                        // Skip for temp table.
+                        if (resolvedElement is SqlColumnDefinition && resolvedElement.dasParent?.isTempOrVariable() == true) continue
+
+                        // CREATE INDEX IX_MY_IDX ON #T (MY_COLUMN)
+                        //              ^
+                        // Skip for index on temp table.
+                        if (resolvedElement is SqlCreateIndexStatement && resolvedElement.targetReference?.isTempOrVariable() == true) continue
+
+                        // SELECT MY_COLUMN
+                        // INTO #T
+                        // FROM MY_TABLE
+                        // CREATE INDEX IDX ON #T (MY_COLUMN)
+                        //                         ^
+                        // Skip for columns of temp tables.
+                        if (resolvedElement is PsiColumn && resolvedElement.dasParent is SqlTableDefinition) {
+                            val tableDefinition = resolvedElement.dasParent as? SqlTableDefinition
+                            if (tableDefinition?.nameElement?.isTempOrVariable() == true) continue
+                        }
+
+
+                        if (PsiTreeUtil.getParentOfType(reference, SqlCreateIndexStatement::class.java) != null) {
+                            val i = 0
+                        }
+
+                        if (resolvedElement.elementType == SqlElementTypes.SQL_INDEX_REFERENCE) continue
+
 
                         // CREATE FUNCTION dbo.MyTableFun() RETURNS @t TABLE (Id INT) ...
                         // SELECT Id FROM dbo.MyTableFun()
                         //        ^
-                        // It's look like a little bit strange.
+                        // It's look like a little strange.
                         if (resolvedElement is DasObject && resolvedElement.kind == ObjectKind.ARGUMENT) continue
 
                         val usage = MsBdTreeSliceUsage(reference)

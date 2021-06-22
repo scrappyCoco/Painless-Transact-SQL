@@ -151,3 +151,18 @@ inline fun <reified T : PsiElement> PsiElement?.findChildrenOfType(): List<T> {
     return if (this == null) emptyList()
     else PsiTreeUtil.findChildrenOfType(this, T::class.java).filterNotNull().toList()
 }
+
+fun PsiElement.getDeepestFirstLeaf(): PsiElement {
+    var firstElement: PsiElement = this;
+    for (child in firstElement.children) {
+        if (!child.isEmpty()) {
+            firstElement = child
+            break
+        }
+    }
+    return firstElement
+}
+
+private val tv = arrayOf('#', '@')
+
+fun PsiElement.isTempOrVariable(): Boolean = tv.contains(this.text[0])
