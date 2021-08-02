@@ -39,7 +39,8 @@ class MsReplaceVarTableToTempIntention : TempVarTableBaseIntention() {
     }
 
     override fun invokeImpl(project: Project, element: PsiElement, consumer: ((newTableName: String, newSql: String, toRenameElement: SqlElement) -> Unit)) {
-        val toRenameElement = PsiTreeUtil.getParentOfType(element, SqlReferenceExpression::class.java)?.resolve() as? SqlVariableDefinition
+        val declareStmt = PsiTreeUtil.getParentOfType(element, SqlDeclareStatement::class.java)!!
+        val toRenameElement = PsiTreeUtil.findChildOfType(declareStmt, SqlReferenceExpression::class.java)?.resolve() as? SqlVariableDefinition
                 ?: return
         val newTableName = toRenameElement.name.replace("@", "#")
         val tableDefText = PsiTreeUtil.findChildOfType(toRenameElement, SqlTableElementListImpl::class.java)?.text
