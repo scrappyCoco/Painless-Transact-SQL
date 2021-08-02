@@ -198,6 +198,7 @@ class MsTypeCompatibilityInspection : SqlInspectionBase() {
 
         private fun match(lType: String?, rType: String?): MatchResult {
             if (lType == null || rType == null) return MatchResult(ConvertType.Unknown)
+            if (lType == rType) return MatchResult(ConvertType.Same)
             val convertPair = ConvertPair(lType, rType)
             val convertType = convertMap[convertPair] ?: ConvertType.Unknown
 
