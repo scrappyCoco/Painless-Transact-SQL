@@ -26,8 +26,7 @@ import com.intellij.psi.util.elementType
 import com.intellij.sql.dialects.SqlLanguageDialectEx
 import com.intellij.sql.dialects.mssql.MsDialect
 import com.intellij.sql.inspections.SqlInspectionBase
-import com.intellij.sql.psi.SqlElementTypes
-import com.intellij.sql.psi.SqlStatement
+import com.intellij.sql.psi.*
 import com.intellij.sql.psi.impl.SqlPsiElementFactory
 import ru.coding4fun.tsql.MsInspectionMessages
 import ru.coding4fun.tsql.psi.getNextNotEmptyLeaf
@@ -37,7 +36,7 @@ class MsSemicolonAtTheEndInspection : SqlInspectionBase(), CleanupLocalInspectio
     @Suppress("MemberVisibilityCanBePrivate")
     var preferSemicolonAtTheEnd = true
 
-    override fun createOptionsPanel(): JComponent? {
+    override fun createOptionsPanel(): JComponent {
         val panel = MultipleCheckboxOptionsPanel(this)
         panel.addCheckbox(MsInspectionMessages.message("inspection.code.style.semicolon.at.the.end.option"), "preferSemicolonAtTheEnd")
         return panel
@@ -51,7 +50,7 @@ class MsSemicolonAtTheEndInspection : SqlInspectionBase(), CleanupLocalInspectio
             inspectionManager: InspectionManager,
             problems: MutableList<ProblemDescriptor>,
             onTheFly: Boolean
-    ): SqlAnnotationVisitor? {
+    ): SqlAnnotationVisitor {
         return SemicolonAtTheEndVisitor(inspectionManager, dialectEx, problems, onTheFly, preferSemicolonAtTheEnd)
     }
 
@@ -63,13 +62,28 @@ class MsSemicolonAtTheEndInspection : SqlInspectionBase(), CleanupLocalInspectio
     ) : SqlAnnotationVisitor(manager, dialect, problems) {
         override fun visitSqlStatement(sqlStatement: SqlStatement?) {
             if (sqlStatement == null) return
-            val lastLeaf = PsiTreeUtil.getDeepestVisibleLast(sqlStatement)
-            if (lastLeaf == null) {
+
+            // 1. Skip for If statement (body will be inspected)
+            // IF if_body ELSE else_body END
+
+            // 2. For MERGE statement semicolon is required at the end of the statement/
+            //@formatter:off
+
+            // 3. Skip for BEGIN body END
+
+            // 4. Skip for CREATE PROCEDURE AS body
+            val isIgnorableStmt: Boolean = sqlStatement is SqlMergeStatement
+                                        || sqlStatement is SqlIfStatement
+                                        || sqlStatement is SqlBlockStatement
+                                        || sqlStatement.children.any { it is SqlStatement }
+            //@formatter:on
+            if (isIgnorableStmt) {
                 super.visitSqlStatement(sqlStatement)
                 return
             }
-            // Has any children statements?
-            if (PsiTreeUtil.getChildOfType(sqlStatement, SqlStatement::class.java) != null) {
+
+            val lastLeaf = PsiTreeUtil.getDeepestVisibleLast(sqlStatement)
+            if (lastLeaf == null) {
                 super.visitSqlStatement(sqlStatement)
                 return
             }
